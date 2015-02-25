@@ -1,7 +1,7 @@
 package com.parse.tutoo.view;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +14,7 @@ import com.parse.ui.ParseLoginBuilder;
 /**
  * Login Activity
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
     private static final int LOGIN_REQUEST = 0;
 
     private TextView titleTextView;
