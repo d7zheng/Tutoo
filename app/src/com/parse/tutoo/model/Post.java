@@ -2,31 +2,59 @@ package com.parse.tutoo.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.ParseQuery;
 
 /**
- * Post
+ * Created by hilary on 25/02/2015.
  */
 @ParseClassName("Post")
 public class Post extends ParseObject {
-    public String getText() {
-        return getString("text");
-    }
+        private String title;
+        private String description;
+        private int postId;
+        private Category category;
 
-    public void setText(String value) {
-        put("text", value);
-    }
+        public Post(String title, String description, int postId, Category category) {
+            this.title = title;
+            this.description = description;
+            this.postId = postId;
+            this.category = category;
+        }
+        public Post() {
 
-    public ParseUser getUser() {
-        return getParseUser("user");
-    }
+        }
+        public void setTitleAndDescription(String title, String description) {
+            this.title = title;
+            this.description = description;
+        }
 
-    public void setUser(User value) {
-        put("user", value);
-    }
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
-    public static ParseQuery<Post> getQuery() {
-        return ParseQuery.getQuery(Post.class);
-    }
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setPostId(int postId) { this.postId = postId;}
+
+        public void setCategory(Category category) {this.category = category; }
+
+        public String getTitle() {
+            return this.title;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+
+        public int getPostId () { return this.postId;}
+
+        public Category getCategory () {return this.category;}
+
+        public void setAttributes(String title, String description, int postId, Category category) {
+            this.title = title;
+            this.description = description;
+            this.postId = postId;
+            this.category = category;
+        }
 }

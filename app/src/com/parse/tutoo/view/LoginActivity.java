@@ -1,6 +1,7 @@
 package com.parse.tutoo.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,8 @@ import android.view.View.OnClickListener;
 import com.parse.ParseUser;
 import com.parse.tutoo.R;
 import com.parse.ui.ParseLoginBuilder;
+
+import java.util.Arrays;
 
 /**
  * Login Activity
@@ -45,9 +48,20 @@ public class LoginActivity extends Activity {
                     showProfileLoggedOut();
                 } else {
                     // User clicked to log in.
-                    ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
+                    ParseLoginBuilder builder = new ParseLoginBuilder(
                             LoginActivity.this);
-                    startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
+                    Intent loginIntent = builder.setParseLoginEnabled(true)
+                            .setParseLoginButtonText("Go")
+                            .setParseSignupButtonText("Register")
+                            .setParseLoginHelpText("Forgot password?")
+                            .setParseLoginInvalidCredentialsToastText("You email and/or password is not correct")
+                            .setParseLoginEmailAsUsername(true)
+                            .setParseSignupSubmitButtonText("Submit registration")
+                            .setFacebookLoginEnabled(true)
+                            .setFacebookLoginButtonText("Facebook")
+                            .setFacebookLoginPermissions(Arrays.asList("public_profile","user_status"))
+                            .build();
+                    startActivityForResult(loginIntent, LOGIN_REQUEST);
                 }
             }
         });
@@ -61,7 +75,14 @@ public class LoginActivity extends Activity {
         if (currentUser != null) {
             showProfileLoggedIn();
         } else {
-            showProfileLoggedOut();
+            showProfileDefault();
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            Intent loggedinIntent = new Intent(LoginActivity.this, StarterActivity.class);
+            startActivity(loggedinIntent);
         }
     }
 
@@ -83,6 +104,16 @@ public class LoginActivity extends Activity {
      */
     private void showProfileLoggedOut() {
         titleTextView.setText(R.string.profile_title_logged_out);
+        emailTextView.setText("");
+        nameTextView.setText("");
+        loginOrLogoutButton.setText(R.string.profile_login_button_label);
+    }
+
+    /**
+     * Show a default screen.
+     */
+    private void showProfileDefault() {
+        titleTextView.setText(R.string.profile_title_not_logged_in);
         emailTextView.setText("");
         nameTextView.setText("");
         loginOrLogoutButton.setText(R.string.profile_login_button_label);
