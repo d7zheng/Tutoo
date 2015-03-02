@@ -18,7 +18,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-
+import com.parse.tutoo.model.Reply;
+import com.parse.tutoo.model.Category;
 import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
 
@@ -28,6 +29,7 @@ import com.parse.tutoo.util.Dispatcher;
 public class ViewPostActivity extends ActionBarActivity {
 
     private Dispatcher dispatcher = new Dispatcher();
+    private Reply reply;
 
 
     public void addListenerSelectTutor(View button) {
@@ -114,8 +116,9 @@ public class ViewPostActivity extends ActionBarActivity {
         //textView.setText(intent.getStringExtra("post_id"));
 
         TextView titleTV = (TextView)findViewById(R.id.textView1);
-
         TextView textTV = (TextView)findViewById(R.id.textView2);
+
+
 
         titleTV.setText("Looking for Help");
         titleTV.setTextSize(20);
@@ -125,8 +128,6 @@ public class ViewPostActivity extends ActionBarActivity {
 
         // Replace this with number of skills later
         int size = 3; // total number of TextViews to add
-
-
 
         //TODO: check if current user is the owner of the post, if yes display radio buttons
         boolean owner = false;
