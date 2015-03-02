@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -26,12 +27,14 @@ public class CreatePostActivity extends ActionBarActivity {
     private String feedbackType;
     private Context context;
     private Location location;
+    private LocationManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
+        manager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE );
         setContentView(R.layout.new_post);
     }
 
@@ -71,6 +74,10 @@ public class CreatePostActivity extends ActionBarActivity {
         ///final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
         //feedbackType = feedbackSpinner.getSelectedItem().toString();
 
+        if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+            location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(description)
@@ -100,9 +107,25 @@ public class CreatePostActivity extends ActionBarActivity {
         //showSettingsAlert();
         //}
 
-        final LocationManager manager = (LocationManager)context.getSystemService    (Context.LOCATION_SERVICE );
+
 
         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            LocationListener locationListener = new LocationListener() {
+                public void onLocationChanged(Location location) {}
+
+                public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+                public void onProviderEnabled(String provider) {
+                    location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    System.out.println("Location is " + location.getAltitude());
+                }
+
+                public void onProviderDisabled(String provider) {
+
+                }
+
+            };
+
             showSettingsAlert();
         } else {
             // store location
@@ -112,7 +135,7 @@ public class CreatePostActivity extends ActionBarActivity {
 
     public void showSettingsAlert(){
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
         // Setting Dialog Title
         alertDialog.setTitle("GPS is settings");
