@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.parse.tutoo.R;
 
@@ -19,26 +20,42 @@ public class ProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        TextView nameTV = (TextView) findViewById(R.id.textView2);
+        nameTV.setTextSize(30);
+        nameTV.setText("Name");
+
+        TextView emailTV = (TextView) findViewById(R.id.textView3);
+        emailTV.setTextSize(30);
+        emailTV.setText("tutor@tutoo.com");
+
+        TextView locationTV = (TextView) findViewById(R.id.textView);
+        locationTV.setTextSize(30);
+        locationTV.setText("Canada");
+
+
+
         // Replace this with number of skills later
         int size = 10; // total number of TextViews to add
 
-        RadioButton[] tv = new RadioButton[size];
-        RadioButton temp;
+        TextView[] tv = new TextView[size];
+        TextView temp;
 
         for (int i = 0; i < size; i++)
         {
-            temp = new RadioButton(this);
+            temp = new TextView(this);
             // Replace this with actual skills later
-            temp.setText("Tutor " + i);
-            RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-            radioGroup.addView(temp);
+            temp.setText("Skill " + i);
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+            linearLayout.addView(temp);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(10,10,20,10);
             temp.setTextSize(30);
             temp.setLayoutParams(params);
+            //temp.setBackgroundColor(Color.parseColor("CCFFCC"));
             tv[i] = temp;
         }
+
     }
 
     @Override
