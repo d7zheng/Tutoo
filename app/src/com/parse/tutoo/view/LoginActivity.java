@@ -57,9 +57,9 @@ public class LoginActivity extends Activity {
                             .setParseLoginInvalidCredentialsToastText("You email and/or password is not correct")
                             .setParseLoginEmailAsUsername(true)
                             .setParseSignupSubmitButtonText("Submit registration")
-                            .setFacebookLoginEnabled(true)
-                            .setFacebookLoginButtonText("Facebook")
-                            .setFacebookLoginPermissions(Arrays.asList("public_profile","user_status"))
+                            //.setFacebookLoginEnabled(true)
+                            //.setFacebookLoginButtonText("Facebook")
+                            //.setFacebookLoginPermissions(Arrays.asList("public_profile","user_status"))
                             .build();
                     startActivityForResult(loginIntent, LOGIN_REQUEST);
                 }
@@ -81,8 +81,9 @@ public class LoginActivity extends Activity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            Intent loggedinIntent = new Intent(LoginActivity.this, StarterActivity.class);
-            startActivity(loggedinIntent);
+            Intent loggedInIntent = new Intent(LoginActivity.this, StarterActivity.class);
+            loggedInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loggedInIntent);
         }
     }
 

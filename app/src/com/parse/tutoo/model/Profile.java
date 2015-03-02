@@ -7,7 +7,7 @@ import com.parse.ParseObject;
  * User Profile
  * Class containing the profile information
  */
-@ParseClassName("UserProfile")
+@ParseClassName("Profile")
 public class Profile extends ParseObject {
 
     public String getUser() {

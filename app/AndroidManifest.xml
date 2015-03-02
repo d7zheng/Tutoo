@@ -42,12 +42,12 @@
         </activity>
 
         <activity
-            android:name=".view.ViewPostActivity"
-            android:label="@string/title_activity_viewpost" >
+            android:name=".view.ProfileActivity"
+            android:label="@string/title_activity_profile" >
         </activity>
 
         <activity
-            android:name=".view.NewPostActivity"
+            android:name=".view.CreatePostActivity"
             android:label="@string/title_activity_newpost" >
         </activity>
 
@@ -56,14 +56,11 @@
             android:label="@string/title_activity_listpost" >
         </activity>
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
         <activity
-            android:name=".view.NotificationActivity"
-            android:label="@string/title_activity_notification" >
+            android:name=".view.ViewPostActivity"
+            android:label="@string/title_activity_viewpost" >
         </activity>
+
         <activity
             android:name=".view.StarterActivity"
             android:label="@string/title_activity_starter" >
@@ -73,6 +70,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
     </application>
 
 </manifest>

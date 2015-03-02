@@ -13,38 +13,40 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.parse.tutoo.R;
+import com.parse.tutoo.util.Dispatcher;
 import com.parse.tutoo.util.TabListener;
+import com.parse.tutoo.view.fragment.CategoryListFragment;
 import com.parse.tutoo.view.fragment.NotificationFragment;
-import com.parse.tutoo.view.fragment.PostFragment;
 
 public class MainActivity extends ActionBarActivity {
+
+    private Dispatcher dispatcher = new Dispatcher();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Notice that setContentView() is not used, because we use the root
-        // android.R.id.content as the container for each fragment
         setContentView(R.layout.activity_main);
 
         // setup action bar for tabs
         ActionBar actionBar = getSupportActionBar();
         //ActionBar actionBar = getActionBar();
 
-        if (actionBar != null) {
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        }
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);
 
         ActionBar.Tab tab = actionBar.newTab()
-                .setText(R.string.title_activity_search)
-                .setTabListener(new TabListener(this, "search", PostFragment.class));
-        actionBar.addTab(tab);
-
-        tab = actionBar.newTab()
-                .setText(R.string.title_activity_notification)
+                .setText(R.string.title_frag_notification)
                 .setTabListener(new TabListener(this, "notification", NotificationFragment.class));
         actionBar.addTab(tab);
+
+
+        tab = actionBar.newTab()
+                .setText(R.string.title_frag_category)
+                .setTabListener(new TabListener(this, "category", CategoryListFragment.class));
+        actionBar.addTab(tab);
+
+
     }
 
 
@@ -65,26 +67,18 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_search:
-                openSearch();
+            case R.id.action_newpost:
+                dispatcher.openNewPost(getApplicationContext(), this);
                 return true;
-            case R.id.action_notification:
-                openNotification();
+            case R.id.action_search:
+                dispatcher.openSearch(getApplicationContext(),this);
+                return true;
+            case R.id.action_profile:
+                dispatcher.openProfile(getApplicationContext(), this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void openSearch() {
-        Context context = getApplicationContext();
-        Intent search = new Intent(context,SearchActivity.class);
-        startActivity(search);
-    }
-
-    public void openNotification() {
-        Context context = getApplicationContext();
-        Intent notification = new Intent(context,NotificationActivity.class);
-        startActivity(notification);
-    }
 }

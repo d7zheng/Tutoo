@@ -12,12 +12,12 @@ import android.widget.RadioGroup;
 import com.parse.tutoo.R;
 
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profile);
 
         // Replace this with number of skills later
         int size = 10; // total number of TextViews to add

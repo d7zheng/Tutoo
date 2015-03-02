@@ -17,15 +17,24 @@
     <string name="profile_signup_button_label">Sign Up</string>
     <string name="menu_posts"> Posts </string>
     <string name="menu_profile"> Profile </string>
-    <string name="facebook_app_id">944237372260549</string>
-    <string name="parse_app_id">3ejQC7KuCGG0X5Hhutq425jILxPPnqPsGvAi8PBl</string>
-    <string name="parse_client_key">vbcon8StYQYTCDXVicoxHD2PEfpJponaveLgeoHW</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="title_activity_starter">StarterActivity</string>
-    <string name="title_activity_viewpost">View Post</string>
-    <string name="title_activity_newpost">NewPost</string>
-    <string name="title_activity_listpost">List Posts</string>
+    <string name="title_activity_viewpost">Post</string>
+    <string name="title_activity_newpost">New Post</string>
+    <string name="title_activity_listpost">Posts</string>
+    <string name="action_profile">Profile</string>
+    <string name="action_new_post">New Post</string>
+    <string name="title_frag_view_post">Post</string>
+    <string name="title_frag_notification">Notification</string>
+    <string name="title_frag_category">Category</string>
+
+
+
+    <string name="facebook_app_id">944237372260549</string>
+    <string name="parse_app_id">3ejQC7KuCGG0X5Hhutq425jILxPPnqPsGvAi8PBl</string>
+    <string name="parse_client_key">vbcon8StYQYTCDXVicoxHD2PEfpJponaveLgeoHW</string>
+    <string name="title_activity_profile">Profile</string>
 
 </resources>

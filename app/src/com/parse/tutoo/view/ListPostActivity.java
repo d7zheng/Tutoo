@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -12,6 +16,7 @@ import android.widget.ListView;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Category;
 import com.parse.tutoo.model.Post;
+import com.parse.tutoo.util.Dispatcher;
 import com.parse.tutoo.util.MenuListAdapter;
 
 import java.util.Vector;
@@ -19,11 +24,12 @@ import java.util.Vector;
 /**
  * Created by hilary on 25/02/2015.
  */
-public class ListPostActivity extends Activity{
+public class ListPostActivity extends ActionBarActivity {
     ListView listView;
     Vector<Post> posts = new Vector<Post>();
     Context context;
     MenuListAdapter myAdapter;
+    Dispatcher dispatcher = new Dispatcher();
 
     private void initData() {
         for (int i = 0; i < 5; i++) {
@@ -42,6 +48,7 @@ public class ListPostActivity extends Activity{
             posts.add(post);
         }
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +59,10 @@ public class ListPostActivity extends Activity{
         newPostButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // show list
-                Intent intent = new Intent(context, NewPostActivity.class);
+                Intent intent = new Intent(context, CreatePostActivity.class);
                 startActivity(intent);
             }
         });
-
 
         listView = (ListView) findViewById(R.id.list);
 
@@ -95,5 +101,32 @@ public class ListPostActivity extends Activity{
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_posts, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_newpost:
+                dispatcher.openNewPost(getApplicationContext(), this);
+                return true;
+            case R.id.action_search:
+                dispatcher.openSearch(getApplicationContext(),this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }
