@@ -115,8 +115,8 @@ public class ViewPostActivity extends ActionBarActivity {
         TextView textView = (TextView) findViewById(R.id.viewpost1);
 
 
-        ParseQuery query=new ParseQuery("Post");
-        query.whereEqualTo("post", intent.getStringExtra("post_id"));
+        /*ParseQuery query=new ParseQuery("Post");
+        query.whereEqualTo("post", intent.getStringExtra("post_id"));*/
         Intent intent = getIntent();
         //textView.setText(intent.getStringExtra("post_id"));
 
