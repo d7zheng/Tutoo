@@ -35,7 +35,7 @@ public class ProfileActivity extends ActionBarActivity {
 
 
         // Replace this with number of skills later
-        int size = 10; // total number of TextViews to add
+        int size = 1; // total number of TextViews to add
 
         TextView[] tv = new TextView[size];
         TextView temp;
@@ -44,7 +44,7 @@ public class ProfileActivity extends ActionBarActivity {
         {
             temp = new TextView(this);
             // Replace this with actual skills later
-            temp.setText("Skill " + i);
+            temp.setText("Put text here for skills");
             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
             linearLayout.addView(temp);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
