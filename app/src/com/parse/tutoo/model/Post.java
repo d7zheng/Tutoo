@@ -8,60 +8,51 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Post")
 public class Post extends ParseObject {
-    private String title;
-    private String description;
-    private String postId;
-    private Category category;
 
-    public Post(String title, String description, String postId, Category category) {
-        this.title = title;
-        this.description = description;
-        this.postId = postId;
-        this.category = category;
+    public Post(String title, String description, Category category) {
+        put("title", title);
+        put("desc", description);
+        put("category",category.toString());
     }
 
-    public Post( String postId, String title, String description,String category) {
-        this.title = title;
-        this.description = description;
-        this.postId = postId;
-        this.category = Category.valueOf(category);
-    }
-    public Post() {
+    public Post() { super(); }
 
-    }
     public void setTitleAndDescription(String title, String description) {
-        this.title = title;
-        this.description = description;
+        put("title", title);
+        put("desc", description);
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        put("title", title);
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        put("desc", description);
     }
 
-    public void setPostId(String postId) { this.postId = postId;}
 
-    public void setCategory(Category category) {this.category = category; }
+    public void setCategory(Category category) {
+        put("category", category.toString());
+    }
 
     public String getTitle() {
-        return this.title;
+        return getString("title");
     }
 
     public String getDescription() {
-        return this.description;
+        return getString("desc");
     }
 
-    public String getPostId () { return this.postId;}
+    public String getPostId () { return getObjectId();}
 
-    public Category getCategory () {return this.category;}
+    public Category getCategory () {
+        String a = getString("category");
+        return Category.valueOf(a);
+    }
 
-    public void setAttributes(String title, String description, String postId, Category category) {
-        this.title = title;
-        this.description = description;
-        this.postId = postId;
-        this.category = category;
+    public void setAttributes(String title, String description, Category category) {
+        put("title", title);
+        put("desc", description);
+        put("category",category.toString());
     }
 }

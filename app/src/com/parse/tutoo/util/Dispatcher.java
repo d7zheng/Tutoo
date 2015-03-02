@@ -13,20 +13,18 @@ import com.parse.tutoo.view.SearchActivity;
  */
 public class Dispatcher {
 
-    public Dispatcher() {}
-
-    public void openSearch(Context context, Activity activity) {
+    public static void openSearch(Context context, Activity activity) {
         Intent intent = new Intent(context,SearchActivity.class);
         activity.startActivity(intent);
     }
 
-    public void openProfile(Context context, Activity activity) {
+    public static void openProfile(Context context, Activity activity) {
         Intent intent = new Intent(context,ProfileActivity.class);
         activity.startActivity(intent);
     }
 
 
-    public void openNewPost(Context context, Activity activity) {
+    public static void openNewPost(Context context, Activity activity) {
         Intent act = new Intent(context,CreatePostActivity.class);
         activity.startActivity(act);
     }

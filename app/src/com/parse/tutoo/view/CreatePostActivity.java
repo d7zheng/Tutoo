@@ -16,8 +16,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 import com.parse.tutoo.R;
+import com.parse.tutoo.model.Category;
+import com.parse.tutoo.model.Post;
 
 
 public class CreatePostActivity extends ActionBarActivity {
@@ -71,14 +76,30 @@ public class CreatePostActivity extends ActionBarActivity {
         final EditText emailField = (EditText) findViewById(R.id.inputTitle);
         description = emailField.getText().toString();
 
-        ///final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
-        //feedbackType = feedbackSpinner.getSelectedItem().toString();
-
         if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
             location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
 
-        new AlertDialog.Builder(this)
+
+        final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
+        String category = feedbackSpinner.getSelectedItem().toString();
+        Category enumCategory = Category.valueOf(category);
+        //ParseObject testobject = new ParseObject("Test"); testobject.put("customerName", "John"); testobject.saveInBackground();
+
+        final Post userPost = new Post();
+
+        userPost.setTitle(title);
+        userPost.setDescription(description);
+        userPost.setCategory(enumCategory);
+        userPost.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    System.out.println(e.getMessage());
+                }
+                System.out.println("HELLO TEST");
+            }
+        });
+       /* new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(description)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -92,7 +113,7 @@ public class CreatePostActivity extends ActionBarActivity {
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+                .show();*/
 
     }
 
