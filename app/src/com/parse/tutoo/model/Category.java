@@ -5,8 +5,8 @@ package com.parse.tutoo.model;
  */
 
 public enum Category {
-    ALL,
-    MATH,
-    INTERVIEW,
-    OTHERS
+    All,
+    Math,
+    Interview,
+    Others
 }

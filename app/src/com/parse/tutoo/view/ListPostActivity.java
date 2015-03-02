@@ -1,24 +1,22 @@
 package com.parse.tutoo.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Category;
 import com.parse.tutoo.model.Post;
-import com.parse.tutoo.util.Dispatcher;
 import com.parse.tutoo.util.MenuListAdapter;
 
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -29,8 +27,7 @@ public class ListPostActivity extends ActionBarActivity {
     Vector<Post> posts = new Vector<Post>();
     Context context;
     MenuListAdapter myAdapter;
-    Dispatcher dispatcher = new Dispatcher();
-
+    /*
     private void initData() {
         for (int i = 0; i < 5; i++) {
             Post post = new Post();
@@ -48,27 +45,71 @@ public class ListPostActivity extends ActionBarActivity {
             posts.add(post);
         }
     }
+    */
+
+    private void initData(String category) {
+
+
+        if (category.equals(Category.All.toString())) {
+            for (Category element : Category.values()) {
+                ParseQuery query=new ParseQuery("Post");
+                query.whereEqualTo("category", element.toString());
+                try {
+                    List<ParseObject> parseObjects = query.find();
+                    for (int i = 0; i < parseObjects.size(); i++) {
+                        ParseObject parseObject = parseObjects.get(i);
+                        //ParsePost parsePost =new Post(parseObject.getObjectId(), parseObject.getString("title"), "test", parseObject.getString("category"));
+                        posts.add(new Post(parseObject.getObjectId(), parseObject.getString("title"), parseObject.getString("desc"), category));
+                    }
+                }
+                catch (  com.parse.ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        ParseQuery query=new ParseQuery("Post");
+        query.whereEqualTo("category", category);
+        try {
+            List<ParseObject> parseObjects = query.find();
+            for (int i = 0; i < parseObjects.size(); i++) {
+                ParseObject parseObject = parseObjects.get(i);
+                //ParsePost parsePost =new Post(parseObject.getObjectId(), parseObject.getString("title"), "test", parseObject.getString("category"));
+                posts.add(new Post(parseObject.getObjectId(), parseObject.getString("title"), parseObject.getString("desc"), category));
+            }
+        }
+        catch (  com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
         setContentView(R.layout.main_list_view);
         context = getApplicationContext();
 
-        /*ImageButton newPostButton = (ImageButton) findViewById(R.id.newPostButton);
+        //ParseObject.registerSubclass(ParsePost.class);
+        Intent intent = getIntent();
+        String category = intent.getStringExtra("category");
+        initData(category);
+
+        /*
+        ImageButton newPostButton = (ImageButton) findViewById(R.id.newPostButton);
         newPostButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // show list
                 Intent intent = new Intent(context, CreatePostActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
+        */
+
 
         listView = (ListView) findViewById(R.id.list);
 
         //listView.setOnScrollListener(new ListViewListener());
-
-        initData();
         myAdapter = new MenuListAdapter(posts, this);
         listView.setAdapter(myAdapter);
 
@@ -81,7 +122,9 @@ public class ListPostActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(context, ViewPostActivity.class);
                 //i.putExtra("name_of_extra", myObject);
-                intent.putExtra("post_id", String.valueOf(position));
+                Post post = posts.get(position);
+                String postId = post.getPostId();
+                intent.putExtra("post_id", postId);
                 startActivity(intent);
                 /*
                 // ListView Clicked item index
@@ -99,34 +142,6 @@ public class ListPostActivity extends ActionBarActivity {
             }
 
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_posts, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_newpost:
-                dispatcher.openNewPost(getApplicationContext(), this);
-                return true;
-            case R.id.action_search:
-                dispatcher.openSearch(getApplicationContext(),this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
 }

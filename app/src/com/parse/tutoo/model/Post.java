@@ -8,53 +8,60 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Post")
 public class Post extends ParseObject {
-        private String title;
-        private String description;
-        private int postId;
-        private Category category;
+    private String title;
+    private String description;
+    private String postId;
+    private Category category;
 
-        public Post(String title, String description, int postId, Category category) {
-            this.title = title;
-            this.description = description;
-            this.postId = postId;
-            this.category = category;
-        }
-        public Post() {
+    public Post(String title, String description, String postId, Category category) {
+        this.title = title;
+        this.description = description;
+        this.postId = postId;
+        this.category = category;
+    }
 
-        }
-        public void setTitleAndDescription(String title, String description) {
-            this.title = title;
-            this.description = description;
-        }
+    public Post( String postId, String title, String description,String category) {
+        this.title = title;
+        this.description = description;
+        this.postId = postId;
+        this.category = Category.valueOf(category);
+    }
+    public Post() {
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
+    }
+    public void setTitleAndDescription(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 
-        public void setDescription(String description) {
-            this.description = description;
-        }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-        public void setPostId(int postId) { this.postId = postId;}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-        public void setCategory(Category category) {this.category = category; }
+    public void setPostId(String postId) { this.postId = postId;}
 
-        public String getTitle() {
-            return this.title;
-        }
+    public void setCategory(Category category) {this.category = category; }
 
-        public String getDescription() {
-            return this.description;
-        }
+    public String getTitle() {
+        return this.title;
+    }
 
-        public int getPostId () { return this.postId;}
+    public String getDescription() {
+        return this.description;
+    }
 
-        public Category getCategory () {return this.category;}
+    public String getPostId () { return this.postId;}
 
-        public void setAttributes(String title, String description, int postId, Category category) {
-            this.title = title;
-            this.description = description;
-            this.postId = postId;
-            this.category = category;
-        }
+    public Category getCategory () {return this.category;}
+
+    public void setAttributes(String title, String description, String postId, Category category) {
+        this.title = title;
+        this.description = description;
+        this.postId = postId;
+        this.category = category;
+    }
 }
