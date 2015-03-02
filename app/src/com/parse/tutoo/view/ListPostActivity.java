@@ -55,14 +55,14 @@ public class ListPostActivity extends ActionBarActivity {
         setContentView(R.layout.main_list_view);
         context = getApplicationContext();
 
-        ImageButton newPostButton = (ImageButton) findViewById(R.id.newPostButton);
+        /*ImageButton newPostButton = (ImageButton) findViewById(R.id.newPostButton);
         newPostButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // show list
                 Intent intent = new Intent(context, CreatePostActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         listView = (ListView) findViewById(R.id.list);
 
