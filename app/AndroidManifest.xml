@@ -3,6 +3,10 @@
     package="com.parse.tutoo" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <uses-sdk android:minSdkVersion="13" android:targetSdkVersion="21"/>
 
     <application
@@ -70,6 +74,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
