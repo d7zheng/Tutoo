@@ -18,10 +18,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.Reply;
 import com.parse.tutoo.model.Category;
 import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
+
+import java.util.ArrayList;
 
 /**
  * Created by hilary on 25/02/2015.
@@ -29,8 +32,8 @@ import com.parse.tutoo.util.Dispatcher;
 public class ViewPostActivity extends ActionBarActivity {
 
     private Dispatcher dispatcher = new Dispatcher();
-    private Reply reply;
-
+    private Post post;
+    private ArrayList<Reply> replyList;
 
     public void addListenerSelectTutor(View button) {
         final RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
@@ -111,7 +114,9 @@ public class ViewPostActivity extends ActionBarActivity {
 
         TextView textView = (TextView) findViewById(R.id.viewpost1);
 
-        // TODO: Post Id stuff eh
+
+        ParseQuery query=new ParseQuery("Post");
+        query.whereEqualTo("post", intent.getStringExtra("post_id"));
         Intent intent = getIntent();
         //textView.setText(intent.getStringExtra("post_id"));
 
