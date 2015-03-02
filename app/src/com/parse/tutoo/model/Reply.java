@@ -11,9 +11,9 @@ import com.parse.ParseUser;
 public class Reply extends ParseObject {
     private String description;
     private ParseUser replyOwner;
-    private int postId;
+    private String postId;
 
-    public Reply(ParseUser replyOwner, String description, int postId) {
+    public Reply(ParseUser replyOwner, String description, String postId) {
         this.replyOwner = replyOwner;
         this.description = description;
         this.postId = postId;
@@ -23,15 +23,15 @@ public class Reply extends ParseObject {
         this.description = description;
     }
 
-    public void setPostId(int postId) { this.postId = postId;}
+    public void setPostId(String postId) { this.postId = postId;}
 
     public String getDescription() {
         return this.description;
     }
 
-    public int getPostId () { return this.postId;}
+    public String getPostId () { return this.postId;}
 
-    public void setAttributes(ParseUser replyOwner, String description, int postId) {
+    public void setAttributes(ParseUser replyOwner, String description, String postId) {
         this.replyOwner = replyOwner;
         this.description = description;
         this.postId = postId;

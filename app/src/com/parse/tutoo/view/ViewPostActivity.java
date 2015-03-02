@@ -23,8 +23,13 @@ import com.parse.tutoo.model.Reply;
 import com.parse.tutoo.model.Category;
 import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hilary on 25/02/2015.
@@ -74,6 +79,17 @@ public class ViewPostActivity extends ActionBarActivity {
 
     }
 
+    public void replyAction(View button){
+        EditText replyET = (EditText)findViewById(R.id.editText);
+        String replyMessage = replyET.getText().toString();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        Reply reply = new Reply(currentUser, replyMessage, post.getPostId());
+         // TODO: Save this message
+
+    }
+
+
     public void addListenerReply() {
         Button thisTutorButton = (Button) findViewById(R.id.button1);
 
@@ -112,23 +128,53 @@ public class ViewPostActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_post);
 
-        TextView textView = (TextView) findViewById(R.id.viewpost1);
+        //TextView textView = (TextView) findViewById(R.id.viewpost1);
 
-
-        /*ParseQuery query=new ParseQuery("Post");
-        query.whereEqualTo("post", intent.getStringExtra("post_id"));*/
-        Intent intent = getIntent();
-        //textView.setText(intent.getStringExtra("post_id"));
 
         TextView titleTV = (TextView)findViewById(R.id.textView1);
+/*
+        ArrayList<Post> posts = new ArrayList<Post>();
+
+        List<ParseObject> parseObjects;
+        ParseQuery query=new ParseQuery("Post");
+        query.whereEqualTo("category", "All");
+        try {
+            parseObjects = query.find();
+            titleTV.setText(parseObjects.size());
+            for (int i = 0; i < parseObjects.size(); i++) {
+                ParseObject parseObject = parseObjects.get(i);
+                //ParsePost parsePost =new Post(parseObject.getObjectId(), parseObject.getString("title"), "test", parseObject.getString("category"));
+                posts.add(new Post(parseObject.getObjectId(), parseObject.getString("title"), parseObject.getString("desc"), "All"));
+            }
+        }
+        catch (  com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+*/
+
+        Intent intent = getIntent();
+
+        ParseQuery query=new ParseQuery("Post");
+        query.whereEqualTo("objectId", intent.getStringExtra("post_id"));
+
+        try {
+           post = (Post)query.getFirst();
+        }
+        catch (  com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+
+        titleTV.setText(post.getTitle());
+
+
         TextView textTV = (TextView)findViewById(R.id.textView2);
 
 
 
-        titleTV.setText("Looking for Help");
+        //titleTV.setText(parseObjects.size());
         titleTV.setTextSize(20);
 
-        textTV.setText("Hi I am looking for Help with my interviews!!! Hi I am looking for Help with my interviews!!! Hi I am looking for Help with my interviews!!! Hi I am looking for Help with my interviews!!! Hi I am looking for Help with my interviews!!! Hi I am looking for Help with my interviews!!!");
+        textTV.setText(post.getDescription());
         textTV.setTextSize(20);
 
         // Replace this with number of skills later
