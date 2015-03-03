@@ -107,8 +107,7 @@ public class ViewPostActivity extends ActionBarActivity {
         String replyMessage = replyET.getText().toString();
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        Reply reply = new Reply(currentUser.getObjectId(), replyMessage, post.getPostId());
-
+        Reply reply = new Reply(currentUser.get("name").toString(), replyMessage, post.getPostId());
 
         reply.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
@@ -247,8 +246,6 @@ public class ViewPostActivity extends ActionBarActivity {
                 Reply r = replyList.get(i);
                 String user = r.getReplyOwnerId();
                 String description = r.getDescription();
-
-
 
                 temp.setText(user + " " +description);
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
