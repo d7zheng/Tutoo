@@ -291,12 +291,13 @@ public class ViewPostActivity extends ActionBarActivity {
                 } else {
                     userOwnsThisReply = false;
                 }
+                /*
                 if (userOwnsThisReply) {
                     Button editReplyB = new Button(this);
                     editReplyB.setText("Edit Reply");
                     tempLL.addView(editReplyB);
 
-                }
+                }*/
 
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
