@@ -1,6 +1,9 @@
 package com.parse.tutoo.model;
 
+import android.location.Location;
+
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 /**
@@ -26,13 +29,24 @@ public class Post extends ParseObject {
         put("title", title);
     }
 
+    public void setUser(String user) {
+        put("user", user);
+    }
+
     public void setDescription(String description) {
         put("desc", description);
     }
 
+    public void setSkills(String skills) {
+        put("skills", skills);
+    }
 
     public void setCategory(Category category) {
         put("category", category.toString());
+    }
+
+    public String getUser(String user) {
+        return getString("user");
     }
 
     public String getTitle() {
@@ -43,7 +57,23 @@ public class Post extends ParseObject {
         return getString("desc");
     }
 
+    public String getSkills() {
+        return getString("skills");
+    }
+
+
     public String getPostId () { return getObjectId();}
+
+    public void setGeoPoints(Location location) {
+        ParseGeoPoint point = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+        /*
+            ParseGeoPoint point = new ParseGeoPoint(30.0, -20.0);
+            ParseObject object = new ParseObject("PlaceObject");
+            object.put("location", point);
+            object.save();
+         */
+        put("location", point);
+    }
 
     public Category getCategory () {
         String a = getString("category");

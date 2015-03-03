@@ -1,16 +1,12 @@
 package com.parse.tutoo.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -18,33 +14,27 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.parse.tutoo.model.Post;
-import com.parse.tutoo.model.Reply;
-import com.parse.tutoo.model.Category;
-import com.parse.tutoo.R;
-import com.parse.tutoo.util.Dispatcher;
-import com.parse.Parse;
-import com.parse.ParseObject;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.parse.tutoo.R;
+import com.parse.tutoo.model.Post;
+import com.parse.tutoo.model.Reply;
+import com.parse.tutoo.util.Dispatcher;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
-/**
- * Created by hilary on 25/02/2015.
- */
 public class ViewPostActivity extends ActionBarActivity {
 
     private Dispatcher dispatcher = new Dispatcher();
     private Post post;
-    private ArrayList<Reply> replyList;
+    Vector<Reply> replyList = new Vector<Reply>();
 
     public void addListenerSelectTutor(View button) {
         final RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
         Button thisTutorButton = (Button) findViewById(R.id.button1);
-
-
 
         thisTutorButton.setOnClickListener(new View.OnClickListener() {
 
@@ -79,14 +69,44 @@ public class ViewPostActivity extends ActionBarActivity {
 
     }
 
+
+    public void getReplies(){
+        Intent intent = getIntent();
+
+        ParseQuery query=new ParseQuery("Reply");
+        query.whereEqualTo("postId", post.getPostId());
+
+        try {
+            //post = (Post)query.getFirst();
+            List<Reply> replyObjects = query.find();
+            for (int i = 0; i < replyObjects.size(); i++) {
+                Reply r = (Reply)replyObjects.get(i);
+                replyList.add(r);
+            }
+        }
+        catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void replyAction(View button){
-        EditText replyET = (EditText)findViewById(R.id.editText);
+        final EditText replyET = (EditText)findViewById(R.id.editText);
         String replyMessage = replyET.getText().toString();
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        Reply reply = new Reply(currentUser, replyMessage, post.getPostId());
-         // TODO: Save this message
+        Reply reply = new Reply(currentUser.get("name").toString(), replyMessage, post.getPostId());
 
+        reply.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    System.out.println(e.getMessage());
+                } else {
+                    System.out.println("HELLO TEST");
+                    replyET.setText("Replied!");
+                }
+            }
+        });
     }
 
 
@@ -128,6 +148,9 @@ public class ViewPostActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_post);
 
+        //ParseObject.registerSubclass(Reply.class);
+        //Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
+
         //TextView textView = (TextView) findViewById(R.id.viewpost1);
 
 
@@ -160,10 +183,11 @@ public class ViewPostActivity extends ActionBarActivity {
         try {
            post = (Post)query.getFirst();
         }
-        catch (  com.parse.ParseException e) {
+        catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
 
+        getReplies();
         titleTV.setText(post.getTitle());
 
 
@@ -178,7 +202,7 @@ public class ViewPostActivity extends ActionBarActivity {
         textTV.setTextSize(20);
 
         // Replace this with number of skills later
-        int size = 3; // total number of TextViews to add
+        int size = replyList.size();//replyList.size(); // total number of TextViews to add
 
         //TODO: check if current user is the owner of the post, if yes display radio buttons
         boolean owner = false;
@@ -207,7 +231,11 @@ public class ViewPostActivity extends ActionBarActivity {
             {
                 temp = new RadioButton(this);
                 // Replace this with actual skills later
-                temp.setText("Tutor " + i);
+                Reply r = replyList.get(i);
+                String user = r.getReplyOwnerId();
+                String description = r.getDescription();
+
+                temp.setText(user + " " +description);
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
                 radioGroup.addView(temp);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -230,8 +258,19 @@ public class ViewPostActivity extends ActionBarActivity {
                 tempLL.setOrientation(LinearLayout.HORIZONTAL);
 
                 tempTV = new TextView(this);
-                // TODO: Replace this with actual skills later
-                tempTV.setText("Tutor " + i);
+
+
+                Reply r = replyList.get(i);
+                String user = r.getReplyOwnerId();
+                String description = r.getDescription();
+
+
+
+                tempTV.setText(user + ": " +description);
+                tempTV.setTextColor(getResources().getColor(R.color.white_opaque));
+                tempTV.setBackgroundColor(R.drawable.border);
+                tempTV.setWidth(900);
+                //tempTV.setText("Tutor " + i);
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
                 tempLL.addView(tempTV);
                 linearLayout.addView(tempLL);
@@ -240,12 +279,13 @@ public class ViewPostActivity extends ActionBarActivity {
                 } else {
                     userOwnsThisReply = false;
                 }
+                /*
                 if (userOwnsThisReply) {
                     Button editReplyB = new Button(this);
                     editReplyB.setText("Edit Reply");
                     tempLL.addView(editReplyB);
 
-                }
+                }*/
 
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -277,6 +317,7 @@ public class ViewPostActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         switch (id) {

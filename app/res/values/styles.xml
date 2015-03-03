@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <color name="white_opaque">#86ad67</color>
+    <color name="white_opaque">#93c87c</color>
     <color name="pitch_black">#FF000000</color>
 
     <style name="ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">

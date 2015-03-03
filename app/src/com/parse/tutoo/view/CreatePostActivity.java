@@ -19,10 +19,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Category;
 import com.parse.tutoo.model.Post;
+import com.parse.tutoo.model.State;
+
 
 
 public class CreatePostActivity extends ActionBarActivity {
@@ -30,9 +33,11 @@ public class CreatePostActivity extends ActionBarActivity {
     private String title;
     private String description;
     private String feedbackType;
+    private String skillsets;
     private Context context;
     private Location location;
     private LocationManager manager;
+    private boolean isFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +81,12 @@ public class CreatePostActivity extends ActionBarActivity {
         final EditText emailField = (EditText) findViewById(R.id.inputTitle);
         description = emailField.getText().toString();
 
+        final EditText skillSets = (EditText) findViewById(R.id.skillsets);
+        skillsets = skillSets.getText().toString();
+
         if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
             location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
-
 
         final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
         String category = feedbackSpinner.getSelectedItem().toString();
@@ -87,16 +94,22 @@ public class CreatePostActivity extends ActionBarActivity {
         //ParseObject testobject = new ParseObject("Test"); testobject.put("customerName", "John"); testobject.saveInBackground();
 
         final Post userPost = new Post();
+        location = new Location("provider");
+        location.setLatitude(43.472285);
+        location.setLongitude(-80.544858);
 
+        userPost.setUser(ParseUser.getCurrentUser().getObjectId());
         userPost.setTitle(title);
         userPost.setDescription(description);
         userPost.setCategory(enumCategory);
+        userPost.setSkills(skillsets);
+        userPost.setGeoPoints(location);
+
         userPost.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e != null) {
                     System.out.println(e.getMessage());
                 }
-                System.out.println("HELLO TEST");
             }
         });
        /* new AlertDialog.Builder(this)
@@ -129,8 +142,8 @@ public class CreatePostActivity extends ActionBarActivity {
         //}
 
 
-
-        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+        if (location == null && State.getCount() == 0) {
+        // if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {}
 
@@ -146,17 +159,22 @@ public class CreatePostActivity extends ActionBarActivity {
                 }
 
             };
-
+            location = new Location("dummyprovider");
+            location.setLatitude(43.472285);
+            location.setLongitude(-80.544858);
             showSettingsAlert();
+
+            //location = new Location(43.472285, -80.544858);
         } else {
             // store location
-            location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            //System.out.println("Location=" + location.getAltitude());
+            //location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
     }
 
     public void showSettingsAlert(){
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         // Setting Dialog Title
         alertDialog.setTitle("GPS is settings");
@@ -172,7 +190,7 @@ public class CreatePostActivity extends ActionBarActivity {
             public void onClick(DialogInterface dialog,int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                startActivity(intent);
             }
         });
 
