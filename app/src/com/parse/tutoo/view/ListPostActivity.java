@@ -27,7 +27,6 @@ import java.util.Vector;
  * Created by hilary on 25/02/2015.
  */
 public class ListPostActivity extends ActionBarActivity {
-    private Dispatcher dispatcher = new Dispatcher();
     ListView listView;
     Vector<Post> posts = new Vector<Post>();
     Context context;
@@ -75,7 +74,7 @@ public class ListPostActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_posts, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -100,13 +99,10 @@ public class ListPostActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.action_newpost:
-                dispatcher.openNewPost(getApplicationContext(), this);
+                Dispatcher.openNewPost(getApplicationContext(), this);
                 return true;
             case R.id.action_search:
-                dispatcher.openSearch(getApplicationContext(),this);
-                return true;
-            case R.id.action_profile:
-                dispatcher.openProfile(getApplicationContext(), this);
+                Dispatcher.openSearch(getApplicationContext(),this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

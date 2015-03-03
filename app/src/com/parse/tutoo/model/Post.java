@@ -18,6 +18,13 @@ public class Post extends ParseObject {
         put("category",category.toString());
     }
 
+    public Post(String title, String description, String skills, Category category) {
+        put("title", title);
+        put("desc", description);
+        put("category",category.toString());
+        put("skills", skills.toLowerCase());
+    }
+
     public Post() { super(); }
 
     public void setTitleAndDescription(String title, String description) {
@@ -38,7 +45,7 @@ public class Post extends ParseObject {
     }
 
     public void setSkills(String skills) {
-        put("skills", skills);
+        put("skills", skills.toLowerCase());
     }
 
     public void setCategory(Category category) {

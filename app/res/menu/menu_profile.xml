@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tutoo="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/action_search"
+        tutoo:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_newpost"
+        android:icon="@drawable/ic_action_new_event"
+        android:title="@string/action_new_post"
+        tutoo:showAsAction="ifRoom"/>
+</menu>

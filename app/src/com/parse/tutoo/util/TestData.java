@@ -28,9 +28,9 @@ public class TestData {
     // Create a vector of posts
     public static Vector<Post> getPostData() {
         Vector<Post> posts = new Vector<Post>();
-        posts.add(new Post("Looking for Math Tutor", "My name is Jessie, I'm looking for a math tutor for Grade 5 Math", Category.Math));
-        posts.add(new Post("Seek tutor for 2 hours", "My name is Emily, seeking 2 hours tutor for French", Category.Others));
-        posts.add(new Post("Math Tutor!", "My name is Danny, I'm looking for a math tutor for Grade 5", Category.Math));
+        posts.add(new Post("Looking for Math Tutor", "My name is Jessie, I'm looking for a math tutor for Grade 5 Math","Math",Category.Math));
+        posts.add(new Post("Seek tutor for 2 hours", "My name is Emily, seeking 2 hours tutor for French", "French", Category.Others));
+        posts.add(new Post("Math Tutor!", "My name is Danny, I'm looking for a math tutor for Grade 5", "Javascript", Category.Math));
         posts.add(new Post("Seek Help: CS446", "Looking for tutor for Kitchener-Waterloo area", Category.Others));
         posts.add(new Post("Seek Help: MATH135", "looking for a math tutor for calculus", Category.Math));
         return posts;

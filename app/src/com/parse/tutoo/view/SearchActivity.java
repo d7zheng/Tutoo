@@ -14,33 +14,47 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Post;
+import com.parse.tutoo.model.Reply;
 import com.parse.tutoo.util.PostListAdapter;
 import com.parse.tutoo.util.TestData;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class SearchActivity extends ActionBarActivity {
 
     ListView listView;
-    ArrayList<Post> posts;
+    ArrayList<Post> posts = new ArrayList<>();
     Context context;
     PostListAdapter listAdapter;
+    SearchManager searchManager;
+    SearchView searchView;
 
     private void searchBySkill(String query) {
         //Get Data
         // TODO: Change to get data from cloud
-        Post[] allposts = TestData.getSearchData();
+        //Post[] allposts = TestData.getSearchData();
 
-        System.out.println(query);
-        ArrayList<Post> results = new ArrayList<>();
-        for (int i = 0; i<allposts.length; i++) {
-            if (allposts[i].getDescription().indexOf(query)!=-1) {
-                results.add(allposts[i]);
+        ParseQuery resultQuery = new ParseQuery("Post");
+        resultQuery.whereContains("skills", query.toLowerCase());
+        List<Post> results ;
+        try {
+            results = resultQuery.find();
+            for (int i = 0; i < results.size(); i++) {
+                Post post = (Post) results.get(i);
+                posts.add(post);
             }
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
         }
+
         listView = (ListView) findViewById(R.id.list);
 
         listAdapter = new PostListAdapter(posts, this);
@@ -69,14 +83,20 @@ public class SearchActivity extends ActionBarActivity {
         inflater.inflate(R.menu.menu_search, menu);
 
         // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.search);
         if (MenuItemCompat.getActionView(searchItem) == null) { System.out.println("null!");}
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        searchView.requestFocus();
         return true;
     }
 
@@ -87,11 +107,6 @@ public class SearchActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -99,6 +114,7 @@ public class SearchActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_list_view);
+        context = getApplicationContext();
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();

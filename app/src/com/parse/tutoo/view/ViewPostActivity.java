@@ -28,7 +28,6 @@ import java.util.Vector;
 
 public class ViewPostActivity extends ActionBarActivity {
 
-    private Dispatcher dispatcher = new Dispatcher();
     private Post post;
     Vector<Reply> replyList = new Vector<Reply>();
 
@@ -322,10 +321,10 @@ public class ViewPostActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.action_newpost:
-                dispatcher.openNewPost(getApplicationContext(), this);
+                Dispatcher.openNewPost(getApplicationContext(), this);
                 return true;
             case R.id.action_search:
-                dispatcher.openSearch(getApplicationContext(),this);
+                Dispatcher.openSearch(getApplicationContext(),this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

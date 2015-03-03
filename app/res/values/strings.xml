@@ -17,10 +17,10 @@
     <string name="profile_signup_button_label">Sign Up</string>
     <string name="menu_posts"> Posts </string>
     <string name="menu_profile"> Profile </string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_search">SearchActivity</string>
-    <string name="title_activity_notification">NotificationActivity</string>
-    <string name="title_activity_starter">StarterActivity</string>
+    <string name="title_activity_main">Home</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_notification">Notification</string>
+    <string name="title_activity_starter">Start</string>
     <string name="title_activity_viewpost">Post</string>
     <string name="title_activity_newpost">New Post</string>
     <string name="title_activity_listpost">Posts</string>
@@ -30,7 +30,7 @@
     <string name="title_frag_notification">Notification</string>
     <string name="title_frag_category">Category</string>
 
-    <string name="search_hint">Search for a skill set (i.e. javascript)</string>
+    <string name="search_hint">javascript</string>
 
     <string name="category1">All</string>
     <string name="category2">Interview</string>
