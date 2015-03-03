@@ -278,7 +278,10 @@ public class ViewPostActivity extends ActionBarActivity {
 
 
 
-                tempTV.setText(user + " " +description);
+                tempTV.setText(user + ": " +description);
+                tempTV.setTextColor(getResources().getColor(R.color.white_opaque));
+                tempTV.setBackgroundColor(R.drawable.border);
+                tempTV.setWidth(900);
                 //tempTV.setText("Tutor " + i);
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
                 tempLL.addView(tempTV);
