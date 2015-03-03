@@ -33,7 +33,7 @@ public class Reply extends ParseObject {
 
     public String getPostId () { return getString("postId");}
 
-    public String setReplyOwnerId() { return getString("replyOwnerId");}
+    public String getReplyOwnerId() { return getString("replyOwnerId");}
 
     public void setAttributes(String replyOwnerId, String description, String postId) {
         put("replyOwnerId", replyOwnerId);
