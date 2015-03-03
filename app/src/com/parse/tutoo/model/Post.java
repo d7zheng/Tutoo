@@ -26,13 +26,24 @@ public class Post extends ParseObject {
         put("title", title);
     }
 
+    public void setUser(String user) {
+        put("user", user);
+    }
+
     public void setDescription(String description) {
         put("desc", description);
     }
 
+    public void setSkills(String skills) {
+        put("skills", skills);
+    }
 
     public void setCategory(Category category) {
         put("category", category.toString());
+    }
+
+    public String getUser(String user) {
+        return getString("user");
     }
 
     public String getTitle() {
@@ -42,6 +53,11 @@ public class Post extends ParseObject {
     public String getDescription() {
         return getString("desc");
     }
+
+    public String getSkills() {
+        return getString("skills");
+    }
+
 
     public String getPostId () { return getObjectId();}
 

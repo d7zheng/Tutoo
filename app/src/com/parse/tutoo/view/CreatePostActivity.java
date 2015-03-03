@@ -18,11 +18,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Category;
 import com.parse.tutoo.model.Post;
+import com.parse.tutoo.model.Reply;
 
 
 public class CreatePostActivity extends ActionBarActivity {
@@ -30,6 +33,7 @@ public class CreatePostActivity extends ActionBarActivity {
     private String title;
     private String description;
     private String feedbackType;
+    private String skillsets;
     private Context context;
     private Location location;
     private LocationManager manager;
@@ -76,10 +80,12 @@ public class CreatePostActivity extends ActionBarActivity {
         final EditText emailField = (EditText) findViewById(R.id.inputTitle);
         description = emailField.getText().toString();
 
+        final EditText skillSets = (EditText) findViewById(R.id.skillsets);
+        skillsets = skillSets.getText().toString();
+
         if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
             location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
-
 
         final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
         String category = feedbackSpinner.getSelectedItem().toString();
@@ -88,15 +94,16 @@ public class CreatePostActivity extends ActionBarActivity {
 
         final Post userPost = new Post();
 
+        userPost.setUser(ParseUser.getCurrentUser().getObjectId());
         userPost.setTitle(title);
         userPost.setDescription(description);
         userPost.setCategory(enumCategory);
+        userPost.setSkills(skillsets);
         userPost.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e != null) {
                     System.out.println(e.getMessage());
                 }
-                System.out.println("HELLO TEST");
             }
         });
        /* new AlertDialog.Builder(this)

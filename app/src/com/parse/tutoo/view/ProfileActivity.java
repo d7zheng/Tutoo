@@ -8,9 +8,13 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.tutoo.R;
+import com.parse.tutoo.model.Post;
 
 
 public class ProfileActivity extends ActionBarActivity {
@@ -20,31 +24,33 @@ public class ProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        ParseUser curUser = ParseUser.getCurrentUser();
         TextView nameTV = (TextView) findViewById(R.id.textView2);
         nameTV.setTextSize(30);
-        nameTV.setText("Name");
+        nameTV.setText(curUser.getString("name"));
 
         TextView emailTV = (TextView) findViewById(R.id.textView3);
-        emailTV.setTextSize(30);
-        emailTV.setText("tutor@tutoo.com");
+        emailTV.setText(curUser.getString("email"));
 
         TextView locationTV = (TextView) findViewById(R.id.textView);
-        locationTV.setTextSize(30);
-        locationTV.setText("Canada");
+        locationTV.setText("Lives in Waterloo, Canada");
 
+        TextView skills = (TextView) findViewById(R.id.skillsets);
+        skills.setText("algorithms, math138, cs245, algebra");
 
-
+        RatingBar rating = (RatingBar) findViewById(R.id.rating);
+        rating.setRating(5);
         // Replace this with number of skills later
         int size = 1; // total number of TextViews to add
 
-        TextView[] tv = new TextView[size];
+      /*  TextView[] tv = new TextView[size];
         TextView temp;
 
         for (int i = 0; i < size; i++)
         {
             temp = new TextView(this);
             // Replace this with actual skills later
-            temp.setText("Put text here for skills");
+            temp.setText("algorithms, math138, cs245, algebra");
             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
             linearLayout.addView(temp);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -54,7 +60,7 @@ public class ProfileActivity extends ActionBarActivity {
             temp.setLayoutParams(params);
             //temp.setBackgroundColor(Color.parseColor("CCFFCC"));
             tv[i] = temp;
-        }
+        }*/
 
     }
 
