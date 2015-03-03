@@ -46,8 +46,6 @@ public class ViewPostActivity extends ActionBarActivity {
         final RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
         Button thisTutorButton = (Button) findViewById(R.id.button1);
 
-
-
         thisTutorButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
