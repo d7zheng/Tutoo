@@ -34,8 +34,9 @@
 
     <string name="category1">All</string>
     <string name="category2">Interview</string>
-    <string name="category3">Math</string>
-    <string name="category4">Other</string>
+    <string name="category3">CS</string>
+    <string name="category4">Math</string>
+    <string name="category5">Other</string>
 
     <string name="facebook_app_id">944237372260549</string>
     <string name="parse_app_id">3ejQC7KuCGG0X5Hhutq425jILxPPnqPsGvAi8PBl</string>
