@@ -1,38 +1,28 @@
 package com.parse.tutoo.view;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.parse.ParseException;
-import com.parse.SaveCallback;
-import com.parse.tutoo.model.Post;
-import com.parse.tutoo.model.Reply;
-import com.parse.tutoo.model.Category;
-import com.parse.tutoo.R;
-import com.parse.tutoo.util.Dispatcher;
-import com.parse.Parse;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.parse.tutoo.R;
+import com.parse.tutoo.model.Post;
+import com.parse.tutoo.model.Reply;
+import com.parse.tutoo.util.Dispatcher;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -327,6 +317,7 @@ public class ViewPostActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         switch (id) {
