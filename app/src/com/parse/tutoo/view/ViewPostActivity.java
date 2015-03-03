@@ -2,6 +2,7 @@ package com.parse.tutoo.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -16,8 +17,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.Reply;
 import com.parse.tutoo.model.Category;
@@ -31,9 +35,6 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hilary on 25/02/2015.
- */
 public class ViewPostActivity extends ActionBarActivity {
 
     private Dispatcher dispatcher = new Dispatcher();
@@ -79,14 +80,44 @@ public class ViewPostActivity extends ActionBarActivity {
 
     }
 
+
+    public void getReplies(){
+        Intent intent = getIntent();
+
+        ParseQuery query=new ParseQuery("Reply");
+        query.whereEqualTo("postId", post.getPostId());
+
+        try {
+            //post = (Post)query.getFirst();
+            List<Reply> postObjects = query.find();
+            for (int i = 0; i < postObjects.size(); i++) {
+                replyList.add(postObjects.get(i));
+            }
+        }
+        catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void replyAction(View button){
-        EditText replyET = (EditText)findViewById(R.id.editText);
+        final EditText replyET = (EditText)findViewById(R.id.editText);
         String replyMessage = replyET.getText().toString();
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        Reply reply = new Reply(currentUser, replyMessage, post.getPostId());
-         // TODO: Save this message
+        Reply reply = new Reply(currentUser.getObjectId(), replyMessage, post.getPostId());
 
+
+        reply.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    System.out.println(e.getMessage());
+                } else {
+                    System.out.println("HELLO TEST");
+                    replyET.setText("Replied!");
+                }
+            }
+        });
     }
 
 
@@ -128,6 +159,9 @@ public class ViewPostActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_post);
 
+        //ParseObject.registerSubclass(Reply.class);
+        //Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
+
         //TextView textView = (TextView) findViewById(R.id.viewpost1);
 
 
@@ -160,10 +194,11 @@ public class ViewPostActivity extends ActionBarActivity {
         try {
            post = (Post)query.getFirst();
         }
-        catch (  com.parse.ParseException e) {
+        catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
 
+        getReplies();
         titleTV.setText(post.getTitle());
 
 

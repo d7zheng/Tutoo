@@ -9,31 +9,35 @@ import com.parse.ParseUser;
  */
 @ParseClassName("Reply")
 public class Reply extends ParseObject {
-    private String description;
-    private ParseUser replyOwner;
-    private String postId;
 
-    public Reply(ParseUser replyOwner, String description, String postId) {
-        this.replyOwner = replyOwner;
-        this.description = description;
-        this.postId = postId;
+    public Reply(String replyOwnerId, String description, String postId) {
+        put("replyOwnerId", replyOwnerId);
+        put("description", description);
+        put("postId",postId);
     }
 
+    public Reply() {
+        super();
+    }
+
+    public void setReplyOwnerId(String replyOwnerId) { put("replyOwnerId", replyOwnerId);}
     public void setDescription(String description) {
-        this.description = description;
+        put("description", description);
     }
 
-    public void setPostId(String postId) { this.postId = postId;}
+    public void setPostId(String postId) { put("postId",postId);}
 
     public String getDescription() {
-        return this.description;
+        return getString("description");
     }
 
-    public String getPostId () { return this.postId;}
+    public String getPostId () { return getString("postId");}
 
-    public void setAttributes(ParseUser replyOwner, String description, String postId) {
-        this.replyOwner = replyOwner;
-        this.description = description;
-        this.postId = postId;
+    public String setReplyOwnerId() { return getString("replyOwnerId");}
+
+    public void setAttributes(String replyOwnerId, String description, String postId) {
+        put("replyOwnerId", replyOwnerId);
+        put("description", description);
+        put("postId",postId);
     }
 }

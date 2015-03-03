@@ -7,6 +7,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.Profile;
+import com.parse.tutoo.model.Reply;
 
 /**
  * TutooApp
@@ -20,7 +21,7 @@ public class TutooApp extends Application {
 
         ParseObject.registerSubclass(Profile.class);
         ParseObject.registerSubclass(Post.class);
-
+        ParseObject.registerSubclass(Reply.class);
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
 
         String fbappId = getString(R.string.facebook_app_id);
