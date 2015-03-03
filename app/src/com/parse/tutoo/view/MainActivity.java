@@ -36,16 +36,14 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         ActionBar.Tab tab = actionBar.newTab()
-                .setText(R.string.title_frag_notification)
-                .setTabListener(new TabListener(this, "notification", NotificationFragment.class));
-        actionBar.addTab(tab);
-
-
-        tab = actionBar.newTab()
                 .setText(R.string.title_frag_category)
                 .setTabListener(new TabListener(this, "category", CategoryListFragment.class));
         actionBar.addTab(tab);
 
+        tab = actionBar.newTab()
+                .setText(R.string.title_frag_notification)
+                .setTabListener(new TabListener(this, "notification", NotificationFragment.class));
+        actionBar.addTab(tab);
 
     }
 

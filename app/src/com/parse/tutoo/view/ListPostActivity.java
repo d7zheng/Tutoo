@@ -20,6 +20,7 @@ import com.parse.tutoo.model.Category;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.Dispatcher;
 import com.parse.tutoo.util.MenuListAdapter;
+import com.parse.tutoo.util.PostListAdapter;
 
 import java.util.List;
 import java.util.Vector;
@@ -31,26 +32,7 @@ public class ListPostActivity extends ActionBarActivity {
     ListView listView;
     Vector<Post> posts = new Vector<Post>();
     Context context;
-    MenuListAdapter myAdapter;
-    /*
-    private void initData() {
-        for (int i = 0; i < 5; i++) {
-            Post post = new Post();
-            if (i == 0) {
-                post.setAttributes("Looking for Math Tutor", "My name is Jessie, I'm looking for a math tutor for Grade 5 Math", i, Category.MATH);
-            } else if (i == 1) {
-                post.setAttributes("Seek tutor for 2 hours", "My name is Emily, seeking 2 hours tutor for French",i, Category.OTHERS);
-            } else if (i == 2) {
-                post.setAttributes("Piano Tutor!", "My name is Danny, I'm looking for a math tutor for Grade 5", i,  Category.MATH);
-            } else if (i == 3) {
-                post.setAttributes("Seek Help: CS446", "My name is Hilary, uwaterloo software articecture course, looking for tutor for Kitchener-Waterloo area", i, Category.OTHERS);
-            } else if (i == 4) {
-                post.setAttributes("Seek Help: MATH135", "looking for a math tutor for calculus", i, Category.MATH);
-            }
-            posts.add(post);
-        }
-    }
-    */
+    PostListAdapter myAdapter;
 
     private void initData(String category) {
 
@@ -131,7 +113,7 @@ public class ListPostActivity extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.list);
 
         //listView.setOnScrollListener(new ListViewListener());
-        myAdapter = new MenuListAdapter(posts, this);
+        myAdapter = new PostListAdapter(posts, this);
         listView.setAdapter(myAdapter);
 
         // ListView Item Click Listener

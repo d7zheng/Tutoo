@@ -13,5 +13,8 @@ public class Profile extends ParseObject {
     public String getUser() {
         return getString("user");
     }
+    public void setUser(String u) {put("user", u);}
+
+
 
 }

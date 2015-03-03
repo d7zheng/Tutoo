@@ -40,7 +40,7 @@ public class CreatePostActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         manager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE );
-        setContentView(R.layout.new_post);
+        setContentView(R.layout.activity_new_post);
     }
 
 

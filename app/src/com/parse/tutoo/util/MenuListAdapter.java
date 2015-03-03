@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.ViewHolder;
@@ -17,25 +18,28 @@ import java.util.List;
 /**
  * Created by hilary on 25/02/2015.
  */
-public class MenuListAdapter extends BaseAdapter {
-    private List<Post> posts;
+public class MenuListAdapter<T> extends BaseAdapter {
+    private List<T> objs;
     private Context context = null;
 
-    public MenuListAdapter(List<Post> posts, Context context)
+    public MenuListAdapter(List<T> objs, Context context)
     {
         super();
-        this.posts = posts;
+        this.objs = objs;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return posts.size();
+        if (objs == null) {
+            return 0;
+        }
+        return objs.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return posts.get(position);
+        return objs.get(position);
     }
 
     @Override
@@ -59,11 +63,19 @@ public class MenuListAdapter extends BaseAdapter {
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Post post = posts.get(position);
-        viewHolder.firstLine.setText(post.getTitle());
-        viewHolder.secondLine.setText(post.getDescription());
+        T obj = objs.get(position);
+        viewHolder.firstLine.setText(this.getFirstLine(obj));
+        viewHolder.secondLine.setText(this.getSecondLine(obj));
         viewHolder.secondLine.setEllipsize(TextUtils.TruncateAt.END);
 
         return convertView;
+    }
+
+    public String getFirstLine(T obj) {
+        return "";
+    }
+
+    public String getSecondLine(T obj) {
+        return "";
     }
 }
