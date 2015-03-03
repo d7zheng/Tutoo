@@ -1,6 +1,9 @@
 package com.parse.tutoo.model;
 
+import android.location.Location;
+
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 /**
@@ -60,6 +63,17 @@ public class Post extends ParseObject {
 
 
     public String getPostId () { return getObjectId();}
+
+    public void setGeoPoints(Location location) {
+        ParseGeoPoint point = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+        /*
+            ParseGeoPoint point = new ParseGeoPoint(30.0, -20.0);
+            ParseObject object = new ParseObject("PlaceObject");
+            object.put("location", point);
+            object.save();
+         */
+        put("location", point);
+    }
 
     public Category getCategory () {
         String a = getString("category");
