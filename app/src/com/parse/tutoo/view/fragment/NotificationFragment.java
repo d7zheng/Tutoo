@@ -36,8 +36,8 @@ public class NotificationFragment extends Fragment {
 
     //Vector<Notification> notifications = new Vector<Notification>();
     protected Context context;
-    //MenuListAdapter adapter;
-    protected List<Notification> notifications;
+    protected ArrayList<Notification> list = new ArrayList<Notification>();
+    protected List<Notification> notifications = null;
 
 
     @Override
@@ -57,32 +57,32 @@ public class NotificationFragment extends Fragment {
 
         //adapter = new MenuListAdapter(notifications, getActivity());
 
-        final ArrayList<Notification> list = new ArrayList<Notification>();
-
         // Mock up Data
-        TestData testData = new TestData();
+        /*TestData testData = new TestData();
         notifications = testData.getNotificationData();
         ParseUser user = ParseUser.getCurrentUser();
         for (int i = 0; i < notifications.size(); ++i) {
             Notification note = notifications.get(i);
-            if (user.getObjectId()==note.getToUser()) {
+            if (user.getObjectId().equals(note.getToUser())) {
                 list.add(notifications.get(i));
             }
-        }
-
-        /*ParseQuery query = new ParseQuery("Notification");
-        query.whereEqualTo("toUser", ParseUser.getCurrentUser().getObjectId());
-        List<Notification> results = null;
-        try {
-            results = query.find();
-            for (int i = 0; i < results.size(); i++) {
-                Notification note = (Notification) results.get(i);
-                notifications.add(note);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }*/
 
+        ParseQuery query = new ParseQuery("Notification");
+        query.whereEqualTo("toUser", ParseUser.getCurrentUser().getObjectId());
+        query.orderByAscending("createdAt");
+        if (list.size() == 0) {
+            try {
+                notifications = query.find();
+                for (int i = 0; i < notifications.size(); i++) {
+                    System.out.println(i);
+                    Notification note = (Notification) notifications.get(i);
+                    list.add(note);
+                }
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
         // Create List View
         NotificationListAdapter adapter = new NotificationListAdapter(list,getActivity());
@@ -94,11 +94,12 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent intent = new Intent(context, ViewPostActivity.class);
-                intent.putExtra("postId", notifications.get(position).getPostId());
+                Intent intent = new Intent(context, ViewPostActivity.class);;
+                intent.putExtra("post_id", notifications.get(position).getPostId());
                 startActivity(intent);
             }
         });
+
         return rootView;
     }
 }

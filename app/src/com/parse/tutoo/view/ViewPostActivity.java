@@ -86,6 +86,7 @@ public class ViewPostActivity extends ActionBarActivity {
 
         ParseQuery query=new ParseQuery("Reply");
         query.whereEqualTo("postId", post.getPostId());
+        query.orderByAscending("createdAt");
 
         try {
             //post = (Post)query.getFirst();

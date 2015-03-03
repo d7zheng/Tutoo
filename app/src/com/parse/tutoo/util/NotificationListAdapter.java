@@ -19,12 +19,10 @@ public class NotificationListAdapter extends MenuListAdapter<Notification> {
 
     @Override
     public String getFirstLine(Notification obj) {
-        if (obj.getType() == Notification.notificationType.REPLY.toString()) {
-            System.out.println("You received replies to your post!");
+        if (obj.getType().equals(Notification.notificationType.REPLY.toString())) {
             return "You received replies to your post!";
         }
-        else if (obj.getType() == Notification.notificationType.SELECTED.toString()) {
-            System.out.println("You have been selected as a tutor!");
+        else if (obj.getType().equals(Notification.notificationType.SELECTED.toString())) {
             return "You have been selected as a tutor!";
         }
         return "";
