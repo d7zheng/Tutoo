@@ -14,6 +14,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.parse.Parse;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -37,7 +39,6 @@ public class ViewPostActivity extends ActionBarActivity {
         Button thisTutorButton = (Button) findViewById(R.id.button1);
 
         thisTutorButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // get selected radio button from radioGroup
@@ -112,8 +113,8 @@ public class ViewPostActivity extends ActionBarActivity {
                 if (e != null) {
                     System.out.println(e.getMessage());
                 } else {
-                    System.out.println("HELLO TEST");
-                    replyET.setText("Replied!");
+                    //System.out.println("HELLO TEST");
+                    replyET.setText("");
                 }
             }
         });
@@ -127,11 +128,13 @@ public class ViewPostActivity extends ActionBarActivity {
                 }
             }
         });
+        finish();
+        startActivity(getIntent());
     }
 
 
     public void addListenerReply() {
-        Button thisTutorButton = (Button) findViewById(R.id.button1);
+        final Button thisTutorButton = (Button) findViewById(R.id.button2);
 
         thisTutorButton.setOnClickListener(new View.OnClickListener() {
 
@@ -140,6 +143,7 @@ public class ViewPostActivity extends ActionBarActivity {
                 EditText replyET = (EditText)findViewById(R.id.editText);
                 String replyMessage = replyET.getText().toString();
                 // TODO: Save this message
+                replyAction(thisTutorButton);
             }
 
         });
@@ -210,10 +214,7 @@ public class ViewPostActivity extends ActionBarActivity {
         getReplies();
         titleTV.setText(post.getTitle());
 
-
         TextView textTV = (TextView)findViewById(R.id.textView2);
-
-
 
         //titleTV.setText(parseObjects.size());
         titleTV.setTextSize(20);
