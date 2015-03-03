@@ -19,7 +19,7 @@
     <string name="menu_profile"> Profile </string>
     <string name="title_activity_main">Home</string>
     <string name="title_activity_search">Search</string>
-    <string name="title_activity_notification">Notification</string>
+    <string name="title_activity_notification">Notifications</string>
     <string name="title_activity_starter">Start</string>
     <string name="title_activity_viewpost">Post</string>
     <string name="title_activity_newpost">New Post</string>
@@ -28,7 +28,7 @@
     <string name="action_new_post">New Post</string>
     <string name="title_frag_view_post">Post</string>
     <string name="title_frag_notification">Notification</string>
-    <string name="title_frag_category">Category</string>
+    <string name="title_frag_category">Browse</string>
 
     <string name="search_hint">javascript</string>
 

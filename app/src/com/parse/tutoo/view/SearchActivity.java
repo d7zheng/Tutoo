@@ -39,11 +39,9 @@ public class SearchActivity extends ActionBarActivity {
 
     private void searchBySkill(String query) {
         //Get Data
-        // TODO: Change to get data from cloud
-        //Post[] allposts = TestData.getSearchData();
-
         ParseQuery resultQuery = new ParseQuery("Post");
         resultQuery.whereContains("skills", query.toLowerCase());
+        posts.clear(); // Clear previous search results
         List<Post> results ;
         try {
             results = resultQuery.find();
@@ -62,7 +60,6 @@ public class SearchActivity extends ActionBarActivity {
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -105,8 +102,6 @@ public class SearchActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -115,9 +110,17 @@ public class SearchActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_list_view);
         context = getApplicationContext();
+        handleIntent(getIntent());
+    }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
         // Get the intent, verify the action and get the query
-        Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             searchBySkill(query);

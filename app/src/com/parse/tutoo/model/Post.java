@@ -52,7 +52,7 @@ public class Post extends ParseObject {
         put("category", category.toString());
     }
 
-    public String getUser(String user) {
+    public String getUser() {
         return getString("user");
     }
 

@@ -33,39 +33,28 @@ public class ListPostActivity extends ActionBarActivity {
     PostListAdapter myAdapter;
 
     private void initData(String category) {
-
-
         if (category.equals(Category.All.toString())) {
-            for (Category element : Category.values()) {
-                ParseQuery query=new ParseQuery("Post");
-                query.whereEqualTo("category", element.toString());
-                try {
-                    List<Post> postObjects = query.find();
-                    for (int i = 0; i < postObjects.size(); i++) {
-                        //ParseObject parseObject = postObjects.get(i);
-                        //ParsePost parsePost =new Post(parseObject.getObjectId(), parseObject.getString("title"), "test", parseObject.getString("category"));
-                        //posts.add(new Post(parseObject.getObjectId(), parseObject.getString("title"), parseObject.getString("desc"), category));
-                        posts.add(postObjects.get(i));
-                    }
-                }
-                catch (  com.parse.ParseException e) {
-                    e.printStackTrace();
+            ParseQuery query = new ParseQuery("Post");
+            try {
+                List<Post> postObjects = query.find();
+                for (int i = 0; i < postObjects.size(); i++) {
+                    posts.add(postObjects.get(i));
                 }
             }
-        }
-
-        ParseQuery query=new ParseQuery("Post");
-        query.whereEqualTo("category", category);
-        try {
-            List<Post> postObjects = query.find();
-            for (int i = 0; i < postObjects.size(); i++) {
-                //ParsePost parsePost =new Post(parseObject.getObjectId(), parseObject.getString("title"), "test", parseObject.getString("category"));
-                //posts.add(new Post(parseObject.getObjectId(), parseObject.getString("title"), parseObject.getString("desc"), category));
-                posts.add(postObjects.get(i));
+            catch (  com.parse.ParseException e) {
+                e.printStackTrace();
             }
-        }
-        catch (  com.parse.ParseException e) {
-            e.printStackTrace();
+        } else {
+            ParseQuery query = new ParseQuery("Post");
+            query.whereEqualTo("category", category);
+            try {
+                List<Post> postObjects = query.find();
+                for (int i = 0; i < postObjects.size(); i++) {
+                    posts.add(postObjects.get(i));
+                }
+            } catch (com.parse.ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 

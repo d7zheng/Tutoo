@@ -11,14 +11,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Notification;
+import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.NotificationListAdapter;
 import com.parse.tutoo.util.TestData;
 import com.parse.tutoo.view.ViewPostActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +37,7 @@ public class NotificationFragment extends Fragment {
     //Vector<Notification> notifications = new Vector<Notification>();
     protected Context context;
     //MenuListAdapter adapter;
-    protected ArrayList<Notification> notifications;
+    protected List<Notification> notifications;
 
 
     @Override
@@ -65,6 +69,20 @@ public class NotificationFragment extends Fragment {
                 list.add(notifications.get(i));
             }
         }
+
+        /*ParseQuery query = new ParseQuery("Notification");
+        query.whereEqualTo("toUser", ParseUser.getCurrentUser().getObjectId());
+        List<Notification> results = null;
+        try {
+            results = query.find();
+            for (int i = 0; i < results.size(); i++) {
+                Notification note = (Notification) results.get(i);
+                notifications.add(note);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+
 
         // Create List View
         NotificationListAdapter adapter = new NotificationListAdapter(list,getActivity());

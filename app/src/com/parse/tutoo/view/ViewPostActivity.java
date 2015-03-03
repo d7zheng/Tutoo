@@ -19,6 +19,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.tutoo.R;
+import com.parse.tutoo.model.Notification;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.Reply;
 import com.parse.tutoo.util.Dispatcher;
@@ -31,7 +32,7 @@ public class ViewPostActivity extends ActionBarActivity {
     private Post post;
     Vector<Reply> replyList = new Vector<Reply>();
 
-    public void addListenerSelectTutor(View button) {
+    public void addListenerSelectTutor(final View button, final String replyOwner) {
         final RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
         Button thisTutorButton = (Button) findViewById(R.id.button1);
 
@@ -46,6 +47,16 @@ public class ViewPostActivity extends ActionBarActivity {
                 RadioButton radioSelected = (RadioButton) findViewById(selectedId);
 
                 radioSelected.setText("selected");
+
+                Notification note = new Notification(ParseUser.getCurrentUser().getObjectId(),
+                        replyOwner,Notification.notificationType.SELECTED, post.getPostId());
+                note.saveInBackground(new SaveCallback() {
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                });
                 /*
                 new AlertDialog.Builder(this)
                         .setTitle("Delete entry")
@@ -103,6 +114,16 @@ public class ViewPostActivity extends ActionBarActivity {
                 } else {
                     System.out.println("HELLO TEST");
                     replyET.setText("Replied!");
+                }
+            }
+        });
+
+        Notification note = new Notification(currentUser.getObjectId(), post.getUser(),
+                Notification.notificationType.REPLY, post.getPostId());
+        note.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    System.out.println(e.getMessage());
                 }
             }
         });
@@ -244,6 +265,7 @@ public class ViewPostActivity extends ActionBarActivity {
                 temp.setLayoutParams(params);
                 //temp.setBackgroundColor(Color.parseColor("CCFFCC"));
                 tv[i] = temp;
+                addListenerSelectTutor(temp, user);
             }
         } else {
             TextView[] tv = new TextView[size];
