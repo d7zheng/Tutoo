@@ -28,7 +28,8 @@
     <string name="action_new_post">New Post</string>
     <string name="title_frag_view_post">Post</string>
     <string name="title_frag_notification">Notification</string>
-    <string name="title_frag_category">Browse</string>
+    <string name="title_frag_category">Service</string>
+    <string name="title_frag_markets">Markets</string>
 
     <string name="search_hint">javascript</string>
 
