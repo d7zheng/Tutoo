@@ -1,10 +1,15 @@
 package com.parse.tutoo.view;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,6 +34,13 @@ public class ProfileActivity extends ActionBarActivity {
         TextView nameTV = (TextView) findViewById(R.id.textView2);
         nameTV.setTextSize(30);
         nameTV.setText(curUser.getString("name"));
+
+        TextView phoneNumber = (TextView) findViewById(R.id.click);
+
+        SpannableString number = new SpannableString("111-111-111");
+        number.setSpan(new UnderlineSpan(), 0, number.length(), 0);
+        //emailTV.setText(curUser.getString("email"));
+        phoneNumber.setText(number);
 
         TextView emailTV = (TextView) findViewById(R.id.textView3);
         emailTV.setText(curUser.getString("email"));
@@ -90,6 +102,16 @@ public class ProfileActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void openMessaging(View v) {
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+        smsIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        smsIntent.setType("vnd.android-dir/mms-sms");
+        smsIntent.setData(Uri.parse("sms:" + "2269720088"));
+        startActivity(smsIntent);
+
+
     }
 
 }

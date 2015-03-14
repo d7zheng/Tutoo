@@ -39,6 +39,18 @@
             android:isIndicator="true" />
 
         <TextView
+            android:id="@+id/click"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click Me"
+            android:textColor="@color/com_facebook_blue"
+            android:textSize="50px"
+            android:onClick="openMessaging"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:clickable="true"/>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
