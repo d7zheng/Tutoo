@@ -37,22 +37,6 @@ public class ProfileActivity extends ActionBarActivity {
         }
         else {
             String userID = b.getString("id");
-
-            /*
-            ParseQuery query = new ParseQuery("User");
-            query.whereEqualTo("objectId", userID);
-            try {
-                ParseObject user = query.getFirst();
-                displayProfile(user);
-            }
-            catch (com.parse.ParseException e) {
-                TextView nameTV = (TextView) findViewById(R.id.textView2);
-                nameTV.setTextSize(30);
-                nameTV.setText(e.getMessage());
-
-            }*/
-
-
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("objectId", userID);
             query.findInBackground(new FindCallback<ParseUser>() {
@@ -88,50 +72,6 @@ public class ProfileActivity extends ActionBarActivity {
 
             System.out.println("nope nope");
         }
-
-        TextView nameTV = (TextView) findViewById(R.id.textView2);
-        nameTV.setTextSize(30);
-        nameTV.setText(curUser.getString("name"));
-
-        TextView phoneNumber = (TextView) findViewById(R.id.click);
-
-        SpannableString number = new SpannableString("111-111-111");
-        number.setSpan(new UnderlineSpan(), 0, number.length(), 0);
-        //emailTV.setText(curUser.getString("email"));
-        phoneNumber.setText(number);
-
-        TextView emailTV = (TextView) findViewById(R.id.textView3);
-        emailTV.setText(curUser.getString("email"));
-
-        TextView locationTV = (TextView) findViewById(R.id.textView);
-        locationTV.setText("Lives in Waterloo, Canada");
-
-        TextView skills = (TextView) findViewById(R.id.skillsets);
-        skills.setText("algorithms, math138, cs245, algebra");
-
-        RatingBar rating = (RatingBar) findViewById(R.id.rating);
-        rating.setRating(5);
-        // Replace this with number of skills later
-        int size = 1; // total number of TextViews to add*/
-
-      /*  TextView[] tv = new TextView[size];
-        TextView temp;
-
-        for (int i = 0; i < size; i++)
-        {
-            temp = new TextView(this);
-            // Replace this with actual skills later
-            temp.setText("algorithms, math138, cs245, algebra");
-            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-            linearLayout.addView(temp);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(10,10,20,10);
-            temp.setTextSize(30);
-            temp.setLayoutParams(params);
-            //temp.setBackgroundColor(Color.parseColor("CCFFCC"));
-            tv[i] = temp;
-        }*/
 
     }
 

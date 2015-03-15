@@ -15,9 +15,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -215,6 +217,21 @@ public class ViewPostActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
+        final String userID = post.getUser();
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("objectId", userID);
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> objects, ParseException e) {
+                if (e == null) {
+                    ParseObject user = objects.get(0);
+                    TextView userName = (TextView)findViewById(R.id.userName);
+                    userName.setText("   " + user.getString("name"));
+                } else {
+                    // Something went wrong.
+                }
+            }
+        });
+
         getReplies();
         titleTV.setText(post.getTitle());
 
@@ -341,6 +358,13 @@ public class ViewPostActivity extends ActionBarActivity {
         }
 
 
+    }
+
+    public void userProfile(View v) {
+        context = getApplicationContext();
+        Intent i = new Intent(context, ProfileActivity.class);
+        i.putExtra("id",  post.getUser());
+        startActivity(i);
     }
 
     @Override
