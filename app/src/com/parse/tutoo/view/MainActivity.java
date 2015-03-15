@@ -1,14 +1,8 @@
 package com.parse.tutoo.view;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-//import android.app.Activity;
-//import android.app.ActionBar.Tab;
-//import android.app.ActionBar;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,7 +11,12 @@ import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
 import com.parse.tutoo.util.TabListener;
 import com.parse.tutoo.view.fragment.CategoryListFragment;
+import com.parse.tutoo.view.fragment.MarketsFragment;
 import com.parse.tutoo.view.fragment.NotificationFragment;
+
+//import android.app.Activity;
+//import android.app.ActionBar.Tab;
+//import android.app.ActionBar;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -39,6 +38,11 @@ public class MainActivity extends ActionBarActivity {
         ActionBar.Tab tab = actionBar.newTab()
                 .setText(R.string.title_frag_category)
                 .setTabListener(new TabListener(this, "category", CategoryListFragment.class));
+        actionBar.addTab(tab);
+
+        tab = actionBar.newTab()
+                .setText(R.string.title_frag_markets)
+                .setTabListener(new TabListener(this, "markets", MarketsFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab()
