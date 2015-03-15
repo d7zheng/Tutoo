@@ -3,34 +3,29 @@ package com.parse.tutoo.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RatingBar;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.parse.*;
 import com.parse.tutoo.R;
-import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.Dispatcher;
 
 import java.util.List;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.graphics.Bitmap;
+import android.media.*;
+import android.provider.MediaStore.Images.Media;
+import java.io.*;
 
 public class ProfileActivity extends ActionBarActivity {
-
+    ParseUser curUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +66,28 @@ public class ProfileActivity extends ActionBarActivity {
             });
         }
 
-/*
-       // ParseUser curUser = ParseUser.getCurrentUser();
+
+        curUser = ParseUser.getCurrentUser();
+        try{
+            ParseFile profilePic = curUser.getParseFile("profile_pic");
+            byte[] data = profilePic.getData();
+
+            if (data != null) {
+
+                Bitmap bmp = BitmapFactory
+                        .decodeByteArray(data, 0, data.length);
+                ImageView pic;
+                pic = (ImageView) findViewById(R.id.imageView);
+                pic.setImageBitmap(bmp);
+
+            } else {
+                System.out.println("nope nope");
+            }
+        }catch (ParseException e){
+
+            System.out.println("nope nope");
+        }
+
         TextView nameTV = (TextView) findViewById(R.id.textView2);
         nameTV.setTextSize(30);
         nameTV.setText(curUser.getString("name"));
@@ -145,6 +160,41 @@ public class ProfileActivity extends ActionBarActivity {
         // Replace this with number of skills later
         int size = 1; // total number of TextViews to add
     }
+
+    public void selectProfilePicture(View v) {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 1);
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK)
+        {
+            Uri chosenImageUri = data.getData();
+
+            try {
+                Bitmap mBitmap = null;
+                mBitmap = Media.getBitmap(this.getContentResolver(), chosenImageUri);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                ParseFile bitMapPO = new ParseFile(stream.toByteArray());
+
+
+                curUser.put("profile_pic", bitMapPO);
+                curUser.save();
+            } catch (IOException ex) {
+                System.out.println("nope");
+            }catch (ParseException e)
+            {
+
+
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
