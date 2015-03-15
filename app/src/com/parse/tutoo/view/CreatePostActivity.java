@@ -209,4 +209,48 @@ public class CreatePostActivity extends ActionBarActivity {
         // Showing Alert Message
         alertDialog.show();
     }
+
+    public void attachPicture(View button) {
+        // Do click handling here
+        finish();
+
+        final EditText nameField = (EditText) findViewById(R.id.inputSearchEditText);
+        title = nameField.getText().toString();
+
+        final EditText emailField = (EditText) findViewById(R.id.inputTitle);
+        description = emailField.getText().toString();
+
+        final EditText skillSets = (EditText) findViewById(R.id.skillsets);
+        skillsets = skillSets.getText().toString();
+
+        if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+            location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+
+        final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
+        String category = feedbackSpinner.getSelectedItem().toString();
+        Category enumCategory = Category.valueOf(category);
+        //ParseObject testobject = new ParseObject("Test"); testobject.put("customerName", "John"); testobject.saveInBackground();
+
+        final Post userPost = new Post();
+        location = new Location("provider");
+        location.setLatitude(43.472285);
+        location.setLongitude(-80.544858);
+
+        userPost.setUser(ParseUser.getCurrentUser().getObjectId());
+        userPost.setTitle(title);
+        userPost.setDescription(description);
+        userPost.setCategory(enumCategory);
+        userPost.setSkills(skillsets);
+        userPost.setGeoPoints(location);
+
+        userPost.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        });
+
+    }
 }

@@ -70,18 +70,19 @@ public class ProfileActivity extends ActionBarActivity {
         curUser = ParseUser.getCurrentUser();
         try{
             ParseFile profilePic = curUser.getParseFile("profile_pic");
-            byte[] data = profilePic.getData();
+            if (profilePic != null) {
+                byte[] data = profilePic.getData();
+                if (data != null) {
 
-            if (data != null) {
+                    Bitmap bmp = BitmapFactory
+                            .decodeByteArray(data, 0, data.length);
+                    ImageView pic;
+                    pic = (ImageView) findViewById(R.id.imageView);
+                    pic.setImageBitmap(bmp);
 
-                Bitmap bmp = BitmapFactory
-                        .decodeByteArray(data, 0, data.length);
-                ImageView pic;
-                pic = (ImageView) findViewById(R.id.imageView);
-                pic.setImageBitmap(bmp);
-
-            } else {
-                System.out.println("nope nope");
+                } else {
+                    System.out.println("nope nope");
+                }
             }
         }catch (ParseException e){
 
