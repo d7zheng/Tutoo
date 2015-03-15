@@ -1,5 +1,6 @@
 package com.parse.tutoo.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -31,6 +32,7 @@ import java.util.Vector;
 
 public class ViewPostActivity extends ActionBarActivity {
 
+    Context context;
     private Post post;
     Vector<Reply> replyList = new Vector<Reply>();
 
@@ -107,7 +109,8 @@ public class ViewPostActivity extends ActionBarActivity {
         String replyMessage = replyET.getText().toString();
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        Reply reply = new Reply(currentUser.get("name").toString(), replyMessage, post.getPostId());
+        Reply reply = new Reply(currentUser.get("name").toString(), replyMessage, post.getPostId(),
+                                currentUser.getObjectId());
 
         reply.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
@@ -283,7 +286,7 @@ public class ViewPostActivity extends ActionBarActivity {
                 tempTV = new TextView(this);
 
 
-                Reply r = replyList.get(i);
+                final Reply r = replyList.get(i);
                 String user = r.getReplyOwnerId();
                 String description = r.getDescription();
 
@@ -293,6 +296,21 @@ public class ViewPostActivity extends ActionBarActivity {
                 tempTV.setTextColor(getResources().getColor(R.color.white_opaque));
                 tempTV.setBackgroundColor(R.drawable.border);
                 tempTV.setWidth(900);
+
+                tempTV.setClickable(true);
+                tempTV.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        context = getApplicationContext();
+                        Intent i = new Intent(context, ProfileActivity.class);
+                        i.putExtra("id",  r.getUserId());
+                        startActivity(i);
+                    }
+                });
+
+
                 //tempTV.setText("Tutor " + i);
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
                 tempLL.addView(tempTV);

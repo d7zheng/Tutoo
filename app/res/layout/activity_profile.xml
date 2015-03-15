@@ -22,7 +22,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/textView2"
             android:textSize="60px"
            android:layout_gravity="center"
@@ -42,7 +41,6 @@
             android:id="@+id/click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Click Me"
             android:textColor="@color/com_facebook_blue"
             android:textSize="50px"
             android:onClick="openMessaging"
@@ -53,7 +51,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:textSize="50px"
             android:id="@+id/textView3"
             android:layout_gravity="center"
@@ -63,7 +60,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:textSize="50px"
             android:id="@+id/textView"
             android:layout_gravity="center"
@@ -92,7 +88,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:textColor="#155758"
             android:textSize="50px"
             android:id="@+id/skillsets"

@@ -16,11 +16,17 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.Dispatcher;
+
+import java.util.List;
 
 
 public class ProfileActivity extends ActionBarActivity {
@@ -30,7 +36,43 @@ public class ProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        ParseUser curUser = ParseUser.getCurrentUser();
+        Bundle b = getIntent().getExtras();
+        if (b == null) {
+            displayProfile(ParseUser.getCurrentUser());
+        }
+        else {
+            String userID = b.getString("id");
+
+            /*
+            ParseQuery query = new ParseQuery("User");
+            query.whereEqualTo("objectId", userID);
+            try {
+                ParseObject user = query.getFirst();
+                displayProfile(user);
+            }
+            catch (com.parse.ParseException e) {
+                TextView nameTV = (TextView) findViewById(R.id.textView2);
+                nameTV.setTextSize(30);
+                nameTV.setText(e.getMessage());
+
+            }*/
+
+
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.whereEqualTo("objectId", userID);
+            query.findInBackground(new FindCallback<ParseUser>() {
+                public void done(List<ParseUser> objects, ParseException e) {
+                    if (e == null) {
+                        displayProfile(objects.get(0));
+                    } else {
+                        // Something went wrong.
+                    }
+                }
+            });
+        }
+
+/*
+       // ParseUser curUser = ParseUser.getCurrentUser();
         TextView nameTV = (TextView) findViewById(R.id.textView2);
         nameTV.setTextSize(30);
         nameTV.setText(curUser.getString("name"));
@@ -54,7 +96,7 @@ public class ProfileActivity extends ActionBarActivity {
         RatingBar rating = (RatingBar) findViewById(R.id.rating);
         rating.setRating(5);
         // Replace this with number of skills later
-        int size = 1; // total number of TextViews to add
+        int size = 1; // total number of TextViews to add*/
 
       /*  TextView[] tv = new TextView[size];
         TextView temp;
@@ -77,6 +119,32 @@ public class ProfileActivity extends ActionBarActivity {
 
     }
 
+    public void displayProfile(ParseObject user) {
+        TextView nameTV = (TextView) findViewById(R.id.textView2);
+        nameTV.setTextSize(30);
+        nameTV.setText(user.getString("name"));
+
+        TextView phoneNumber = (TextView) findViewById(R.id.click);
+
+        SpannableString number = new SpannableString("111-111-111");
+        number.setSpan(new UnderlineSpan(), 0, number.length(), 0);
+        //emailTV.setText(curUser.getString("email"));
+        phoneNumber.setText(number);
+
+        TextView emailTV = (TextView) findViewById(R.id.textView3);
+        emailTV.setText(user.getString("email"));
+
+        TextView locationTV = (TextView) findViewById(R.id.textView);
+        locationTV.setText("Lives in Waterloo, Canada");
+
+        TextView skills = (TextView) findViewById(R.id.skillsets);
+        skills.setText("algorithms, math138, cs245, algebra");
+
+        RatingBar rating = (RatingBar) findViewById(R.id.rating);
+        rating.setRating(5);
+        // Replace this with number of skills later
+        int size = 1; // total number of TextViews to add
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

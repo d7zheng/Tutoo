@@ -10,15 +10,18 @@ import com.parse.ParseUser;
 @ParseClassName("Reply")
 public class Reply extends ParseObject {
 
-    public Reply(String replyOwnerId, String description, String postId) {
+    public Reply(String replyOwnerId, String description, String postId, String userId) {
         put("replyOwnerId", replyOwnerId);
         put("description", description);
         put("postId",postId);
+        put("userId",userId);
     }
 
     public Reply() {
         super();
     }
+
+    public void setUserId(String userId) { put("userId", userId);}
 
     public void setReplyOwnerId(String replyOwnerId) { put("replyOwnerId", replyOwnerId);}
     public void setDescription(String description) {
@@ -32,6 +35,7 @@ public class Reply extends ParseObject {
     }
 
     public String getPostId () { return getString("postId");}
+    public String getUserId() { return getString("userId");}
 
     public String getReplyOwnerId() { return getString("replyOwnerId");}
 
