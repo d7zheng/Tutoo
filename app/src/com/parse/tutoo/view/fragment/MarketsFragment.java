@@ -54,8 +54,10 @@ public class MarketsFragment extends Fragment {
                                     int position, long id) {
 
                 Intent intent = new Intent(getActivity(), ListPostActivity.class);
-                String category = (String)parent.getItemAtPosition(position);
-                intent.putExtra("category", category);
+                String market = (String)parent.getItemAtPosition(position);
+
+                intent.putExtra("flag", "market");
+                intent.putExtra("market", market);
                 //i.putExtra("name_of_extra", myObject);
                 //intent.putExtra("post_id", String.valueOf(position));
                 startActivity(intent);

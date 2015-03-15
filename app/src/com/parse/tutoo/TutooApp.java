@@ -5,6 +5,7 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+import com.parse.tutoo.model.MarketPost;
 import com.parse.tutoo.model.Notification;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.Profile;
@@ -22,6 +23,7 @@ public class TutooApp extends Application {
 
         ParseObject.registerSubclass(Profile.class);
         ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(MarketPost.class);
         ParseObject.registerSubclass(Notification.class);
         ParseObject.registerSubclass(Reply.class);
 		

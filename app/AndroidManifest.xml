@@ -72,6 +72,11 @@
         </activity>
 
         <activity
+            android:name=".view.ViewMarketPostActivity"
+            android:label="@string/title_activity_viewpost" >
+        </activity>
+
+        <activity
             android:name=".view.StarterActivity"
             android:label="@string/title_activity_starter" >
             <intent-filter>

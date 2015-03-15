@@ -66,6 +66,7 @@ public class CategoryListFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity(), ListPostActivity.class);
                 String category = (String)parent.getItemAtPosition(position);
+                intent.putExtra("flag", "category");
                 intent.putExtra("category", category);
                 //i.putExtra("name_of_extra", myObject);
                 //intent.putExtra("post_id", String.valueOf(position));
