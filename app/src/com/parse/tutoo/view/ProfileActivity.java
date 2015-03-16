@@ -126,6 +126,10 @@ public class ProfileActivity extends ActionBarActivity {
 
                 curUser.put("profile_pic", bitMapPO);
                 curUser.save();
+
+                ImageView pic;
+                pic = (ImageView) findViewById(R.id.imageView);
+                pic.setImageBitmap(mBitmap);
             } catch (IOException ex) {
                 System.out.println("nope");
             }catch (ParseException e)
