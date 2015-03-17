@@ -17,6 +17,13 @@ public class Reply extends ParseObject {
         put("userId",userId);
     }
 
+    public Reply(String replyOwnerId, String description, String postId) {
+        put("replyOwnerId", replyOwnerId);
+        put("description", description);
+        put("postId",postId);
+    }
+
+
     public Reply() {
         super();
     }

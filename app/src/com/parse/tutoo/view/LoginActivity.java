@@ -82,7 +82,7 @@ public class LoginActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             Intent loggedInIntent = new Intent(LoginActivity.this, StarterActivity.class);
-            loggedInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            //loggedInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(loggedInIntent);
         }
     }

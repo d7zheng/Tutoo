@@ -95,6 +95,12 @@
             android:layout_gravity="center"
             android:layout_marginTop="4dp"/>
 
+        <Button
+            android:id="@+id/logout_button"
+            style="@style/ParseLoginUI.Button"
+            android:layout_marginTop="@dimen/com_parse_ui_large_vertical_spacing"
+            android:text="@string/profile_logout_button_label"/>
+
 
     </LinearLayout>
 

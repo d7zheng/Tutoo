@@ -14,6 +14,7 @@ import android.widget.*;
 import com.parse.*;
 import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
+import com.parse.ui.ParseLoginBuilder;
 
 import java.util.List;
 
@@ -100,6 +101,20 @@ public class ProfileActivity extends ActionBarActivity {
         rating.setRating(5);
         // Replace this with number of skills later
         int size = 1; // total number of TextViews to add
+
+        Button logout = (Button) findViewById(R.id.logout_button);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ParseUser.getCurrentUser()!= null) {
+                    // Log user out.
+                    ParseUser.logOut();
+                    // Launch starter activity.
+                    startActivity(new Intent(ProfileActivity.this, StarterActivity.class));
+                }
+            }
+        });
     }
 
     public void selectProfilePicture(View v) {
