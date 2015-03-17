@@ -53,26 +53,42 @@ public class ProfileActivity extends ActionBarActivity {
 
 
         curUser = ParseUser.getCurrentUser();
-        try{
-            ParseFile profilePic = curUser.getParseFile("profile_pic");
-            if (profilePic != null) {
-                byte[] data = profilePic.getData();
-                if (data != null) {
+            ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
+            if (profilePic != null) {/*
+                byte[] data = profilePic.getDataInBackground(new GetDataCallback() {
+                    public void done(byte[] data, com.parse.ParseException e) {
+                    if (data != null) {
 
-                    Bitmap bmp = BitmapFactory
-                            .decodeByteArray(data, 0, data.length);
-                    ImageView pic;
-                    pic = (ImageView) findViewById(R.id.imageView);
-                    pic.setImageBitmap(bmp);
+                        Bitmap bmp = BitmapFactory
+                                .decodeByteArray(data, 0, data.length);
+                        ImageView pic;
+                        pic = (ImageView) findViewById(R.id.imageView);
+                        pic.setImageBitmap(bmp);
 
-                } else {
-                    System.out.println("nope nope");
-                }
+                    } else {
+                        System.out.println("nope nope");
+                    }}
+                });
+                */
+                profilePic.getDataInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] data, ParseException e) {
+                        if (data != null) {
+
+                            Bitmap bmp = BitmapFactory
+                                    .decodeByteArray(data, 0, data.length);
+                            ImageView pic;
+                            pic = (ImageView) findViewById(R.id.imageView);
+                            pic.setImageBitmap(bmp);
+
+                        } else {
+                            System.out.println("nope nope");
+                        }
+                    }
+                });
+
             }
-        }catch (ParseException e){
 
-            System.out.println("nope nope");
-        }
 
     }
 
@@ -140,13 +156,13 @@ public class ProfileActivity extends ActionBarActivity {
 
 
                 curUser.put("profile_pic", bitMapPO);
-                curUser.save();
+                curUser.saveInBackground();
+
+                ImageView pic;
+                pic = (ImageView) findViewById(R.id.imageView);
+                pic.setImageBitmap(mBitmap);
             } catch (IOException ex) {
                 System.out.println("nope");
-            }catch (ParseException e)
-            {
-
-
             }
         }
     }

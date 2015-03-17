@@ -105,7 +105,7 @@ public class ViewMarketPostActivity extends ActionBarActivity {
         String replyMessage = replyET.getText().toString();
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        Reply reply = new Reply(currentUser.get("name").toString(), replyMessage, marketPost.getPostId());
+        Reply reply = new Reply(currentUser.get("name").toString(), replyMessage, marketPost.getPostId(),currentUser.getObjectId());
 
         reply.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
