@@ -15,19 +15,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Select tutor category"
+        android:text="Select Type"
         android:id="@+id/tutorCategory"
         android:layout_centerHorizontal="true" />
 
     <Spinner
         android:id="@+id/SpinnerFeedbackType"
         android:layout_height="wrap_content"
-        android:prompt="@string/title_frag_category"
+        android:spinnerMode="dropdown"
+        android:entries="@array/newPostSpinnerList"
+        android:prompt="@string/selectTypePrompt"
+        android:drawSelectorOnTop="true"
         android:layout_width="fill_parent"
-        android:entries="@array/CategoryList2"
         android:layout_below="@+id/tutorCategory"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
+    </Spinner>
+
+    <Spinner
+        android:id="@+id/SpinnerFeedbackSubType"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:entries="@array/CategoryList2"
+        android:layout_below="@+id/SpinnerFeedbackType"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5px">
     </Spinner>
 
 

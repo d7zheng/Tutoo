@@ -14,4 +14,10 @@
         <item>@string/category4</item>
         <item>@string/category5</item>
     </string-array>
+
+    <string-array name="newPostSpinnerList">
+        <item>@string/spinnerItem1Services</item>
+        <item>@string/spinnerItem2Markets</item>
+    </string-array>
+
 </resources>
