@@ -29,24 +29,16 @@
     <string name="title_frag_notification">Notification</string>
     <string name="title_frag_category">Service</string>
     <string name="title_frag_markets">Markets</string>
-<<<<<<< HEAD
-=======
     <string name="selectTypePrompt">select type</string>
 
->>>>>>> 7cedd956fb45d30671af42998057687337299e37
     <string name="search_hint">javascript</string>
     <string name="category1">All</string>
     <string name="category2">Interview</string>
     <string name="category3">CS</string>
     <string name="category4">Math</string>
     <string name="category5">Other</string>
-<<<<<<< HEAD
-=======
-
     <string name="spinnerItem1Services">Services</string>
     <string name="spinnerItem2Markets">Markets</string>
-
->>>>>>> 7cedd956fb45d30671af42998057687337299e37
     <string name="facebook_app_id">944237372260549</string>
     <string name="parse_app_id">3ejQC7KuCGG0X5Hhutq425jILxPPnqPsGvAi8PBl</string>
     <string name="parse_client_key">vbcon8StYQYTCDXVicoxHD2PEfpJponaveLgeoHW</string>
