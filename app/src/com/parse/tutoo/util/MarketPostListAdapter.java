@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.parse.tutoo.model.MarketPost;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -23,5 +25,11 @@ public class MarketPostListAdapter extends MenuListAdapter<MarketPost>{
     @Override
     public String getSecondLine(MarketPost obj) {
         return obj.getDescription();
+    }
+
+    @Override
+    public String getThirdLine(MarketPost obj) {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        return df.format(obj.getCreatedAt());
     }
 }

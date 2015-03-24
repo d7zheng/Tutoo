@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.parse.tutoo.model.Post;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,5 +26,12 @@ public class PostListAdapter extends MenuListAdapter<Post>{
     @Override
     public String getSecondLine(Post obj) {
         return obj.getDescription();
+    }
+
+    @Override
+    public String getThirdLine(Post obj) {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        Date date = obj.getCreatedAt();
+        return df.format(date);
     }
 }

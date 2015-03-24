@@ -57,6 +57,7 @@ public class MenuListAdapter<T> extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.firstLine = (TextView) convertView.findViewById(R.id.firstLine);
             viewHolder.secondLine = (TextView) convertView.findViewById(R.id.secondLine);
+            viewHolder.thirdLine = (TextView) convertView.findViewById(R.id.thirdLine);
             convertView.setTag(viewHolder);
         }
         else
@@ -67,7 +68,7 @@ public class MenuListAdapter<T> extends BaseAdapter {
         viewHolder.firstLine.setText(this.getFirstLine(obj));
         viewHolder.secondLine.setText(this.getSecondLine(obj));
         viewHolder.secondLine.setEllipsize(TextUtils.TruncateAt.END);
-
+        viewHolder.thirdLine.setText(this.getThirdLine(obj));
         return convertView;
     }
 
@@ -76,6 +77,10 @@ public class MenuListAdapter<T> extends BaseAdapter {
     }
 
     public String getSecondLine(T obj) {
+        return "";
+    }
+
+    public String getThirdLine(T obj) {
         return "";
     }
 }

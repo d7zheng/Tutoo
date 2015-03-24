@@ -29,8 +29,8 @@
                 >
                 <ImageView
                     android:id="@+id/poster"
-                    android:layout_width="50dip"
-                    android:layout_height="50dip"
+                    android:layout_width="60dip"
+                    android:layout_height="60dip"
                     android:src="@drawable/ic_action_person"
                     android:scaleType="centerCrop"/>
                 <LinearLayout
@@ -38,9 +38,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     >
-                    <TextView android:layout_height="wrap_content" android:id="@+id/titleTextView" android:text="" android:layout_width="fill_parent"></TextView>
-                    <TextView android:layout_height="wrap_content" android:id="@+id/userName" android:text="Name here" android:layout_width="fill_parent"></TextView>
-                    <TextView android:layout_height="wrap_content" android:id="@+id/titleTextView3" android:text="" android:layout_width="fill_parent"></TextView>
+                    <TextView android:layout_height="wrap_content" android:id="@+id/titleTextView"  android:layout_width="fill_parent"></TextView>
+                    <TextView android:layout_height="wrap_content" android:id="@+id/userName"  android:textSize="15sp"  android:layout_width="fill_parent"></TextView>
+                    <TextView android:layout_height="wrap_content" android:id="@+id/creationTime"
+                        android:text="test"
+                        android:textSize="12sp"
+                        android:layout_width="fill_parent"></TextView>
                 </LinearLayout>
             </LinearLayout>
 

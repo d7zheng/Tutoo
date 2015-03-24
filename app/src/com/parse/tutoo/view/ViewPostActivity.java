@@ -29,6 +29,8 @@ import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.Reply;
 import com.parse.tutoo.util.Dispatcher;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Vector;
 
@@ -228,6 +230,9 @@ public class ViewPostActivity extends ActionBarActivity {
                 }
             }
         });
+        TextView createdDate = (TextView)findViewById(R.id.creationTime);
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        createdDate.setText("   " + df.format(post.getCreatedAt()));
 
         getReplies();
         titleTV.setText(post.getTitle());
@@ -262,7 +267,8 @@ public class ViewPostActivity extends ActionBarActivity {
         }
 
 
-        if (isOwner) {
+        /*if (owner) {
+>>>>>>> Stashed changes
             RadioButton[] tv = new RadioButton[size];
             RadioButton temp;
 
@@ -287,20 +293,28 @@ public class ViewPostActivity extends ActionBarActivity {
                 addListenerSelectTutor(temp, user);
             }
         } else {
-            TextView[] tv = new TextView[size];
+            */TextView[] tv = new TextView[size];
             TextView tempTV;
+            TextView date;
+            TextView userName;
 
             LinearLayout[] ll = new LinearLayout[size];
             LinearLayout tempLL;
             boolean userOwnsThisReply = false;
             for (int i = 0; i < size; i++) {
                 tempLL = new LinearLayout(this);
-                tempLL.setOrientation(LinearLayout.HORIZONTAL);
-
+                tempLL.setOrientation(LinearLayout.VERTICAL);
+                date = new TextView(this);
                 tempTV = new TextView(this);
 
 
                 final Reply r = replyList.get(i);
+                DateFormat dateF = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+                date.setText(dateF.format(r.getCreatedAt()));
+                date.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
+                date.setTextColor(getResources().getColor(R.color.primary_text_default_material_light));
+                date.setWidth(600);
+
                 String user = r.getReplyOwnerId();
                 String description = r.getDescription();
 
@@ -309,7 +323,7 @@ public class ViewPostActivity extends ActionBarActivity {
                 tempTV.setText(user + ": " +description);
                 tempTV.setTextColor(getResources().getColor(R.color.green_opaque));
                 tempTV.setBackgroundColor(R.drawable.border);
-                tempTV.setWidth(900);
+               // tempTV.setWidth(900);
 
                 tempTV.setClickable(true);
                 tempTV.setOnClickListener(new View.OnClickListener() {
@@ -327,7 +341,9 @@ public class ViewPostActivity extends ActionBarActivity {
 
                 //tempTV.setText("Tutor " + i);
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
+                tempLL.addView(date);
                 tempLL.addView(tempTV);
+
                 linearLayout.addView(tempLL);
                 if (i == 0) {
                     userOwnsThisReply = true;
@@ -337,7 +353,7 @@ public class ViewPostActivity extends ActionBarActivity {
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(80, 10, 20, 10);
+                params.setMargins(0, 0, 0, 30);
                 tempTV.setTextSize(20);
                 tempTV.setLayoutParams(params);
                 //TODO: Color? temp.setBackgroundColor(Color.parseColor("CCFFCC"));
@@ -347,12 +363,10 @@ public class ViewPostActivity extends ActionBarActivity {
         }
 
 
-    }
-
     public void userProfile(View v) {
         context = getApplicationContext();
         Intent i = new Intent(context, ProfileActivity.class);
-        i.putExtra("id",  post.getUser());
+        i.putExtra("id", post.getUser());
         startActivity(i);
     }
 

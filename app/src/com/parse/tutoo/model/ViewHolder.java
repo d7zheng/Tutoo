@@ -9,4 +9,5 @@ public class ViewHolder
 {
     public TextView firstLine;
     public TextView secondLine;
+    public TextView thirdLine;
 }

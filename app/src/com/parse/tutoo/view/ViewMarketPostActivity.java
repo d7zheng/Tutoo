@@ -1,5 +1,6 @@
 package com.parse.tutoo.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,7 +15,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -24,11 +27,13 @@ import com.parse.tutoo.model.Notification;
 import com.parse.tutoo.model.Reply;
 import com.parse.tutoo.util.Dispatcher;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Vector;
 
 public class ViewMarketPostActivity extends ActionBarActivity {
-
+    Context context;
     private MarketPost marketPost;
     Vector<Reply> replyList = new Vector<Reply>();
 
@@ -98,6 +103,13 @@ public class ViewMarketPostActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
+    }
+
+    public void userProfileMarket(View v) {
+        context = getApplicationContext();
+        Intent i = new Intent(context, ProfileActivity.class);
+        i.putExtra("id",  marketPost.getUser());
+        startActivity(i);
     }
 
     public void replyAction(View button){
@@ -209,6 +221,24 @@ public class ViewMarketPostActivity extends ActionBarActivity {
         catch (com.parse.ParseException e) {
             e.printStackTrace();
         }
+
+        final String userID = marketPost.getUser();
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("objectId", userID);
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> objects, ParseException e) {
+                if (e == null) {
+                    ParseObject user = objects.get(0);
+                    TextView userName = (TextView)findViewById(R.id.userName);
+                    userName.setText("   " + user.getString("name"));
+                } else {
+                    // Something went wrong.
+                }
+            }
+        });
+        TextView createdDate = (TextView)findViewById(R.id.creationTime);
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        createdDate.setText("   " + df.format(marketPost.getCreatedAt()));
 
         getReplies();
         titleTV.setText(marketPost.getTitle());
