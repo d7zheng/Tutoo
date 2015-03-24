@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="AppBaseTheme">
-        <item name="android:background">@color/white_opaque</item>
-        <item name="android:windowBackground">@color/white_opaque</item>
-        <item name="android:colorBackground">@color/white_opaque</item>
+    <!--<style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:background">@color/material_deep_teal_500</item>
+        <item name="android:windowBackground">@color/background_material_light</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
-    </style>
+    </style>-->
 </resources>

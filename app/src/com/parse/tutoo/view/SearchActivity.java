@@ -109,6 +109,7 @@ public class SearchActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_list_view);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context = getApplicationContext();
         handleIntent(getIntent());
     }

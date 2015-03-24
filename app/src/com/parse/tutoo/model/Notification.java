@@ -9,6 +9,8 @@ import com.parse.ParseObject;
 @ParseClassName("Notification")
 public class Notification extends ParseObject {
 
+    public static final int recencyDayLimit = 1;
+
     public enum notificationType {
         REPLY,
         SELECTED
@@ -23,6 +25,7 @@ public class Notification extends ParseObject {
         put("toUser", to);
         put("type", type.toString());
         put("postId", postId);
+        put("checked", false);
     }
 
     // The user that the notification is from
@@ -59,7 +62,8 @@ public class Notification extends ParseObject {
         put("postId",id);
     }
 
-    public void play() {
-        // Ah, that takes me back!
-    }
+    // Checked
+    public boolean isChecked() { return getBoolean("checked");}
+    public void setChecked(boolean checked) { put("checked", checked);}
+
 }

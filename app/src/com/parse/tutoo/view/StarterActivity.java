@@ -25,4 +25,12 @@ public class StarterActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Stop the start activity as soon as it goes out of view
+        finish();
+    }
+
 }

@@ -1,19 +1,25 @@
 <resources>
 
     <!-- Base application theme. -->
-    <color name="white_opaque">#93c87c</color>
+    <color name="green_opaque">#93c87c</color>
     <color name="pitch_black">#FF000000</color>
 
-    <style name="ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/ab_solid</item>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:background">@color/primary_material_light</item>
+        <item name="android:windowBackground">@color/background_material_light</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
+        <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
+        <item name="android:colorPrimary">@color/material_deep_teal_500</item>
+        <item name="colorPrimary">@color/material_deep_teal_500</item>
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
-        <item name="android:background">@color/white_opaque</item>
-        <item name="android:windowBackground">@color/white_opaque</item>
-        <item name="android:colorBackground">@color/white_opaque</item>
-        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+    <style name="AppTheme.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/pitch_black</item>
+        <item name="background">@color/pitch_black</item>
+        <item name="android:typeface">serif</item>
     </style>
+
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--

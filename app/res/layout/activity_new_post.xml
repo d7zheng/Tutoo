@@ -1,3 +1,8 @@
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -37,7 +42,7 @@
         android:inputType="textMultiLine"
         android:lines="2"
         android:background="@drawable/edit_text_style"
-        android:layout_above="@+id/inputTitle"
+        android:layout_below="@+id/SpinnerFeedbackType"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -46,11 +51,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ellipsize="start"
-        android:gravity="center|left"
         android:hint="  Description"
         android:inputType="textMultiLine"
         android:lines="5"
         android:background="@drawable/edit_text_style"
+        android:layout_below="@id/inputSearchEditText"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -70,14 +75,69 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+   <RelativeLayout
+        android:id="@+id/datetimepicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:layout_below="@id/skillsets">
+       <TextView
+           android:id="@+id/startdate"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:textAppearance="?android:attr/textAppearanceSmall"
+           android:text="Time Availability Range:" />
+       <Button
+            android:id="@+id/datepicker1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text=""
+            android:layout_below="@id/startdate"
+            android:layout_centerVertical="true"
+            android:onClick="showDatePickerDialog" />
+       <Button
+            android:id="@+id/timepicker1"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/datepicker1"
+            android:text=""
+            android:layout_centerVertical="true"
+            android:onClick="showTimePickerDialog" />
+       <TextView
+           android:id="@+id/todate"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textAppearance="?android:attr/textAppearanceMedium"
+           android:text=" - "
+           android:layout_centerVertical="true"
+           android:layout_centerHorizontal="true"/>
+       <Button
+           android:id="@+id/timepicker2"
+           android:layout_width="60dp"
+           android:layout_height="wrap_content"
+           android:text=""
+           android:layout_centerVertical="true"
+           android:layout_alignParentRight="true"
+           android:onClick="showTimePickerDialog" />
+       <Button
+           android:id="@+id/datepicker2"
+           android:layout_width="100dp"
+           android:layout_height="wrap_content"
+           android:text=""
+           android:layout_toLeftOf="@id/timepicker2"
+           android:layout_centerVertical="true"
+           android:onClick="showDatePickerDialog" />
+    </RelativeLayout>
+
     <CheckBox android:id="@+id/enable_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enable location"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:onClick="onCheckboxClicked"
         android:enabled="true"
-        android:layout_below="@+id/skillsets"
+        android:layout_below="@+id/datetimepicker"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -107,3 +167,4 @@
         </RelativeLayout>
 
 </RelativeLayout>
+</ScrollView>

@@ -1,6 +1,8 @@
 package com.parse.tutoo.view;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,14 +11,18 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -26,6 +32,10 @@ import com.parse.tutoo.model.Category;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.State;
 import com.parse.tutoo.util.Dispatcher;
+import com.parse.tutoo.view.fragment.DatePickerFragment;
+import com.parse.tutoo.view.fragment.TimePickerFragment;
+
+import java.util.Calendar;
 
 
 public class CreatePostActivity extends ActionBarActivity {
@@ -43,9 +53,43 @@ public class CreatePostActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         this.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context = getApplicationContext();
         manager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE );
         setContentView(R.layout.activity_new_post);
+        setCurrentDateOnView();
+    }
+
+
+    private void setDateOnButton(Button b, int year, int month, int day) {
+        b.setText(new StringBuilder()
+                .append(year).append("-")
+                // Month is 0 based, just add 1
+                .append(month + 1).append("-")
+                .append(day).append(" "));
+        b.setTextAppearance(this, android.R.attr.textAppearanceSmall );
+    }
+
+    private void setTimeOnButton(Button b, int hour, int minute) {
+        b.setText( new StringBuilder().append(hour)
+                .append(":").append(minute));
+        b.setTextAppearance(this, android.R.attr.textAppearanceSmall );
+    }
+
+    private void setCurrentDateOnView() {
+        Button datepicker1Display = (Button) findViewById(R.id.datepicker1);
+        Button timepicker1Display = (Button) findViewById(R.id.timepicker1);
+
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        // set current date time into textview
+        setDateOnButton(datepicker1Display, year, month, day);
+        setTimeOnButton(timepicker1Display, hour, minute);
     }
 
 
@@ -96,13 +140,8 @@ public class CreatePostActivity extends ActionBarActivity {
         final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
         String category = feedbackSpinner.getSelectedItem().toString();
         Category enumCategory = Category.valueOf(category);
-        //ParseObject testobject = new ParseObject("Test"); testobject.put("customerName", "John"); testobject.saveInBackground();
 
         final Post userPost = new Post();
-        location = new Location("provider");
-        location.setLatitude(43.472285);
-        location.setLongitude(-80.544858);
-
         userPost.setUser(ParseUser.getCurrentUser().getObjectId());
         userPost.setTitle(title);
         userPost.setDescription(description);
@@ -117,37 +156,43 @@ public class CreatePostActivity extends ActionBarActivity {
                 }
             }
         });
-       /* new AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(description)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();*/
+    }
 
+    public void showDatePickerDialog(final View v) {
+        DatePickerDialog.OnDateSetListener dpListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                setDateOnButton((Button) v,year,monthOfYear,dayOfMonth);
+            }
+        };
+        DatePickerFragment dpFragment = DatePickerFragment.newInstance(dpListener);
+        dpFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void showTimePickerDialog(final View v) {
+        TimePickerDialog.OnTimeSetListener tpListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                setTimeOnButton((Button) v, hourOfDay, minute);
+            }
+        };
+        TimePickerFragment tpFragment = TimePickerFragment.newInstance(tpListener);
+        tpFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
+
         // get user location
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);;
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            // show alert
+            showSettingsAlert();
+        }
+        location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        //CustomLocationManager customLocationManager = new CustomLocationManager(context);
-        //if (!customLocationManager.isEnable()) {
-        // show alert
-        //showSettingsAlert();
-        //}
-
-
-        if (location == null && State.getCount() == 0) {
+        if (checked) {
         // if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {}
@@ -164,14 +209,9 @@ public class CreatePostActivity extends ActionBarActivity {
                 }
 
             };
-            location = new Location("dummyprovider");
-            location.setLatitude(43.472285);
-            location.setLongitude(-80.544858);
-            showSettingsAlert();
-
-            //location = new Location(43.472285, -80.544858);
         } else {
             // store location
+            System.out.println("Location=" + location);
             //System.out.println("Location=" + location.getAltitude());
             //location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
@@ -182,7 +222,7 @@ public class CreatePostActivity extends ActionBarActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         // Setting Dialog Title
-        alertDialog.setTitle("GPS is settings");
+        alertDialog.setTitle("GPS settings");
 
         // Setting Dialog Message
         alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
@@ -230,13 +270,8 @@ public class CreatePostActivity extends ActionBarActivity {
         final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
         String category = feedbackSpinner.getSelectedItem().toString();
         Category enumCategory = Category.valueOf(category);
-        //ParseObject testobject = new ParseObject("Test"); testobject.put("customerName", "John"); testobject.saveInBackground();
 
         final Post userPost = new Post();
-        location = new Location("provider");
-        location.setLatitude(43.472285);
-        location.setLongitude(-80.544858);
-
         userPost.setUser(ParseUser.getCurrentUser().getObjectId());
         userPost.setTitle(title);
         userPost.setDescription(description);

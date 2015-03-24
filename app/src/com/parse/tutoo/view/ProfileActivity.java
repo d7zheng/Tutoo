@@ -32,6 +32,8 @@ public class ProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Bundle b = getIntent().getExtras();
         if (b == null) {
             displayProfile(ParseUser.getCurrentUser());
@@ -46,6 +48,7 @@ public class ProfileActivity extends ActionBarActivity {
                         displayProfile(objects.get(0));
                     } else {
                         // Something went wrong.
+                        System.out.println(e.getMessage());
                     }
                 }
             });
@@ -82,12 +85,14 @@ public class ProfileActivity extends ActionBarActivity {
                             pic.setImageBitmap(bmp);
 
                         } else {
-                            System.out.println("nope nope");
+                            System.out.println("No profile data found.");
                         }
                     }
                 });
 
             }
+
+
 
 
     }
@@ -118,17 +123,26 @@ public class ProfileActivity extends ActionBarActivity {
         // Replace this with number of skills later
         int size = 1; // total number of TextViews to add
 
+        Button calendar = (Button) findViewById(R.id.calendar_button);
+
         Button logout = (Button) findViewById(R.id.logout_button);
+
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, CalendarActivity.class));
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ParseUser.getCurrentUser()!= null) {
-                    // Log user out.
-                    ParseUser.logOut();
-                    // Launch starter activity.
-                    startActivity(new Intent(ProfileActivity.this, StarterActivity.class));
-                }
+            if (ParseUser.getCurrentUser()!= null) {
+                // Log user out.
+                ParseUser.logOut();
+                // Launch starter activity.
+                startActivity(new Intent(ProfileActivity.this, StarterActivity.class));
+            }
             }
         });
     }
@@ -161,8 +175,8 @@ public class ProfileActivity extends ActionBarActivity {
                 ImageView pic;
                 pic = (ImageView) findViewById(R.id.imageView);
                 pic.setImageBitmap(mBitmap);
-            } catch (IOException ex) {
-                System.out.println("nope");
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
             }
         }
     }

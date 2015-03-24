@@ -288,7 +288,7 @@ public class ViewMarketPostActivity extends ActionBarActivity {
 
 
                 tempTV.setText(user + ": " +description);
-                tempTV.setTextColor(getResources().getColor(R.color.white_opaque));
+                tempTV.setTextColor(getResources().getColor(R.color.green_opaque));
                 tempTV.setBackgroundColor(R.drawable.border);
                 tempTV.setWidth(900);
                 //tempTV.setText("Tutor " + i);

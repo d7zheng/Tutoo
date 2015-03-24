@@ -22,6 +22,8 @@ import com.parse.tutoo.util.TestData;
 import com.parse.tutoo.view.ViewPostActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,25 +59,31 @@ public class NotificationFragment extends Fragment {
 
         //adapter = new MenuListAdapter(notifications, getActivity());
 
-        // Mock up Data
-        /*TestData testData = new TestData();
-        notifications = testData.getNotificationData();
-        ParseUser user = ParseUser.getCurrentUser();
-        for (int i = 0; i < notifications.size(); ++i) {
-            Notification note = notifications.get(i);
-            if (user.getObjectId().equals(note.getToUser())) {
-                list.add(notifications.get(i));
-            }
-        }*/
+        // Query for new notifications
+        ParseQuery unchecked = new ParseQuery("Notification");
+        unchecked.whereEqualTo("toUser", ParseUser.getCurrentUser().getObjectId());
+        unchecked.whereEqualTo("checked", false);
 
-        ParseQuery query = new ParseQuery("Notification");
-        query.whereEqualTo("toUser", ParseUser.getCurrentUser().getObjectId());
+        // Query for recent notification
+        ParseQuery recent = new ParseQuery("Notification");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DAY_OF_YEAR,-Notification.recencyDayLimit);
+        Date recentDate = cal.getTime();
+        recent.whereGreaterThan("updatedAt", recentDate);
+
+        // List of queries
+        List<ParseQuery<Notification>> queryList = new ArrayList<ParseQuery<Notification>>();
+        queryList.add(unchecked);
+        queryList.add(recent);
+
+        // Combine the queries using OR
+        ParseQuery query = ParseQuery.or(queryList);
         query.orderByAscending("createdAt");
         if (list.size() == 0) {
             try {
                 notifications = query.find();
                 for (int i = 0; i < notifications.size(); i++) {
-                    System.out.println(i);
                     Notification note = (Notification) notifications.get(i);
                     list.add(note);
                 }
@@ -94,9 +102,12 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                Notification note = notifications.get(position);
                 Intent intent = new Intent(context, ViewPostActivity.class);;
-                intent.putExtra("post_id", notifications.get(position).getPostId());
+                intent.putExtra("post_id", note.getPostId());
                 startActivity(intent);
+                note.setChecked(true);
+                note.saveInBackground();
             }
         });
 

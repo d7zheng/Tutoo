@@ -8,4 +8,8 @@
             backward-compatibility can go here.
         -->
     </style>
+
+    <!--<style name="AppTheme" parent="android:Theme.Material">-->
+        <!-- theme customizations -->
+    <!--</style>-->
 </resources>

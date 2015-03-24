@@ -119,7 +119,6 @@ public class ViewPostActivity extends ActionBarActivity {
                 if (e != null) {
                     System.out.println(e.getMessage());
                 } else {
-                    //System.out.println("HELLO TEST");
                     replyET.setText("");
                 }
             }
@@ -153,7 +152,6 @@ public class ViewPostActivity extends ActionBarActivity {
             }
 
         });
-
     }
 
 
@@ -170,7 +168,6 @@ public class ViewPostActivity extends ActionBarActivity {
         });
 
     }
-
 
 
     @Override
@@ -247,11 +244,11 @@ public class ViewPostActivity extends ActionBarActivity {
         int size = replyList.size();//replyList.size(); // total number of TextViews to add
 
         //TODO: check if current user is the owner of the post, if yes display radio buttons
-        boolean owner = false;
-
+        String currentUser = ParseUser.getCurrentUser().getObjectId();
+        boolean isOwner = userID.equals(currentUser);
 
         // Hiding stuff according to user role
-        if (owner) {
+        if (isOwner) {
             LinearLayout replyLL = (LinearLayout) findViewById(R.id.linearLayout3);
             replyLL.setVisibility(View.GONE);
             //addListenerSelectTutor();
@@ -265,7 +262,7 @@ public class ViewPostActivity extends ActionBarActivity {
         }
 
 
-        if (owner) {
+        if (isOwner) {
             RadioButton[] tv = new RadioButton[size];
             RadioButton temp;
 
@@ -310,7 +307,7 @@ public class ViewPostActivity extends ActionBarActivity {
 
 
                 tempTV.setText(user + ": " +description);
-                tempTV.setTextColor(getResources().getColor(R.color.white_opaque));
+                tempTV.setTextColor(getResources().getColor(R.color.green_opaque));
                 tempTV.setBackgroundColor(R.drawable.border);
                 tempTV.setWidth(900);
 
@@ -337,14 +334,6 @@ public class ViewPostActivity extends ActionBarActivity {
                 } else {
                     userOwnsThisReply = false;
                 }
-                /*
-                if (userOwnsThisReply) {
-                    Button editReplyB = new Button(this);
-                    editReplyB.setText("Edit Reply");
-                    tempLL.addView(editReplyB);
-
-                }*/
-
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
