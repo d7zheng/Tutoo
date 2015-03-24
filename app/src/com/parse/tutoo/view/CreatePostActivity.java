@@ -226,6 +226,7 @@ public class CreatePostActivity extends ActionBarActivity {
                     }
                 }
             });
+
         } else if (feedbackSpinner.getSelectedItem().toString().equals(getString(R.string.spinnerItem2Markets))) {
             String market = feedbackSubSpinner.getSelectedItem().toString();
             Market enumMarket = Market.valueOf(market);
@@ -245,8 +246,8 @@ public class CreatePostActivity extends ActionBarActivity {
                         System.out.println(e.getMessage());
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void showDatePickerDialog(final View v) {
