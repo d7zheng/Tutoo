@@ -55,6 +55,7 @@ public class CreatePostActivity extends ActionBarActivity {
     private Location location;
     private LocationManager manager;
     private boolean isFirst = true;
+    private boolean locationEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,7 +192,7 @@ public class CreatePostActivity extends ActionBarActivity {
         // Do click handling here
         finish();
 
-        final EditText nameField = (EditText) findViewById(R.id.inputSearchEditText);
+        final EditText nameField = (EditText) findViewById(R.id.inputTitle);
         title = nameField.getText().toString();
 
         final EditText emailField = (EditText) findViewById(R.id.inputTitle);
@@ -201,7 +202,12 @@ public class CreatePostActivity extends ActionBarActivity {
         final EditText skillSets = (EditText) findViewById(R.id.skillsets);
         skillsets = skillSets.getText().toString();
 
-        if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+        boolean isGPSEnabled = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (isNetworkEnabled) {
+            location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        } else if (isGPSEnabled) {
             location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
 
@@ -217,8 +223,9 @@ public class CreatePostActivity extends ActionBarActivity {
             userPost.setDescription(description);
             userPost.setCategory(enumCategory);
             userPost.setSkills(skillsets);
-            userPost.setGeoPoints(location);
-
+            if (locationEnabled) {
+                userPost.setGeoPoints(location);
+            }
             userPost.saveInBackground(new SaveCallback() {
                 public void done(ParseException e) {
                     if (e != null) {
@@ -238,7 +245,9 @@ public class CreatePostActivity extends ActionBarActivity {
             userPost.setDescription(description);
             userPost.setMarket(enumMarket);
             //userPost.setTags(tags);
-            userPost.setGeoPoints(location);
+            if (locationEnabled) {
+                userPost.setGeoPoints(location);
+            }
 
             userPost.saveInBackground(new SaveCallback() {
                 public void done(ParseException e) {
@@ -274,39 +283,17 @@ public class CreatePostActivity extends ActionBarActivity {
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
+        locationEnabled = ((CheckBox) view).isChecked();
 
         // get user location
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);;
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        boolean isGPSEnabled = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if ((!isGPSEnabled) && (!isNetworkEnabled)) {
             // show alert
             showSettingsAlert();
         }
-        location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        if (checked) {
-        // if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            LocationListener locationListener = new LocationListener() {
-                public void onLocationChanged(Location location) {}
-
-                public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-                public void onProviderEnabled(String provider) {
-                    location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    System.out.println("Location is " + location.getAltitude());
-                }
-
-                public void onProviderDisabled(String provider) {
-
-                }
-
-            };
-        } else {
-            // store location
-            System.out.println("Location=" + location);
-            //System.out.println("Location=" + location.getAltitude());
-            //location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }
+        System.out.println(location);
     }
 
     public void showSettingsAlert(){
@@ -346,7 +333,7 @@ public class CreatePostActivity extends ActionBarActivity {
         // Do click handling here
         finish();
 
-        final EditText nameField = (EditText) findViewById(R.id.inputSearchEditText);
+        final EditText nameField = (EditText) findViewById(R.id.inputTitle);
         title = nameField.getText().toString();
 
         final EditText emailField = (EditText) findViewById(R.id.inputTitle);

@@ -72,14 +72,12 @@ public class Post extends ParseObject {
     public String getPostId () { return getObjectId();}
 
     public void setGeoPoints(Location location) {
-        ParseGeoPoint point = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-        /*
-            ParseGeoPoint point = new ParseGeoPoint(30.0, -20.0);
-            ParseObject object = new ParseObject("PlaceObject");
-            object.put("location", point);
-            object.save();
-         */
-        put("location", point);
+        if (location == null) {
+            put ("location", null);
+        } else {
+            ParseGeoPoint point = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+            put("location", point);
+        }
     }
 
     public Category getCategory () {
