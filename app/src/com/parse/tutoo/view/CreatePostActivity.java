@@ -202,14 +202,7 @@ public class CreatePostActivity extends ActionBarActivity {
         final EditText skillSets = (EditText) findViewById(R.id.skillsets);
         skillsets = skillSets.getText().toString();
 
-        boolean isGPSEnabled = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-        if (isNetworkEnabled) {
-            location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        } else if (isGPSEnabled) {
-            location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }
 
         final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
         final Spinner feedbackSubSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackSubType);
@@ -223,8 +216,9 @@ public class CreatePostActivity extends ActionBarActivity {
             userPost.setDescription(description);
             userPost.setCategory(enumCategory);
             userPost.setSkills(skillsets);
-            if (locationEnabled) {
-                userPost.setGeoPoints(location);
+            if ((locationEnabled) && (isNetworkEnabled)) {
+                    location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    userPost.setGeoPoints(location);
             }
             userPost.saveInBackground(new SaveCallback() {
                 public void done(ParseException e) {
@@ -244,11 +238,10 @@ public class CreatePostActivity extends ActionBarActivity {
             userPost.setTitle(title);
             userPost.setDescription(description);
             userPost.setMarket(enumMarket);
-            //userPost.setTags(tags);
-            if (locationEnabled) {
-                userPost.setGeoPoints(location);
+            if ((locationEnabled) && (isNetworkEnabled)) {
+                    location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    userPost.setGeoPoints(location);
             }
-
             userPost.saveInBackground(new SaveCallback() {
                 public void done(ParseException e) {
                     if (e != null) {
@@ -286,14 +279,11 @@ public class CreatePostActivity extends ActionBarActivity {
         locationEnabled = ((CheckBox) view).isChecked();
 
         // get user location
-        boolean isGPSEnabled = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if ((!isGPSEnabled) && (!isNetworkEnabled)) {
+        if (!isNetworkEnabled) {
             // show alert
             showSettingsAlert();
         }
-
-        System.out.println(location);
     }
 
     public void showSettingsAlert(){
@@ -301,10 +291,10 @@ public class CreatePostActivity extends ActionBarActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         // Setting Dialog Title
-        alertDialog.setTitle("GPS settings");
+        alertDialog.setTitle("Location settings");
 
         // Setting Dialog Message
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+        alertDialog.setMessage("Location is not enabled. Do you want to go to settings menu?");
 
         // Setting Icon to Dialog
         //alertDialog.setIcon(R.drawable.delete);
@@ -342,8 +332,8 @@ public class CreatePostActivity extends ActionBarActivity {
         final EditText skillSets = (EditText) findViewById(R.id.skillsets);
         skillsets = skillSets.getText().toString();
 
-        if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
-            location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (manager.isProviderEnabled( LocationManager.NETWORK_PROVIDER)) {
+            location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
 
         final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);

@@ -1,23 +1,34 @@
 <resources>
 
     <!-- Base application theme. -->
-    <color name="green_opaque">#93c87c</color>
-    <color name="pitch_black">#FF000000</color>
-
     <style name="AppTheme" parent="AppBaseTheme">
-        <item name="android:background">@color/primary_material_light</item>
-        <item name="android:windowBackground">@color/background_material_light</item>
-        <item name="android:colorBackground">@color/background_material_light</item>
+        <!--<item name="colorPrimary">@color/material_blue_grey_950</item>
+        <item name="colorPrimaryDark">@color/material_deep_teal_200</item>
+        <item name="colorAccent">@color/material_deep_teal_500</item>-->
         <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
+
+        <!-- Support Library Compatibility -->
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
-        <item name="android:colorPrimary">@color/material_deep_teal_500</item>
-        <item name="colorPrimary">@color/material_deep_teal_500</item>
     </style>
 
     <style name="AppTheme.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/pitch_black</item>
-        <item name="background">@color/pitch_black</item>
-        <item name="android:typeface">serif</item>
+        <item name="android:background">@color/ab_green</item>
+        <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleText</item>
+        <!--<item name="android:homeAsUpIndicator">@color/material_blue_grey_900</item>-->
+        <item name="backgroundStacked">@color/ab_green_stacked</item>
+
+        <!-- Support Library Compatibility -->
+        <item name="background">@color/ab_green</item>
+        <!--<item name="homeAsUpIndicator">@color/material_blue_grey_900</item>-->
+        <item name="titleTextStyle">@style/AppTheme.ActionBar.TitleText</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.TitleText"
+        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/material_blue_grey_900</item>
+
+        <!-- Support Library Compatibility -->
+        <item name="textColor">@color/material_blue_grey_900</item>
     </style>
 
 
