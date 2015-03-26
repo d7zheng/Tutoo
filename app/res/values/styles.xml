@@ -25,10 +25,10 @@
 
     <style name="AppTheme.ActionBar.TitleText"
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/material_blue_grey_900</item>
+        <!--<item name="android:textColor">@color/material_blue_grey_900</item>-->
 
         <!-- Support Library Compatibility -->
-        <item name="textColor">@color/material_blue_grey_900</item>
+        <!--<item name="textColor">@color/material_blue_grey_900</item>-->
     </style>
 
 

@@ -4,7 +4,7 @@
     <color name="grey" type="color">#555555</color>
     <color name="green" type="color">#4499CC00</color>
     <color name="darkgreen" type="color">#FF669900</color>
-    <color name="black" type="color">#FFFFFFFF</color>
+    <color name="white" type="color">#FFFFFFF0</color>
     <color name="green_opaque">#93c87c</color>
     <color name="pitch_black">#FF000000</color>
     <color name="ab_green">#14a804</color>

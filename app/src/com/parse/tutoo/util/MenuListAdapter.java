@@ -8,10 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
 import com.parse.tutoo.R;
-import com.parse.tutoo.model.Post;
-import com.parse.tutoo.model.ViewHolder;
 
 import java.util.List;
 
@@ -19,6 +16,14 @@ import java.util.List;
  * Created by hilary on 25/02/2015.
  */
 public class MenuListAdapter<T> extends BaseAdapter {
+
+    private class ViewHolder
+    {
+        public TextView firstLine;
+        public TextView secondLine;
+        public TextView thirdLine;
+    }
+
     private List<T> objs;
     private Context context = null;
 
@@ -50,7 +55,8 @@ public class MenuListAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        System.out.println("hihihihi");
+        ViewHolder viewHolder;
         if(convertView ==null)
         {
             convertView = LayoutInflater.from(context).inflate(R.layout.main_list_view_item, null);

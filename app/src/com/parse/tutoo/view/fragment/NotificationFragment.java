@@ -27,16 +27,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NotificationFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link NotificationFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Notification {@link Fragment} subclass.
  */
 public class NotificationFragment extends Fragment {
 
-    //Vector<Notification> notifications = new Vector<Notification>();
     protected Context context;
     protected ArrayList<Notification> list = new ArrayList<Notification>();
     protected List<Notification> notifications = null;
@@ -52,7 +46,7 @@ public class NotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
-        View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
+        View rootView = inflater.inflate(R.layout.main_list_view, container, false);
 
         //setContentView(R.layout.main_list_view);
         context = getActivity().getApplicationContext();

@@ -7,54 +7,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Category;
+import com.parse.tutoo.util.CategoryListAdapter;
 import com.parse.tutoo.view.ListPostActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * CategoryList Fragment
  * Created by hilary on 27/02/2015.
  */
 public class CategoryListFragment extends Fragment {
-    //private Context context = getApplicationContext();
-    private List<Category> categories;
 
-    private String[] initData() {
-        List<String> lists = new ArrayList<>();
+    private List<String> categories;
+
+    private void getCategories() {
+        categories = new ArrayList();
         for (Category element : Category.values()) {
-            lists.add(element.toString());
+            categories.add(element.toString());
         }
-        String[] array = new String[lists.size()];
-        lists.toArray(array); // fill the array
-
-        return array;
     }
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.category_list);
-        setupView();
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.category_list, container, false);
+        View rootView = inflater.inflate(R.layout.category_list_view, container, false);
 
-        final ListView listview = (ListView) rootView.findViewById(R.id.category_list);
-        String[] values = initData();
+        getCategories();
 
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-        final ArrayAdapter adapter = new ArrayAdapter(this.getActivity(),
-                android.R.layout.simple_list_item_1, list);
+        CategoryListAdapter adapter = new CategoryListAdapter(categories, this.getActivity());
+        final ListView listview = (ListView) rootView.findViewById(R.id.list_category);
         listview.setAdapter(adapter);
 
         // ListView Item Click Listener
@@ -63,13 +48,11 @@ public class CategoryListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
                 Intent intent = new Intent(getActivity(), ListPostActivity.class);
-                String category = (String)parent.getItemAtPosition(position);
+                String category = categories.get(position);
                 intent.putExtra("flag", "category");
                 intent.putExtra("category", category);
-                //i.putExtra("name_of_extra", myObject);
-                //intent.putExtra("post_id", String.valueOf(position));
+                System.out.println("Category:" + category);
                 startActivity(intent);
             }
         });
