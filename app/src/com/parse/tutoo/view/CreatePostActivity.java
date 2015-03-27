@@ -16,9 +16,11 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.AdapterView;
@@ -27,6 +29,8 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -65,7 +69,8 @@ public class CreatePostActivity extends ActionBarActivity {
     private LocationManager manager;
     private boolean isFirst = true;
     private boolean locationEnabled = false;
-    private ArrayList<Bitmap> pics;
+    private List<Bitmap> pics = new ArrayList<Bitmap>();
+    private List<ImageView> imageViews = new ArrayList<ImageView>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -357,9 +362,35 @@ public class CreatePostActivity extends ActionBarActivity {
                 //curUser.put("profile_pic", bitMapPO);
                 //curUser.saveInBackground();
 
-                ImageView pic;
-                pic = (ImageView) findViewById(R.id.imageView);
-                pic.setImageBitmap(mBitmap);
+                LinearLayout LLForImage = (LinearLayout) findViewById(R.id.linearLayoutImage);
+
+
+
+                ImageView image = new ImageView(this);
+                LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(500,500);
+                parms.gravity= Gravity.CENTER;
+                image.setLayoutParams(parms);
+                //image.setBackgroundResource(R.drawable.ic_launcher);
+                LLForImage.addView(image);
+                imageViews.add(image);
+                if (mBitmap != null) {
+                    image.setImageBitmap(mBitmap);
+                }
+
+                final ScrollView sv = (ScrollView)findViewById(R.id.scrollView);
+                //sv.scrollTo(0, sv.getBottom());
+
+                sv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        sv.post(new Runnable() {
+                            public void run() {
+                                sv.fullScroll(View.FOCUS_DOWN);
+                            }
+                        });
+                    }
+                });
+
             } catch (IOException ex) {
                 System.out.println("nope");
             }
