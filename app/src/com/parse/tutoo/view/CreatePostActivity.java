@@ -41,7 +41,6 @@ import com.parse.SaveCallback;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Category;
 import com.parse.tutoo.model.Market;
-import com.parse.tutoo.model.MarketPost;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.State;
 import com.parse.tutoo.util.Dispatcher;
@@ -221,50 +220,38 @@ public class CreatePostActivity extends ActionBarActivity {
 
         final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
         final Spinner feedbackSubSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackSubType);
+
+
+
+        final Post userPost = new Post();
+        userPost.setUser(ParseUser.getCurrentUser().getObjectId());
+        userPost.setTitle(title);
+        userPost.setDescription(description);
+        userPost.setSkills(skillsets);
+
         if (feedbackSpinner.getSelectedItem().toString().equals(getString(R.string.spinnerItem1Services))) {
+            userPost.setType("services");
             String category = feedbackSubSpinner.getSelectedItem().toString();
             Category enumCategory = Category.valueOf(category);
-
-            final Post userPost = new Post();
-            userPost.setUser(ParseUser.getCurrentUser().getObjectId());
-            userPost.setTitle(title);
-            userPost.setDescription(description);
             userPost.setCategory(enumCategory);
-            userPost.setSkills(skillsets);
-            if ((locationEnabled) && (isNetworkEnabled)) {
-                    location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    userPost.setGeoPoints(location);
-            }
-            userPost.saveInBackground(new SaveCallback() {
-                public void done(ParseException e) {
-                    if (e != null) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-            });
-
         } else if (feedbackSpinner.getSelectedItem().toString().equals(getString(R.string.spinnerItem2Markets))) {
+            userPost.setType("market");
             String market = feedbackSubSpinner.getSelectedItem().toString();
             Market enumMarket = Market.valueOf(market);
-
-            final MarketPost userPost = new MarketPost();
-
-            userPost.setUser(ParseUser.getCurrentUser().getObjectId());
-            userPost.setTitle(title);
-            userPost.setDescription(description);
             userPost.setMarket(enumMarket);
-            if ((locationEnabled) && (isNetworkEnabled)) {
-                    location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    userPost.setGeoPoints(location);
-            }
-            userPost.saveInBackground(new SaveCallback() {
-                public void done(ParseException e) {
-                    if (e != null) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-            });
         }
+
+        if ((locationEnabled) && (isNetworkEnabled)) {
+                location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                userPost.setGeoPoints(location);
+        }
+        userPost.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        });
     }
 
     public void showDatePickerDialog(final View v) {

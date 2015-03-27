@@ -9,23 +9,23 @@ import com.parse.ParseObject;
 /**
  * Created by hilary on 25/02/2015.
  */
-@ParseClassName("MarketPost")
-public class MarketPost extends ParseObject {
+@ParseClassName("MarketPostOld")
+public class MarketPostOld extends ParseObject {
 
-    public MarketPost(String title, String description, Market market) {
+    public MarketPostOld(String title, String description, Market market) {
         put("title", title);
         put("desc", description);
         put("market",market.toString());
     }
 
-    public MarketPost(String title, String description, String skills, Market market) {
+    public MarketPostOld(String title, String description, String skills, Market market) {
         put("title", title);
         put("desc", description);
         put("market",market.toString());
         put("skills", skills.toLowerCase());
     }
 
-    public MarketPost() { super(); }
+    public MarketPostOld() { super(); }
 
     public void setTitleAndDescription(String title, String description) {
         put("title", title);

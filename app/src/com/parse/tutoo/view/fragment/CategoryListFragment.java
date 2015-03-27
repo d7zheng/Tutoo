@@ -48,12 +48,12 @@ public class CategoryListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent intent = new Intent(getActivity(), ListPostActivity.class);
-                String category = categories.get(position);
-                intent.putExtra("flag", "category");
-                intent.putExtra("category", category);
-                System.out.println("Category:" + category);
-                startActivity(intent);
+            Intent intent = new Intent(getActivity(), ListPostActivity.class);
+            String category = categories.get(position);
+            intent.putExtra("flag", "service");
+            intent.putExtra("condition", category);
+            System.out.println("Category:" + category);
+            startActivity(intent);
             }
         });
         return rootView;

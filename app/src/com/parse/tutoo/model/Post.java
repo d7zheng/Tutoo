@@ -12,16 +12,14 @@ import com.parse.ParseObject;
 @ParseClassName("Post")
 public class Post extends ParseObject {
 
-    public Post(String title, String description, Category category) {
+    public Post(String title, String description) {
         put("title", title);
         put("desc", description);
-        put("category",category.toString());
     }
 
-    public Post(String title, String description, String skills, Category category) {
+    public Post(String title, String description, String skills) {
         put("title", title);
         put("desc", description);
-        put("category",category.toString());
         put("skills", skills.toLowerCase());
     }
 
@@ -68,6 +66,8 @@ public class Post extends ParseObject {
         return getString("skills");
     }
 
+    public String getType() {return getString("type");}
+    public void setType(String type) { put("type", type);}
 
     public String getPostId () { return getObjectId();}
 
@@ -80,14 +80,33 @@ public class Post extends ParseObject {
         }
     }
 
+    public Location getGetPoints() {
+        Location location = null;
+        ParseGeoPoint parseGeoPoint = getParseGeoPoint("location");
+        if (parseGeoPoint != null) {
+            location = new Location("location");
+            location.setLatitude(parseGeoPoint.getLatitude());
+            location.setLongitude(parseGeoPoint.getLongitude());
+        }
+        return location;
+    }
+
     public Category getCategory () {
         String a = getString("category");
         return Category.valueOf(a);
     }
 
-    public void setAttributes(String title, String description, Category category) {
+    public void setAttributes(String title, String description) {
         put("title", title);
         put("desc", description);
-        put("category",category.toString());
+    }
+
+    public Market getMarket () {
+        String a = getString("market");
+        return Market.valueOf(a);
+    }
+
+    public void setMarket(Market market) {
+        put("market",market.toString());
     }
 }
