@@ -375,6 +375,11 @@ public class CreatePostActivity extends ActionBarActivity {
                 imageViews.add(image);
                 if (mBitmap != null) {
                     image.setImageBitmap(mBitmap);
+                    image.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            view.setVisibility(View.GONE);
+                        }
+                    });
                 }
 
                 final ScrollView sv = (ScrollView)findViewById(R.id.scrollView);
