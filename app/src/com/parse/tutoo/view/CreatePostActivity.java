@@ -6,10 +6,13 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -23,10 +26,12 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.tutoo.R;
@@ -44,6 +49,10 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
 
 public class CreatePostActivity extends ActionBarActivity {
 
@@ -56,6 +65,7 @@ public class CreatePostActivity extends ActionBarActivity {
     private LocationManager manager;
     private boolean isFirst = true;
     private boolean locationEnabled = false;
+    private ArrayList<Bitmap> pics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -321,40 +331,38 @@ public class CreatePostActivity extends ActionBarActivity {
 
     public void attachPicture(View button) {
         // Do click handling here
-        finish();
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 1);
 
         final EditText nameField = (EditText) findViewById(R.id.inputTitle);
         title = nameField.getText().toString();
+    }
 
-        final EditText emailField = (EditText) findViewById(R.id.inputTitle);
-        description = emailField.getText().toString();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK)
+        {
+            Uri chosenImageUri = data.getData();
 
-        final EditText skillSets = (EditText) findViewById(R.id.skillsets);
-        skillsets = skillSets.getText().toString();
+            try {
+                Bitmap mBitmap = null;
+                mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), chosenImageUri);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                ParseFile bitMapPO = new ParseFile(stream.toByteArray());
 
-        if (manager.isProviderEnabled( LocationManager.NETWORK_PROVIDER)) {
-            location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        }
 
-        final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
-        String category = feedbackSpinner.getSelectedItem().toString();
-        Category enumCategory = Category.valueOf(category);
+                //curUser.put("profile_pic", bitMapPO);
+                //curUser.saveInBackground();
 
-        final Post userPost = new Post();
-        userPost.setUser(ParseUser.getCurrentUser().getObjectId());
-        userPost.setTitle(title);
-        userPost.setDescription(description);
-        userPost.setCategory(enumCategory);
-        userPost.setSkills(skillsets);
-        userPost.setGeoPoints(location);
-
-        userPost.saveInBackground(new SaveCallback() {
-            public void done(ParseException e) {
-                if (e != null) {
-                    System.out.println(e.getMessage());
-                }
+                ImageView pic;
+                pic = (ImageView) findViewById(R.id.imageView);
+                pic.setImageBitmap(mBitmap);
+            } catch (IOException ex) {
+                System.out.println("nope");
             }
-        });
-
+        }
     }
 }
