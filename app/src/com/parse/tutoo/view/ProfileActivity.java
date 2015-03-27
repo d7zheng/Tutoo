@@ -168,7 +168,6 @@ public class ProfileActivity extends ActionBarActivity {
                 mBitmap.compress(Bitmap.CompressFormat.PNG, 10, stream);
                 ParseFile bitMapPO = new ParseFile(stream.toByteArray());
 
-
                 curUser.put("profile_pic", bitMapPO);
                 curUser.saveInBackground();
 
