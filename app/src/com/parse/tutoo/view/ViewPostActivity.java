@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +31,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.tutoo.R;
+import com.parse.tutoo.model.Image;
 import com.parse.tutoo.model.Notification;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.Reply;
@@ -301,33 +303,7 @@ public class ViewPostActivity extends ActionBarActivity {
         }
 
 
-        /*if (owner) {
->>>>>>> Stashed changes
-            RadioButton[] tv = new RadioButton[size];
-            RadioButton temp;
 
-            for (int i = 0; i < size; i++)
-            {
-                temp = new RadioButton(this);
-                // Replace this with actual skills later
-                Reply r = replyList.get(i);
-                String user = r.getReplyOwnerId();
-                String description = r.getDescription();
-
-                temp.setText(user + " " +description);
-                RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-                radioGroup.addView(temp);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(50,10,20,10);
-                temp.setTextSize(20);
-                temp.setLayoutParams(params);
-                //temp.setBackgroundColor(Color.parseColor("CCFFCC"));
-                tv[i] = temp;
-                addListenerSelectTutor(temp, user);
-            }
-        } else {
-            */
         tv = new TextView[size];
             TextView tempTV;
             TextView date;
@@ -368,62 +344,68 @@ public class ViewPostActivity extends ActionBarActivity {
                         }
                     }
                 });
+            }
 
 
-                /*DateFormat dateF = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-                date.setText(dateF.format(r.getCreatedAt()));
-                date.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
-                date.setTextColor(getResources().getColor(R.color.primary_text_default_material_light));
-                date.setWidth(600);
 
-                String user = r.getReplyOwnerId();
-                String description = r.getDescription();
+        // Display images
+
+        ParseQuery imageQuery=new ParseQuery("Image");
+        imageQuery.whereEqualTo("postId", post.getPostId());
+        //imageQuery.orderByAscending("createdAt");
+
+        try {
+            //post = (Post)query.getFirst();
+            List<Image> imageObjects = imageQuery.find();
+            for (int i = 0; i < imageObjects.size(); i++) {
+                Image image = (Image)imageObjects.get(i);
+                ParseFile picture = (ParseFile) image.getParseFile("bmp");
+                if (picture != null) {
+                    picture.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            if (data != null) {
+
+                                Bitmap bmp = BitmapFactory
+                                        .decodeByteArray(data, 0, data.length);
+                                if (bmp != null) {
+                                    LinearLayout LLForImage = (LinearLayout) findViewById(R.id.linearLayoutImage);
+                                    ImageView image = new ImageView(ViewPostActivity.this);
+                                    LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(500,500);
+                                    parms.gravity= Gravity.CENTER;
+                                    image.setLayoutParams(parms);
+                                    //image.setBackgroundResource(R.drawable.ic_launcher);
+                                    LLForImage.addView(image);
+                                    image.setImageBitmap(bmp);
+                                    image.setOnClickListener(new View.OnClickListener() {
+                                        public void onClick(View view) {
+                                            //view.setVisibility(View.GONE);
+                                            //int id = view.getId();
+                                            //imageViewsGone.add(id);
+
+                                        }
+                                    });
 
 
-                userName.setText(user);
-                tempTV.setText(description);
-                tempTV.setTextColor(getResources().getColor(R.color.green_opaque));
-                tempTV.setBackgroundColor(R.drawable.border);
-               // tempTV.setWidth(900);
+                                }
 
-                tempTV.setClickable(true);
-                tempTV.setOnClickListener(new View.OnClickListener() {
+                            } else {
+                                System.out.println("No image data found.");
+                            }
+                        }
+                    });
 
-                    @Override
-                    public void onClick(View v) {
-
-                        context = getApplicationContext();
-                        Intent i = new Intent(context, ProfileActivity.class);
-                        i.putExtra("id",  r.getUserId());
-                        startActivity(i);
-                    }
-                });
-
-
-                //tempTV.setText("Tutor " + i);
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
-                tempLL.addView(date);
-                tempLL.addView(tempTV);
-
-                linearLayout.addView(tempLL);
-                if (i == 0) {
-                    userOwnsThisReply = true;
-                } else {
-                    userOwnsThisReply = false;
                 }
 
-                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                params1.setMargins(50, 0, 50, 0);
-                tempTV.setTextSize(20);
-                date.setLayoutParams(params1);
-                params2.setMargins(50, 0, 50, 30);
-                tempTV.setLayoutParams(params2);
-                //TODO: Color? temp.setBackgroundColor(Color.parseColor("CCFFCC"));
-                tv[i] = tempTV;*/
             }
+        }
+        catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+
 
         }
 
