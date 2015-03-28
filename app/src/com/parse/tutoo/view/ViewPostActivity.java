@@ -275,13 +275,13 @@ public class ViewPostActivity extends ActionBarActivity {
 
         // Hiding stuff according to user role
         if (isOwner) {
-            LinearLayout replyLL = (LinearLayout) findViewById(R.id.linearLayout3);
-            replyLL.setVisibility(View.GONE);
+            //LinearLayout replyLL = (LinearLayout) findViewById(R.id.linearLayout3);
+            //replyLL.setVisibility(View.GONE);
             //addListenerSelectTutor();
             addListenerEdit();
-        } else {
             Button thisTutorB = (Button) findViewById(R.id.button1);
             thisTutorB.setVisibility(View.GONE);
+        } else {
             Button editB = (Button) findViewById(R.id.button3);
             editB.setVisibility(View.GONE);
             addListenerReply();
