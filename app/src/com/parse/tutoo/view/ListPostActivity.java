@@ -36,7 +36,7 @@ public class ListPostActivity extends ActionBarActivity {
             if (flag.equals("market")) {
                 query.whereEqualTo("type", "market");
             } else if (flag.equals("service")) {
-                query.whereEqualTo("type", "service");
+                query.whereEqualTo("type", "services");
             }
             try {
                 List<Post> postObjects = query.find();
