@@ -159,17 +159,36 @@ public class ViewPostActivity extends ActionBarActivity {
     public void addListenerEdit() {
         Button thisTutorButton = (Button) findViewById(R.id.button3);
 
-        thisTutorButton.setOnClickListener(new View.OnClickListener() {
+       /* thisTutorButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 //TODO: Go to new post view
             }
 
+        });*/
+
+        thisTutorButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                context = getApplicationContext();
+                Intent i = new Intent(context, EditPostActivity.class);
+                i.putExtra("post_id",  post.getObjectId());
+                startActivity(i);
+
+            }
         });
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -299,6 +318,32 @@ public class ViewPostActivity extends ActionBarActivity {
 
         }
 
+        /*if (owner) {
+>>>>>>> Stashed changes
+            RadioButton[] tv = new RadioButton[size];
+            RadioButton temp;
+
+            for (int i = 0; i < size; i++)
+            {
+                temp = new RadioButton(this);
+                // Replace this with actual skills later
+                Reply r = replyList.get(i);
+                String user = r.getReplyOwnerId();
+                String description = r.getDescription();
+
+                temp.setText(user + " " +description);
+                RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+                radioGroup.addView(temp);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(50,10,20,10);
+                temp.setTextSize(20);
+                temp.setLayoutParams(params);
+                tv[i] = temp;
+                addListenerSelectTutor(temp, user);
+            }
+        } else {
+            */
         tv = new TextView[size];
             TextView tempTV;
             TextView date;

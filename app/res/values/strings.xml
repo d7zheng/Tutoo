@@ -22,6 +22,7 @@
     <string name="title_activity_starter">Start</string>
     <string name="title_activity_viewpost">Post</string>
     <string name="title_activity_newpost">New Post</string>
+    <string name="title_activity_editpost">Edit Post</string>
     <string name="title_activity_listpost">Posts</string>
     <string name="action_profile">Profile</string>
     <string name="action_new_post">New Post</string>

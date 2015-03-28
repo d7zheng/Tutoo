@@ -76,8 +76,8 @@
             android:label="@string/title_activity_viewpost" >
         </activity>
         <activity
-            android:name=".view.ViewMarketPostActivity"
-            android:label="@string/title_activity_viewpost" >
+            android:name=".view.EditPostActivity"
+            android:label="@string/title_activity_editpost" >
         </activity>
         <activity
             android:name=".view.StarterActivity"
