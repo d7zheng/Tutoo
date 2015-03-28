@@ -97,6 +97,11 @@
             android:name=".view.CalendarActivity"
             android:label="@string/title_activity_calendar" >
         </activity>
+
+        <activity
+            android:name=".view.MatchActivity"
+            android:label="@string/title_activity_listpost" >
+        </activity>
     </application>
 
 </manifest>
