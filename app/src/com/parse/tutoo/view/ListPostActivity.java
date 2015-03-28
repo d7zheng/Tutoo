@@ -35,8 +35,10 @@ public class ListPostActivity extends ActionBarActivity {
             ParseQuery query = new ParseQuery(tableName);
             if (flag.equals("market")) {
                 query.whereEqualTo("type", "market");
+                query.whereEqualTo("closed", false);
             } else if (flag.equals("service")) {
                 query.whereEqualTo("type", "services");
+                query.whereEqualTo("closed", false);
             }
             try {
                 List<Post> postObjects = query.find();

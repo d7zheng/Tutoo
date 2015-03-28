@@ -50,6 +50,8 @@ public class Post extends ParseObject {
         put("category", category.toString());
     }
 
+    public void setClosed(Boolean closed) {put("closed", closed);}
+
     public String getUser() {
         return getString("user");
     }
@@ -95,6 +97,8 @@ public class Post extends ParseObject {
         String a = getString("category");
         return Category.valueOf(a);
     }
+
+    public Boolean getClosed() {return getBoolean("closed");}
 
     public void setAttributes(String title, String description) {
         put("title", title);

@@ -243,6 +243,7 @@ public class CreatePostActivity extends ActionBarActivity {
                 location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 userPost.setGeoPoints(location);
         }
+        userPost.setClosed(false);
         userPost.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e != null) {

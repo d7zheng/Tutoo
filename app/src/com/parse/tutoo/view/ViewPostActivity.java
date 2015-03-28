@@ -281,13 +281,12 @@ public class ViewPostActivity extends ActionBarActivity {
             addListenerEdit();
             Button thisTutorB = (Button) findViewById(R.id.button1);
             thisTutorB.setVisibility(View.GONE);
+
         } else {
             Button editB = (Button) findViewById(R.id.button3);
             editB.setVisibility(View.GONE);
             addListenerReply();
         }
-
-
 
         tv = new TextView[size];
             TextView tempTV;
