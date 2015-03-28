@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -379,6 +380,10 @@ public class ViewPostActivity extends ActionBarActivity {
                                     image.setImageBitmap(bmp);
                                     image.setOnClickListener(new View.OnClickListener() {
                                         public void onClick(View view) {
+                                            /*WebView wv = new WebView(ViewPostActivity.this);
+                                            byte[] imageRaw = yourImage;
+                                            String image64 = Base64.encodeToString(imageRaw, Base64.DEFAULT);
+                                            String pageData = "<img src=\"data:image/jpeg;base64," + image64 + "\" />";*/
                                             //view.setVisibility(View.GONE);
                                             //int id = view.getId();
                                             //imageViewsGone.add(id);
