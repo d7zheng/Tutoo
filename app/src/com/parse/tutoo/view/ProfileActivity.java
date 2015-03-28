@@ -165,7 +165,7 @@ public class ProfileActivity extends ActionBarActivity {
                 Bitmap mBitmap = null;
                 mBitmap = Media.getBitmap(this.getContentResolver(), chosenImageUri);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                mBitmap.compress(Bitmap.CompressFormat.PNG, 10, stream);
                 ParseFile bitMapPO = new ParseFile(stream.toByteArray());
 
 

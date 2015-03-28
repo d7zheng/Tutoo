@@ -2,6 +2,9 @@ package com.parse.tutoo.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,15 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -31,6 +37,7 @@ import com.parse.tutoo.util.Dispatcher;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -39,6 +46,8 @@ public class ViewPostActivity extends ActionBarActivity {
     Context context;
     private Post post;
     Vector<Reply> replyList = new Vector<Reply>();
+    TextView[] tv;
+    ArrayList<ImageView> picList;
 
     public void addListenerSelectTutor(final View button, final String replyOwner) {
         final RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
@@ -101,6 +110,9 @@ public class ViewPostActivity extends ActionBarActivity {
                 Reply r = (Reply)replyObjects.get(i);
                 replyList.add(r);
             }
+            picList = new ArrayList<ImageView>();
+            for (int i = 0; i < replyList.size(); i++)
+                picList.add(null);
         }
         catch (com.parse.ParseException e) {
             e.printStackTrace();
@@ -181,6 +193,28 @@ public class ViewPostActivity extends ActionBarActivity {
         //Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
 
         //TextView textView = (TextView) findViewById(R.id.viewpost1);
+
+        ParseUser curUser = ParseUser.getCurrentUser();
+        ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
+        if (profilePic != null) {
+            profilePic.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (data != null) {
+                        Bitmap bmp = BitmapFactory
+                                .decodeByteArray(data, 0, data.length);
+                        ImageView pic;
+                        pic = (ImageView) findViewById(R.id.poster);
+                        pic.setImageBitmap(bmp);
+
+                    } else {
+                        System.out.println("No profile data found.");
+                    }
+                }
+            });
+        }
+
+
 
 
         TextView titleTV = (TextView)findViewById(R.id.textView1);
@@ -293,23 +327,50 @@ public class ViewPostActivity extends ActionBarActivity {
                 addListenerSelectTutor(temp, user);
             }
         } else {
-            */TextView[] tv = new TextView[size];
+            */
+        tv = new TextView[size];
             TextView tempTV;
             TextView date;
             TextView userName;
 
-            LinearLayout[] ll = new LinearLayout[size];
             LinearLayout tempLL;
+
+        LinearLayout userLayout;
+        LinearLayout userNameLayout;
             boolean userOwnsThisReply = false;
             for (int i = 0; i < size; i++) {
-                tempLL = new LinearLayout(this);
+                final int index = i;
+               /* tempLL = new LinearLayout(this);
                 tempLL.setOrientation(LinearLayout.VERTICAL);
+                userLayout = new LinearLayout(this);
+                userLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+
+
                 date = new TextView(this);
-                tempTV = new TextView(this);
+                userName = new TextView(this);
+                tempTV = new TextView(this); */
 
 
                 final Reply r = replyList.get(i);
-                DateFormat dateF = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+
+
+                String userId = r.getUserId();
+                ParseQuery<ParseUser> parseUserQuery = ParseUser.getQuery();
+                parseUserQuery.whereEqualTo("objectId", userID);
+                parseUserQuery.findInBackground(new FindCallback<ParseUser>() {
+                    public void done(List<ParseUser> objects, ParseException e) {
+                        if (e == null) {
+                            displayPicture(objects.get(0), index);
+                        } else {
+                            // Something went wrong.
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                });
+
+
+                /*DateFormat dateF = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
                 date.setText(dateF.format(r.getCreatedAt()));
                 date.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
                 date.setTextColor(getResources().getColor(R.color.primary_text_default_material_light));
@@ -319,8 +380,8 @@ public class ViewPostActivity extends ActionBarActivity {
                 String description = r.getDescription();
 
 
-
-                tempTV.setText(user + ": " +description);
+                userName.setText(user);
+                tempTV.setText(description);
                 tempTV.setTextColor(getResources().getColor(R.color.green_opaque));
                 tempTV.setBackgroundColor(R.drawable.border);
                // tempTV.setWidth(900);
@@ -351,17 +412,134 @@ public class ViewPostActivity extends ActionBarActivity {
                     userOwnsThisReply = false;
                 }
 
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0, 0, 0, 30);
+                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                params1.setMargins(50, 0, 50, 0);
                 tempTV.setTextSize(20);
-                tempTV.setLayoutParams(params);
+                date.setLayoutParams(params1);
+                params2.setMargins(50, 0, 50, 30);
+                tempTV.setLayoutParams(params2);
                 //TODO: Color? temp.setBackgroundColor(Color.parseColor("CCFFCC"));
-                tv[i] = tempTV;
+                tv[i] = tempTV;*/
             }
 
         }
 
+    public void displayPicture(ParseObject user, int i) {
+        final Reply r = replyList.get(i);
+
+        picList.set(i, new ImageView(this));
+        final int index = i;
+        ParseFile profilePic = (ParseFile) user.getParseFile("profile_pic");
+        if (profilePic != null) {
+            profilePic.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (data != null) {
+                        Bitmap bmp = BitmapFactory
+                                .decodeByteArray(data, 0, data.length);
+                        ImageView curPic = picList.get(index);
+                        curPic.setImageBitmap(bmp);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(120, 120);
+                        curPic.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                        curPic.setLayoutParams(layoutParams);
+                        picList.set(index, curPic);
+                        setNewReply(index);
+                       // postPic.setImageBitmap(bmp);
+
+                    } else {
+                        System.out.println("No profile data found.");
+                    }
+                }
+            });
+        }
+
+}
+
+    public void setNewReply(int i) {
+        final Reply r = replyList.get(i);
+        TextView tempTV;
+        TextView date;
+        TextView userName;
+
+        LinearLayout tempLL;
+
+        LinearLayout userLayout;
+        LinearLayout userNameLayout;
+        boolean userOwnsThisReply = false;
+
+        tempLL = new LinearLayout(this);
+        tempLL.setOrientation(LinearLayout.VERTICAL);
+        userLayout = new LinearLayout(this);
+        userLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        date = new TextView(this);
+        userName = new TextView(this);
+        tempTV = new TextView(this);
+
+        DateFormat dateF = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        date.setText(dateF.format(r.getCreatedAt()));
+        date.setTextColor(getResources().getColor(R.color.primary_text_default_material_light));
+       // date.setWidth(600);
+
+        String replyOwner = r.getReplyOwnerId();
+        String description = r.getDescription();
+
+
+        userName.setText(replyOwner);
+        tempTV.setText(replyOwner + ": " + description);
+        tempTV.setTextColor(getResources().getColor(R.color.green_opaque));
+        //tempTV.setBackgroundColor(R.drawable.border);
+        // tempTV.setWidth(900);
+
+        tempTV.setClickable(true);
+        tempTV.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                context = getApplicationContext();
+                Intent i = new Intent(context, ProfileActivity.class);
+                i.putExtra("id",  r.getUserId());
+                startActivity(i);
+            }
+        });
+
+
+        //tempTV.setText("Tutor " + i);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
+        tempLL.addView(date);
+        tempLL.addView(tempTV);
+
+        //linearLayout.addView(tempLL);
+        if (i == 0) {
+            userOwnsThisReply = true;
+        } else {
+            userOwnsThisReply = false;
+        }
+
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+        tempTV.setTextSize(20);
+        params1.setMargins(20, 0, 0, 0);
+        date.setLayoutParams(params1);
+
+        params2.setMargins(60, 0, 60,30);
+        tempTV.setLayoutParams(params1);
+        userLayout.setLayoutParams(params2);
+        userLayout.addView(picList.get(i));
+        userLayout.addView(tempLL);
+        userLayout.setBackgroundColor(Color.parseColor("#559059"));
+        linearLayout.addView(userLayout);
+        //TODO: Color? temp.setBackgroundColor(Color.parseColor("CCFFCC"));
+        tv[i] = tempTV;
+    }
 
     public void userProfile(View v) {
         context = getApplicationContext();
