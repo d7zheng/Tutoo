@@ -201,8 +201,6 @@ public class CreatePostActivity extends ActionBarActivity {
     }
 
     public void createPost(View button) {
-        // Do click handling here
-        finish();
 
         final EditText nameField = (EditText) findViewById(R.id.inputTitle);
         title = nameField.getText().toString();
@@ -214,60 +212,76 @@ public class CreatePostActivity extends ActionBarActivity {
         final EditText skillSets = (EditText) findViewById(R.id.skillsets);
         skillsets = skillSets.getText().toString();
 
-        boolean isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        Boolean requiredFieldsFilled = !title.isEmpty() && !description.isEmpty() && !skillsets.isEmpty();
+        if (!requiredFieldsFilled){
 
-        final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
-        final Spinner feedbackSubSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackSubType);
+                new AlertDialog.Builder(this)
+                        .setTitle("Some fields are missing!")
+                        .setMessage("Title, description, and skill set are required fields!")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+        } else {
+            finish();
 
 
 
-        final Post userPost = new Post();
-        userPost.setUser(ParseUser.getCurrentUser().getObjectId());
-        userPost.setTitle(title);
-        userPost.setDescription(description);
-        userPost.setSkills(skillsets);
+            boolean isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if (feedbackSpinner.getSelectedItem().toString().equals(getString(R.string.spinnerItem1Services))) {
-            userPost.setType("services");
-            String category = feedbackSubSpinner.getSelectedItem().toString();
-            Category enumCategory = Category.valueOf(category);
-            userPost.setCategory(enumCategory);
-        } else if (feedbackSpinner.getSelectedItem().toString().equals(getString(R.string.spinnerItem2Markets))) {
-            userPost.setType("market");
-            String market = feedbackSubSpinner.getSelectedItem().toString();
-            Market enumMarket = Market.valueOf(market);
-            userPost.setMarket(enumMarket);
-        }
+            final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
+            final Spinner feedbackSubSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackSubType);
 
-        if ((locationEnabled) && (isNetworkEnabled)) {
+
+            final Post userPost = new Post();
+            userPost.setUser(ParseUser.getCurrentUser().getObjectId());
+            userPost.setTitle(title);
+            userPost.setDescription(description);
+            userPost.setSkills(skillsets);
+
+            if (feedbackSpinner.getSelectedItem().toString().equals(getString(R.string.spinnerItem1Services))) {
+                userPost.setType("services");
+                String category = feedbackSubSpinner.getSelectedItem().toString();
+                Category enumCategory = Category.valueOf(category);
+                userPost.setCategory(enumCategory);
+            } else if (feedbackSpinner.getSelectedItem().toString().equals(getString(R.string.spinnerItem2Markets))) {
+                userPost.setType("market");
+                String market = feedbackSubSpinner.getSelectedItem().toString();
+                Market enumMarket = Market.valueOf(market);
+                userPost.setMarket(enumMarket);
+            }
+
+            if ((locationEnabled) && (isNetworkEnabled)) {
                 location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 userPost.setGeoPoints(location);
-        }
-        userPost.setClosed(false);
-        userPost.saveInBackground(new SaveCallback() {
-            public void done(ParseException e) {
-                if (e != null) {
-                    System.out.println(e.getMessage());
-                } else {
-                    String postID = userPost.getObjectId();
-                    // Save images
-                    for (int i = 0; i < pics.size();i++) {
-                        Integer index = i;
-                        if (!imageViewsGone.contains(index)) {
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            pics.get(i).compress(Bitmap.CompressFormat.PNG, 50, stream);
-                            ParseFile bitMapPO = new ParseFile(stream.toByteArray());
-                            Image im = new Image(postID, bitMapPO);
-                            im.saveInBackground();
+            }
+            userPost.setClosed(false);
+            userPost.saveInBackground(new SaveCallback() {
+                public void done(ParseException e) {
+                    if (e != null) {
+                        System.out.println(e.getMessage());
+                    } else {
+                        String postID = userPost.getObjectId();
+                        // Save images
+                        for (int i = 0; i < pics.size(); i++) {
+                            Integer index = i;
+                            if (!imageViewsGone.contains(index)) {
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                pics.get(i).compress(Bitmap.CompressFormat.PNG, 50, stream);
+                                ParseFile bitMapPO = new ParseFile(stream.toByteArray());
+                                Image im = new Image(postID, bitMapPO);
+                                im.saveInBackground();
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
 
 
-
-
+        }
 
     }
 
