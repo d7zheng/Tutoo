@@ -386,14 +386,12 @@ public class EditPostActivity extends ActionBarActivity {
         alertDialog.show();
     }
 
-    public void attachPicture(View button) {
+    public void attachPictureEdit(View button) {
         // Do click handling here
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, 1);
 
-        final EditText nameField = (EditText) findViewById(R.id.inputTitle);
-        title = nameField.getText().toString();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)

@@ -160,7 +160,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit Post"
+                android:text="Save Post"
                 android:id="@+id/buttonEdit"
                 android:onClick="editPost"
                 android:layout_gravity="center"/>
