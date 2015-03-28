@@ -207,7 +207,7 @@ public class CreatePostActivity extends ActionBarActivity {
         final EditText nameField = (EditText) findViewById(R.id.inputTitle);
         title = nameField.getText().toString();
 
-        final EditText emailField = (EditText) findViewById(R.id.inputTitle);
+        final EditText emailField = (EditText) findViewById(R.id.inputDescription);
         description = emailField.getText().toString();
 
         // skillsets or tags
