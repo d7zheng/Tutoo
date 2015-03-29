@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -19,6 +20,7 @@ import com.parse.tutoo.model.Notification;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.NotificationListAdapter;
 import com.parse.tutoo.util.TestData;
+import com.parse.tutoo.view.BaseActivity;
 import com.parse.tutoo.view.ViewPostActivity;
 
 import java.util.ArrayList;
@@ -32,21 +34,17 @@ import java.util.List;
 public class NotificationFragment extends Fragment {
 
     protected Context context;
-    protected ArrayList<Notification> list = new ArrayList<Notification>();
-    protected List<Notification> notifications = null;
+    protected List<Notification> notifications = new ArrayList<>();
 
 
     @Override
-    public void onCreate (Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
-        View rootView = inflater.inflate(R.layout.main_list_view, container, false);
+        //super.onCreate(savedInstanceState);
+
+        final View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
+        //View rootView = inflater.inflate(R.layout.main_list_view, container, false);
+        //setContentView(R.layout.main_list_view);
 
         //setContentView(R.layout.main_list_view);
         context = getActivity().getApplicationContext();
@@ -74,20 +72,30 @@ public class NotificationFragment extends Fragment {
         // Combine the queries using OR
         ParseQuery query = ParseQuery.or(queryList);
         query.orderByAscending("createdAt");
-        if (list.size() == 0) {
-            try {
-                notifications = query.find();
-                for (int i = 0; i < notifications.size(); i++) {
-                    Notification note = (Notification) notifications.get(i);
-                    list.add(note);
-                }
-            } catch (ParseException e) {
-                System.out.println(e.getMessage());
-            }
+        if (notifications.size() == 0) {
+            query.findInBackground(new FindCallback <Notification> () {
+                   @Override
+                   public void done(List<Notification> results, ParseException e) {
+                       if (e == null) {
+                           notifications = results;
+                           createListView(rootView);
+                       }
+                       else {
+                           System.out.println(e.getMessage());
+                       }
+                   }
+               }
+            );
         }
+        else {
+            createListView(rootView);
+        }
+        return rootView;
+    }
 
+    private void createListView(View rootView) {
         // Create List View
-        NotificationListAdapter adapter = new NotificationListAdapter(list,getActivity());
+        NotificationListAdapter adapter = new NotificationListAdapter(notifications,getActivity());
         final ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
@@ -104,7 +112,5 @@ public class NotificationFragment extends Fragment {
                 note.saveInBackground();
             }
         });
-
-        return rootView;
     }
 }
