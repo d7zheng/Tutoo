@@ -18,6 +18,7 @@ import com.parse.tutoo.R;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.PostListAdapter;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 
@@ -28,6 +29,23 @@ public class MatchActivity extends ActionBarActivity {
     PostListAdapter postListAdapter;
     private LocationManager manager;
     private boolean isNetworkEnabled = false;
+
+    private double getDistance(double lat1, double long1, double lat2, double long2) {
+        try {
+            float[] result = new float[1];
+            Location.distanceBetween(lat1, long1, lat2, long2, result);
+
+            double distance = result[0];
+            DecimalFormat df=new DecimalFormat("0.00");
+            String formate = df.format(distance);
+            double ans = (Double)df.parse(formate) ;
+
+            return ans;
+        } catch (Exception e) {
+            // do nothing
+        }
+        return -1;
+    }
 
     public void initData() {
         posts.clear();
@@ -52,7 +70,19 @@ public class MatchActivity extends ActionBarActivity {
         try {
             List<Post> postObjects = query.find();
             for (int i = 0; i < postObjects.size(); i++) {
-                posts.add(postObjects.get(i));
+                Post post = postObjects.get(i);
+                // get distance
+
+                Location postLoc = post.getGetPoints();
+                double distance = getDistance(location.getLatitude(), location.getLongitude(), postLoc.getLatitude(), postLoc.getLongitude());
+
+                if (distance > 0) {
+                    String distanceStr = String.valueOf(distance) + "m";
+                    post.setDistance(distanceStr);
+                } else if (distance < 1) {
+                    post.setDistance("within 1m");
+                }
+                posts.add(post);
             }
         } catch (com.parse.ParseException e) {
             e.printStackTrace();

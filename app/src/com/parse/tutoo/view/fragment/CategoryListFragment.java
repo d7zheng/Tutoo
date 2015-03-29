@@ -50,7 +50,7 @@ public class CategoryListFragment extends Fragment {
                                     int position, long id) {
             Intent intent = new Intent(getActivity(), ListPostActivity.class);
             String category = categories.get(position);
-            intent.putExtra("flag", "service");
+            intent.putExtra("flag", "services");
             intent.putExtra("condition", category);
             System.out.println("Category:" + category);
             startActivity(intent);

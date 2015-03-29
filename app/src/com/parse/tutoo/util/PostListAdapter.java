@@ -34,4 +34,9 @@ public class PostListAdapter extends MenuListAdapter<Post>{
         Date date = obj.getCreatedAt();
         return df.format(date);
     }
+
+    @Override
+    public String getDistance(Post obj) {
+        return obj.getDistance();
+    }
 }

@@ -22,6 +22,7 @@ public class MenuListAdapter<T> extends BaseAdapter {
         public TextView firstLine;
         public TextView secondLine;
         public TextView thirdLine;
+        public TextView distance;
     }
 
     private List<T> objs;
@@ -63,6 +64,7 @@ public class MenuListAdapter<T> extends BaseAdapter {
             viewHolder.firstLine = (TextView) convertView.findViewById(R.id.firstLine);
             viewHolder.secondLine = (TextView) convertView.findViewById(R.id.secondLine);
             viewHolder.thirdLine = (TextView) convertView.findViewById(R.id.thirdLine);
+            viewHolder.distance = (TextView) convertView.findViewById(R.id.distance);
             convertView.setTag(viewHolder);
         }
         else
@@ -74,6 +76,7 @@ public class MenuListAdapter<T> extends BaseAdapter {
         viewHolder.secondLine.setText(this.getSecondLine(obj));
         viewHolder.secondLine.setEllipsize(TextUtils.TruncateAt.END);
         viewHolder.thirdLine.setText(this.getThirdLine(obj));
+        viewHolder.distance.setText(this.getDistance(obj));
         return convertView;
     }
 
@@ -86,6 +89,10 @@ public class MenuListAdapter<T> extends BaseAdapter {
     }
 
     public String getThirdLine(T obj) {
+        return "";
+    }
+
+    public String getDistance(T obj) {
         return "";
     }
 }

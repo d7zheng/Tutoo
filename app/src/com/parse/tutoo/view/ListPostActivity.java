@@ -34,8 +34,10 @@ public class ListPostActivity extends ActionBarActivity {
     private void initData() {
         posts.clear();
         String tableName = "Post";
+        ParseQuery query = new ParseQuery(tableName);
+        System.out.println("condition=" + condition);
+        System.out.println("flag=" + flag);
         if (condition.equals(Category.All.toString())) {
-            ParseQuery query = new ParseQuery(tableName);
             if (flag.equals("market")) {
                 query.whereEqualTo("type", "market");
                 query.whereNotEqualTo("closed", true);
@@ -54,14 +56,16 @@ public class ListPostActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
         } else {
-            ParseQuery query = new ParseQuery(tableName);
             if (flag.equals("market")) {
                 query.whereEqualTo("market", condition);
                 query.whereEqualTo("type", "market");
+                query.whereNotEqualTo("closed", true);
             } else if (flag.equals("services")) {
                 query.whereEqualTo("category", condition);
                 query.whereEqualTo("type", "services");
+                query.whereNotEqualTo("closed", true);
             }
+            query.orderByDescending("createdAt");
             try {
                 List<Post> postObjects = query.find();
                 for (int i = 0; i < postObjects.size(); i++) {
@@ -131,7 +135,7 @@ public class ListPostActivity extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.list);
 
         //listView.setOnScrollListener(new ListViewListener());
-
+        System.out.println("oncreate postsize=" + posts.size());
         postListAdapter = new PostListAdapter(posts, this);
         listView.setAdapter(postListAdapter);
 
@@ -159,6 +163,8 @@ public class ListPostActivity extends ActionBarActivity {
     protected void onResume()
     {
         super.onResume();
+
+        System.out.println("onResume");
         initData();
     }
 }

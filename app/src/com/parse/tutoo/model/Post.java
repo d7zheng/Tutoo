@@ -11,7 +11,7 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Post")
 public class Post extends ParseObject {
-
+    private String distance = "";
     public Post(String title, String description) {
         put("title", title);
         put("desc", description);
@@ -112,5 +112,13 @@ public class Post extends ParseObject {
 
     public void setMarket(Market market) {
         put("market",market.toString());
+    }
+
+    public void setDistance (String distance) {
+        this.distance = distance;
+    }
+
+    public String getDistance() {
+        return this.distance;
     }
 }
