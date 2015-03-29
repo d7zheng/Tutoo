@@ -28,16 +28,6 @@
            android:layout_gravity="center"
             android:layout_marginBottom="5dp"/>
 
-        <RatingBar
-            android:id="@+id/rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            style="?android:attr/ratingBarStyleSmall"
-            android:numStars="5"
-            android:stepSize="0.1"
-            android:isIndicator="true" />
-
         <TextView
             android:id="@+id/click"
             android:layout_width="wrap_content"
@@ -59,42 +49,6 @@
             android:layout_marginTop="5dp"
             android:autoLink="email" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="50px"
-            android:id="@+id/textView"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"/>
-
-        <ImageView
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="0px"
-            android:paddingBottom="1px"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:background="#254525"
-            android:layout_marginTop="15dp"
-            android:src="@android:drawable/divider_horizontal_bright" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Skills:"
-            android:textColor="#155758"
-            android:textSize="60px"
-            android:id="@+id/skills"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#155758"
-            android:textSize="50px"
-            android:id="@+id/skillsets"
-            android:layout_gravity="center"
-            android:layout_marginTop="4dp"/>
 
         <Button
             android:layout_width="wrap_content"

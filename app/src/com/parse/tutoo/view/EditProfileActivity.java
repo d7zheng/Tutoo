@@ -146,10 +146,15 @@ public class EditProfileActivity extends ActionBarActivity {
 
         final EditText phone = (EditText) findViewById(R.id.phoneNumber);
         String phoneNumber = phone.getText().toString();
+        if (phoneNumber.equals("") || phoneNumber == null) {
+            curUser.remove("phoneNumber");
+        } else {
+            curUser.put("phoneNumber", phoneNumber);
+        }
 
         curUser.put("name", name);
         curUser.setEmail(email);
-        curUser.put("phoneNumber", phoneNumber);
+
         if (bitMapPO != null) {
          curUser.put("profile_pic", bitMapPO);
         }
