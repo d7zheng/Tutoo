@@ -114,7 +114,7 @@ public class ProfileActivity extends ActionBarActivity {
         SpannableString number = new SpannableString("111-111-111");
         number.setSpan(new UnderlineSpan(), 0, number.length(), 0);
         //emailTV.setText(curUser.getString("email"));
-        phoneNumber.setText(number);
+        phoneNumber.setText(user.getString("phoneNumber"));
 
         TextView emailTV = (TextView) findViewById(R.id.textView3);
         emailTV.setText(user.getString("email"));
