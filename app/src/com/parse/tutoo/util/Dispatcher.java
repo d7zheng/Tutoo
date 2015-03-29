@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.parse.tutoo.view.CreatePostActivity;
+import com.parse.tutoo.view.MatchActivity;
 import com.parse.tutoo.view.ProfileActivity;
 import com.parse.tutoo.view.SearchActivity;
 
@@ -27,5 +28,10 @@ public class Dispatcher {
     public static void openNewPost(Context context, Activity activity) {
         Intent act = new Intent(context,CreatePostActivity.class);
         activity.startActivity(act);
+    }
+
+    public static void openMatch(Context context, Activity activity) {
+        Intent intent = new Intent(context, MatchActivity.class);
+        activity.startActivity(intent);
     }
 }

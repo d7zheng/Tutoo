@@ -49,9 +49,7 @@ public class MainActivity extends ActionBarActivity {
                 .setText(R.string.title_frag_notification)
                 .setTabListener(new TabListener(this, "notification", NotificationFragment.class));
         actionBar.addTab(tab);
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,6 +77,8 @@ public class MainActivity extends ActionBarActivity {
             case R.id.action_profile:
                 dispatcher.openProfile(getApplicationContext(), this);
                 return true;
+            case R.id.action_match:
+                dispatcher.openMatch(getApplicationContext(), this);
             default:
                 return super.onOptionsItemSelected(item);
         }

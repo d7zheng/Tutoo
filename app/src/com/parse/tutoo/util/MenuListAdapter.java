@@ -55,7 +55,6 @@ public class MenuListAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println("hihihihi");
         ViewHolder viewHolder;
         if(convertView ==null)
         {

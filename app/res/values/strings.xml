@@ -25,6 +25,7 @@
     <string name="title_activity_listpost">Posts</string>
     <string name="action_profile">Profile</string>
     <string name="action_new_post">New Post</string>
+    <string name="action_match">Match</string>
     <string name="title_frag_view_post">Post</string>
     <string name="title_frag_notification">Notification</string>
     <string name="title_frag_category">Service</string>

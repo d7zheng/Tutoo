@@ -23,13 +23,16 @@ import java.util.List;
 import java.util.Vector;
 
 public class ListPostActivity extends ActionBarActivity {
-    ListView listView;
-    Vector<Post> posts = new Vector<Post>();
+    private ListView listView;
+    private Vector<Post> posts = new Vector<Post>();
     //Vector<MarketPost> marketPosts = new Vector<MarketPost>();
-    Context context;
-    PostListAdapter postListAdapter;
+    private Context context;
+    private PostListAdapter postListAdapter;
+    private String flag;
+    private String condition;
 
-    private void initData(String flag, String condition) {
+    private void initData() {
+        posts.clear();
         String tableName = "Post";
         if (condition.equals(Category.All.toString())) {
             ParseQuery query = new ParseQuery(tableName);
@@ -54,9 +57,9 @@ public class ListPostActivity extends ActionBarActivity {
             if (flag.equals("market")) {
                 query.whereEqualTo("market", condition);
                 query.whereEqualTo("type", "market");
-            } else if (flag.equals("service")) {
+            } else if (flag.equals("services")) {
                 query.whereEqualTo("category", condition);
-                query.whereEqualTo("type", "service");
+                query.whereEqualTo("type", "services");
             }
             try {
                 List<Post> postObjects = query.find();
@@ -67,6 +70,8 @@ public class ListPostActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
         }
+        //notify data set changed
+        postListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -119,17 +124,17 @@ public class ListPostActivity extends ActionBarActivity {
         //ParseObject.registerSubclass(ParsePost.class);
         Intent intent = getIntent();
         // get flag
-        String flag = intent.getStringExtra("flag");
+        flag = intent.getStringExtra("flag");
         System.out.println("FLAG=" + flag);
-        String condition = intent.getStringExtra("condition");
-        initData(flag, condition);
-
+        condition = intent.getStringExtra("condition");
         listView = (ListView) findViewById(R.id.list);
 
         //listView.setOnScrollListener(new ListViewListener());
 
         postListAdapter = new PostListAdapter(posts, this);
         listView.setAdapter(postListAdapter);
+
+        initData();
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -149,4 +154,10 @@ public class ListPostActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        initData();
+    }
 }
