@@ -379,44 +379,39 @@ public class EditPostActivity extends ActionBarActivity {
         else {
             post.remove("location");
         }
-        post.saveInBackground(new SaveCallback() {
-            public void done(ParseException e) {
-                if (e != null) {
-                    System.out.println(e.getMessage());
-                } else {
-                    //delete all images and re-upload current
-                    ParseQuery imageQuery=new ParseQuery("Image");
-                    imageQuery.whereEqualTo("postId", post.getPostId());
 
-                    try {
-                        List<Image> imageObjects = imageQuery.find();
-                        for (int i = 0; i < imageObjects.size(); i++) {
-                            Image image = (Image)imageObjects.get(i);
-                            image.deleteInBackground();
-                        }
+        try {
+            post.save();
+        } catch(com.parse.ParseException exc){
+            exc.printStackTrace();
+        }
+        //delete all images and re-upload current
+        ParseQuery imageQuery=new ParseQuery("Image");
+        imageQuery.whereEqualTo("postId", post.getPostId());
 
-                        String postID = post.getObjectId();
-                        // Save images
-                        for (int i = 0; i < pics.size(); i++) {
-                            Integer index = i;
-                            if (!imageViewsGone.contains(index)) {
-                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                pics.get(i).compress(Bitmap.CompressFormat.PNG, 10, stream);
-                                ParseFile bitMapPO = new ParseFile(stream.toByteArray());
-                                Image im = new Image(postID, bitMapPO);
-                                im.saveInBackground();
-                            }
-                        }
-                    }
-                    catch (com.parse.ParseException ex) {
-                        e.printStackTrace();
-                    }
+        try {
+            List<Image> imageObjects = imageQuery.find();
+            for (int i = 0; i < imageObjects.size(); i++) {
+                Image image = (Image)imageObjects.get(i);
+                image.deleteInBackground();
+            }
 
+            String postID = post.getObjectId();
+            // Save images
+            for (int i = 0; i < pics.size(); i++) {
+                Integer index = i;
+                if (!imageViewsGone.contains(index)) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    pics.get(i).compress(Bitmap.CompressFormat.PNG, 10, stream);
+                    ParseFile bitMapPO = new ParseFile(stream.toByteArray());
+                    Image im = new Image(postID, bitMapPO);
+                    im.saveInBackground();
                 }
             }
-        });
-
-
+        }
+        catch (com.parse.ParseException ex) {
+            ex.printStackTrace();
+        }
 
     }
 
