@@ -106,7 +106,8 @@ public class SlidingMenuFragment extends Fragment {
     private void switchView(int action) {
         Fragment fragment = null;
         switch (action) {
-            case 0: // action_feed
+            case 0: // action_market
+                fragment = new MarketsFragment();
                 break;
             case 1: // action_browse
                 fragment = new CategoryListFragment();
