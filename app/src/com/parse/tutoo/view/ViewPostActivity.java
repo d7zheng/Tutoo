@@ -406,7 +406,7 @@ public class ViewPostActivity extends ActionBarActivity {
                         public void done(byte[] data, ParseException e) {
                             if (data != null) {
 
-           \                     Bitmap bmp = BitmapFactory
+                                Bitmap bmp = BitmapFactory
                                         .decodeByteArray(data, 0, data.length);
                                 if (bmp != null) {
                                     LinearLayout LLForImage = (LinearLayout) findViewById(R.id.linearLayoutImage);
