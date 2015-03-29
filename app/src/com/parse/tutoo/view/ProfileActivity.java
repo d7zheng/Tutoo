@@ -1,6 +1,7 @@
 package com.parse.tutoo.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,7 @@ import java.io.*;
 
 public class ProfileActivity extends ActionBarActivity {
     ParseUser curUser;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,11 @@ public class ProfileActivity extends ActionBarActivity {
         Bundle b = getIntent().getExtras();
         if (b == null) {
             displayProfile(ParseUser.getCurrentUser());
+
+            Button logout = (Button)findViewById(R.id.logout_button);
+            logout.setVisibility(View.VISIBLE);
+            Button editProfile = (Button)findViewById(R.id.edit_profile);
+            editProfile.setVisibility(View.VISIBLE);
         }
         else {
             String userID = b.getString("id");
@@ -146,6 +153,19 @@ public class ProfileActivity extends ActionBarActivity {
             }
         });
     }
+
+    public void editProfile(View button) {
+        context = getApplicationContext();
+        Intent i = new Intent(context, EditProfileActivity.class);
+        startActivity(i);
+    }
+
+  /*  @Override
+    protected void onResume() {
+        super.onResume();
+        finish();
+        startActivity(getIntent());
+    }*/
 
     public void selectProfilePicture(View v) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);

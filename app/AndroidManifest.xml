@@ -72,6 +72,10 @@
             android:label="@string/title_activity_listpost" >
         </activity>
         <activity
+            android:name=".view.EditProfileActivity"
+            android:label="@string/title_activity_editprofile" >
+        </activity>
+        <activity
             android:name=".view.ViewPostActivity"
             android:label="@string/title_activity_viewpost" >
         </activity>
