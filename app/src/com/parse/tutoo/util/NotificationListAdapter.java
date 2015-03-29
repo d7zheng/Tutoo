@@ -3,7 +3,6 @@ package com.parse.tutoo.util;
 import android.content.Context;
 
 import com.parse.tutoo.model.Notification;
-import com.parse.tutoo.model.Post;
 
 import java.util.List;
 

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Owner on 3/1/2015.
  */
-public class PostListAdapter extends MenuListAdapter<Post>{
+public class PostListAdapter extends MenuListAdapter<Post> {
 
     public PostListAdapter(List<Post> objs, Context context) {
         super(objs, context);

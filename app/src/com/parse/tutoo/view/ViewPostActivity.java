@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class ViewPostActivity extends ActionBarActivity {
+public class ViewPostActivity extends BaseActivity {
 
     Context context;
     private Post post;
@@ -194,6 +194,7 @@ public class ViewPostActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_post);
+        initSlidingMenu();
 
         //ParseObject.registerSubclass(Reply.class);
         //Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));

@@ -20,4 +20,21 @@
         <item>@string/spinnerItem2Markets</item>
     </string-array>
 
+    <string-array name="sliding_menu_titles">
+        <item>@string/action_feed</item>
+        <item>@string/action_browse</item>
+
+        <item>@string/action_search</item>
+        <item>@string/action_match</item>
+
+        <item>@string/action_new_post</item>
+
+        <item>@string/action_profile</item>
+        <item>@string/action_notification</item>
+
+        <item>@string/action_settings</item>
+    </string-array>
+
+    <string name="menuItem1">Browse</string>
+    <string name="menuItem2">Matching</string>
 </resources>

@@ -9,4 +9,6 @@
 build/*
 facebook/*
 ParseLoginUI/*
+SlidingMenu/build
+SlidingMenu/build/*
 *.iml

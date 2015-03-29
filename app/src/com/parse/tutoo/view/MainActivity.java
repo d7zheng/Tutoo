@@ -1,28 +1,33 @@
 package com.parse.tutoo.view;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
-import com.parse.tutoo.util.TabListener;
-import com.parse.tutoo.view.fragment.CategoryListFragment;
-import com.parse.tutoo.view.fragment.MarketsFragment;
-import com.parse.tutoo.view.fragment.NotificationFragment;
+import com.parse.tutoo.view.fragment.SlidingMenuFragment;
 
 //import android.app.Activity;
 //import android.app.ActionBar.Tab;
 //import android.app.ActionBar;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends BaseActivity {
 
-    private Dispatcher dispatcher = new Dispatcher();
+    //private Dispatcher dispatcher = new Dispatcher();
 
-    @Override
+   /* @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // set the Above View
+        setContentView(R.layout.activity_base);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.base_frame, new SlidingMenuFragment())
+                .commit();
+
+        //setSlidingActionBarEnabled(true);
+    }*/
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -82,6 +87,6 @@ public class MainActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
 }
