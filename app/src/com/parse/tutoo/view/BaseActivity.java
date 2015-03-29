@@ -1,25 +1,13 @@
 package com.parse.tutoo.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.actionbar.ActionBarSlideIcon;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
 import com.parse.tutoo.view.fragment.CategoryListFragment;
@@ -92,6 +80,9 @@ public class BaseActivity extends ActionBarActivity {
                 return true;
             case R.id.action_profile:
                 Dispatcher.openProfile(getApplicationContext(), this);
+                return true;
+            case R.id.action_match:
+                Dispatcher.openMatch(getApplicationContext(), this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

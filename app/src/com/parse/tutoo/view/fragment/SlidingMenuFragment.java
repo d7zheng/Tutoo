@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseUser;
 import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
@@ -66,7 +64,7 @@ public class SlidingMenuFragment extends Fragment {
                     System.out.println("ParseImageView" + "Fetched! Data length: " + data.length);
                 }
                 else {
-                    System.out.println("Exception: " + e.getMessage());
+                    //System.out.println("Exception: " + e.getMessage());
                 }
             }
         });
@@ -117,6 +115,7 @@ public class SlidingMenuFragment extends Fragment {
                 Dispatcher.openSearch(context, this.getActivity());
                 break;
             case 3: // action_match
+                Dispatcher.openMatch(context, this.getActivity());
                 break;
             case 4: // action_new_post
                 Dispatcher.openNewPost(context, this.getActivity());
