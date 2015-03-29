@@ -115,6 +115,13 @@ public class ViewPostActivity extends ActionBarActivity {
         Reply reply = new Reply(currentUser.get("name").toString(), replyMessage, post.getPostId(),
                                 currentUser.getObjectId());
 
+
+        try {
+            reply.save();
+        } catch(ParseException e){
+
+        }
+        /*
         reply.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e != null) {
@@ -123,7 +130,7 @@ public class ViewPostActivity extends ActionBarActivity {
                     replyET.setText("");
                 }
             }
-        });
+        });*/
 
         Notification note = new Notification(currentUser.getObjectId(), post.getUser(),
                 Notification.notificationType.REPLY, post.getPostId());
@@ -134,6 +141,8 @@ public class ViewPostActivity extends ActionBarActivity {
                 }
             }
         });
+
+        //onRestart();
         finish();
         startActivity(getIntent());
     }
@@ -185,9 +194,9 @@ public class ViewPostActivity extends ActionBarActivity {
 
     @Override
     protected void onRestart() {
-        super.onRestart();
-        finish();
-        startActivity(getIntent());
+        //super.onRestart();
+        //finish();
+        //startActivity(getIntent());
     }
 
     @Override
@@ -282,6 +291,7 @@ public class ViewPostActivity extends ActionBarActivity {
             //replyLL.setVisibility(View.GONE);
             //addListenerSelectTutor();
             addListenerEdit();
+            addListenerReply();
             Button thisTutorB = (Button) findViewById(R.id.button1);
             thisTutorB.setVisibility(View.GONE);
             Button closeB = (Button) findViewById(R.id.closeButton);
