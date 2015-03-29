@@ -12,13 +12,13 @@
     </style>
 
     <style name="AppTheme.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/grey</item>
+        <item name="android:background">@color/green</item>
         <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleText</item>
         <!--<item name="android:homeAsUpIndicator">@color/material_blue_grey_900</item>-->
         <item name="backgroundStacked">@color/ab_green_stacked</item>
 
         <!-- Support Library Compatibility -->
-        <item name="background">@color/grey</item>
+        <item name="background">@color/green</item>
         <!--<item name="homeAsUpIndicator">@color/material_blue_grey_900</item>-->
         <item name="titleTextStyle">@style/AppTheme.ActionBar.TitleText</item>
     </style>
