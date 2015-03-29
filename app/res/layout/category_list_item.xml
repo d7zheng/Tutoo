@@ -19,5 +19,7 @@
         android:layout_margin="1dp"
         android:gravity="center"
         android:textSize="50sp"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:shadowColor="#000000"
+        android:shadowRadius="5" />
 </RelativeLayout>
