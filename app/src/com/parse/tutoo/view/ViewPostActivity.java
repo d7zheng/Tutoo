@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,8 +22,6 @@ import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
-import com.parse.Parse;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -291,8 +288,7 @@ public class ViewPostActivity extends ActionBarActivity {
             //addListenerSelectTutor();
             addListenerEdit();
             addListenerReply();
-            Button thisTutorB = (Button) findViewById(R.id.button1);
-            thisTutorB.setVisibility(View.GONE);
+
             Button closeB = (Button) findViewById(R.id.closeButton);
             closeB.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
