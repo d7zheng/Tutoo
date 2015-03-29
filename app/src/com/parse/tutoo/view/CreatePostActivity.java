@@ -98,7 +98,7 @@ public class CreatePostActivity extends ActionBarActivity {
     }
 
     private void setCurrentDateOnView() {
-        Button datepicker1Display = (Button) findViewById(R.id.datepicker1);
+        /*Button datepicker1Display = (Button) findViewById(R.id.datepicker1);
         Button timepicker1Display = (Button) findViewById(R.id.timepicker1);
 
         final Calendar c = Calendar.getInstance();
@@ -110,7 +110,7 @@ public class CreatePostActivity extends ActionBarActivity {
 
         // set current date time into textview
         setDateOnButton(datepicker1Display, year, month, day);
-        setTimeOnButton(timepicker1Display, hour, minute);
+        setTimeOnButton(timepicker1Display, hour, minute);*/
     }
 
     private void setSubSpinner(Class<?> cls, Spinner spinner) {
