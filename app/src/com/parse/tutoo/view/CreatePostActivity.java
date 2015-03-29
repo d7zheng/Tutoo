@@ -270,7 +270,7 @@ public class CreatePostActivity extends ActionBarActivity {
                             Integer index = i;
                             if (!imageViewsGone.contains(index)) {
                                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                pics.get(i).compress(Bitmap.CompressFormat.PNG, 50, stream);
+                                pics.get(i).compress(Bitmap.CompressFormat.PNG, 10, stream);
                                 ParseFile bitMapPO = new ParseFile(stream.toByteArray());
                                 Image im = new Image(postID, bitMapPO);
                                 im.saveInBackground();

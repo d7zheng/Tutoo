@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -34,6 +35,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -41,6 +43,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Category;
+import com.parse.tutoo.model.Image;
 import com.parse.tutoo.model.Market;
 import com.parse.tutoo.model.Post;
 import com.parse.tutoo.model.State;
@@ -70,7 +73,8 @@ public class EditPostActivity extends ActionBarActivity {
     private boolean isFirst = true;
     private boolean locationEnabled = false;
     private List<Bitmap> pics = new ArrayList<Bitmap>();
-    private List<ImageView> imageViews = new ArrayList<ImageView>();
+    private List<Integer> imageViewsGone = new ArrayList<Integer>();
+    private int imageNumber = 0;
 
 
 
@@ -142,6 +146,7 @@ public class EditPostActivity extends ActionBarActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
+
     private void setupUI() {
         final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackTypeEdit);
         final Spinner feedbackSubSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackSubTypeEdit);
@@ -238,6 +243,70 @@ public class EditPostActivity extends ActionBarActivity {
             Category editCategory = post.getCategory(); //the value you want the position for
         }
 
+
+        // Display images
+
+        ParseQuery imageQuery=new ParseQuery("Image");
+        imageQuery.whereEqualTo("postId", post.getPostId());
+        //imageQuery.orderByAscending("createdAt");
+
+        try {
+            //post = (Post)query.getFirst();
+            List<Image> imageObjects = imageQuery.find();
+            for (int i = 0; i < imageObjects.size(); i++) {
+                Image image = (Image)imageObjects.get(i);
+                ParseFile picture = (ParseFile) image.getParseFile("bmp");
+                if (picture != null) {
+                    picture.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            if (data != null) {
+
+                                Bitmap bmp = BitmapFactory
+                                        .decodeByteArray(data, 0, data.length);
+                                if (bmp != null) {
+                                    LinearLayout LLForImage = (LinearLayout) findViewById(R.id.linearLayoutImageEdit);
+                                    ImageView image = new ImageView(EditPostActivity.this);
+                                    LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(500,500);
+                                    parms.gravity= Gravity.CENTER;
+                                    image.setLayoutParams(parms);
+                                    //image.setBackgroundResource(R.drawable.ic_launcher);
+                                    LLForImage.addView(image);
+                                    image.setImageBitmap(bmp);
+
+                                    pics.add(bmp);
+                                    image.setId(imageNumber);
+                                    imageNumber++;
+                                    image.setOnClickListener(new View.OnClickListener() {
+                                        public void onClick(View view) {
+                                            view.setVisibility(View.GONE);
+                                            int id = view.getId();
+                                            imageViewsGone.add(id);
+                                        }
+                                    });
+
+
+                                }
+
+                            } else {
+                                System.out.println("No image data found.");
+                            }
+                        }
+                    });
+
+                }
+
+            }
+        }
+        catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
     }
 
     @Override
@@ -314,9 +383,41 @@ public class EditPostActivity extends ActionBarActivity {
             public void done(ParseException e) {
                 if (e != null) {
                     System.out.println(e.getMessage());
+                } else {
+                    //delete all images and re-upload current
+                    ParseQuery imageQuery=new ParseQuery("Image");
+                    imageQuery.whereEqualTo("postId", post.getPostId());
+
+                    try {
+                        List<Image> imageObjects = imageQuery.find();
+                        for (int i = 0; i < imageObjects.size(); i++) {
+                            Image image = (Image)imageObjects.get(i);
+                            image.deleteInBackground();
+                        }
+
+                        String postID = post.getObjectId();
+                        // Save images
+                        for (int i = 0; i < pics.size(); i++) {
+                            Integer index = i;
+                            if (!imageViewsGone.contains(index)) {
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                pics.get(i).compress(Bitmap.CompressFormat.PNG, 10, stream);
+                                ParseFile bitMapPO = new ParseFile(stream.toByteArray());
+                                Image im = new Image(postID, bitMapPO);
+                                im.saveInBackground();
+                            }
+                        }
+                    }
+                    catch (com.parse.ParseException ex) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         });
+
+
+
     }
 
     public void showDatePickerDialog(final View v) {
@@ -404,32 +505,28 @@ public class EditPostActivity extends ActionBarActivity {
             try {
                 Bitmap mBitmap = null;
                 mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), chosenImageUri);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                ParseFile bitMapPO = new ParseFile(stream.toByteArray());
-
-
-                //curUser.put("profile_pic", bitMapPO);
-                //curUser.saveInBackground();
-
-                LinearLayout LLForImage = (LinearLayout) findViewById(R.id.linearLayoutImage);
-
-
-
-                ImageView image = new ImageView(this);
-                LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(500,500);
-                parms.gravity= Gravity.CENTER;
-                image.setLayoutParams(parms);
-                //image.setBackgroundResource(R.drawable.ic_launcher);
-                LLForImage.addView(image);
-                imageViews.add(image);
                 if (mBitmap != null) {
+                    LinearLayout LLForImage = (LinearLayout) findViewById(R.id.linearLayoutImageEdit);
+                    ImageView image = new ImageView(this);
+                    LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(500,500);
+                    parms.gravity= Gravity.CENTER;
+                    image.setLayoutParams(parms);
+                    //image.setBackgroundResource(R.drawable.ic_launcher);
+                    LLForImage.addView(image);
+                    pics.add(mBitmap);
+                    image.setId(imageNumber);
+                    imageNumber++;
                     image.setImageBitmap(mBitmap);
                     image.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
                             view.setVisibility(View.GONE);
+                            int id = view.getId();
+                            imageViewsGone.add(id);
+
                         }
                     });
+
+
                 }
 
                 final ScrollView sv = (ScrollView)findViewById(R.id.scrollView);
