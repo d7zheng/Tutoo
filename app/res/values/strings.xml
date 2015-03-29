@@ -3,9 +3,7 @@
 
     <string name="app_name">Tutoo</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_notification">Notification</string>
-    <string name="action_search">Search</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile_logo_content_description">Logo</string>
     <string name="profile_title_logged_in">Your are logged in as</string>
@@ -16,22 +14,34 @@
     <string name="profile_signup_button_label">Sign Up</string>
     <string name="menu_posts"> Posts </string>
     <string name="menu_profile"> Profile </string>
+
+    <!-- Menu display names for the activities -->
+    <string name="action_settings">Settings</string>
+    <string name="action_notification">Notifications</string>
+    <string name="action_search">Search</string>
+    <string name="action_profile">Profile</string>
+    <string name="action_new_post">Make a Post</string>
+    <string name="action_match">Find Help</string>
+    <string name="action_feed">Home</string>
+    <string name="action_browse">Browse</string>
+
+    <!-- Title displays on the activity -->
     <string name="title_activity_main">Home</string>
     <string name="title_activity_search">Search</string>
     <string name="title_activity_notification">Notifications</string>
-    <string name="title_activity_starter">Start</string>
     <string name="title_activity_viewpost">Post</string>
     <string name="title_activity_newpost">New Post</string>
     <string name="title_activity_editpost">Edit Post</string>
     <string name="title_activity_listpost">Posts</string>
     <string name="title_activity_editprofile">Edit Profile</string>
-    <string name="action_profile">Profile</string>
-    <string name="action_new_post">New Post</string>
-    <string name="action_match">Match</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
+
     <string name="title_frag_view_post">Post</string>
     <string name="title_frag_notification">Notification</string>
     <string name="title_frag_category">Service</string>
     <string name="title_frag_markets">Markets</string>
+
     <string name="selectTypePrompt">select type</string>
 
     <string name="search_hint">javascript</string>
@@ -46,9 +56,8 @@
     <string name="facebook_app_id">944237372260549</string>
     <string name="parse_app_id">3ejQC7KuCGG0X5Hhutq425jILxPPnqPsGvAi8PBl</string>
     <string name="parse_client_key">vbcon8StYQYTCDXVicoxHD2PEfpJponaveLgeoHW</string>
-    <string name="title_activity_profile">Profile</string>
-    <string name="title_activity_calendar">CalendarActivity</string>
     <string name="pick_time">Select Time</string>
     <string name="pick_date">Select Date</string>
-
+    <string name="navigation_menu_title">Tutoo</string>
+    <string name="title_activity_list_category">Browse</string>
 </resources>
