@@ -201,6 +201,7 @@ public class ViewPostActivity extends BaseActivity {
 
         //TextView textView = (TextView) findViewById(R.id.viewpost1);
 
+        // Get current user
         ParseUser curUser = ParseUser.getCurrentUser();
         ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
         if (profilePic != null) {
@@ -221,29 +222,7 @@ public class ViewPostActivity extends BaseActivity {
             });
         }
 
-
-
-
         TextView titleTV = (TextView)findViewById(R.id.textView1);
-/*
-        ArrayList<Post> posts = new ArrayList<Post>();
-
-        List<ParseObject> parseObjects;
-        ParseQuery query=new ParseQuery("Post");
-        query.whereEqualTo("category", "All");
-        try {
-            parseObjects = query.find();
-            titleTV.setText(parseObjects.size());
-            for (int i = 0; i < parseObjects.size(); i++) {
-                ParseObject parseObject = parseObjects.get(i);
-                //ParsePost parsePost =new Post(parseObject.getObjectId(), parseObject.getString("title"), "test", parseObject.getString("category"));
-                posts.add(new Post(parseObject.getObjectId(), parseObject.getString("title"), parseObject.getString("desc"), "All"));
-            }
-        }
-        catch (  com.parse.ParseException e) {
-            e.printStackTrace();
-        }
-*/
 
         Intent intent = getIntent();
 
@@ -255,6 +234,11 @@ public class ViewPostActivity extends BaseActivity {
         }
         catch (com.parse.ParseException e) {
             e.printStackTrace();
+        }
+
+        if(post == null) {
+            finish();
+            return;
         }
 
         final String userID = post.getUser();
@@ -319,32 +303,6 @@ public class ViewPostActivity extends BaseActivity {
 
         }
 
-        /*if (owner) {
->>>>>>> Stashed changes
-            RadioButton[] tv = new RadioButton[size];
-            RadioButton temp;
-
-            for (int i = 0; i < size; i++)
-            {
-                temp = new RadioButton(this);
-                // Replace this with actual skills later
-                Reply r = replyList.get(i);
-                String user = r.getReplyOwnerId();
-                String description = r.getDescription();
-
-                temp.setText(user + " " +description);
-                RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-                radioGroup.addView(temp);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(50,10,20,10);
-                temp.setTextSize(20);
-                temp.setLayoutParams(params);
-                tv[i] = temp;
-                addListenerSelectTutor(temp, user);
-            }
-        } else {
-            */
         tv = new TextView[size];
             TextView tempTV;
             TextView date;
