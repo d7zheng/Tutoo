@@ -3,8 +3,11 @@ package com.parse.tutoo.view;
 import android.os.Bundle;
 
 import com.parse.tutoo.R;
+import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.Dispatcher;
 import com.parse.tutoo.view.fragment.SlidingMenuFragment;
+
+import java.util.List;
 
 //import android.app.Activity;
 //import android.app.ActionBar.Tab;
@@ -74,16 +77,16 @@ public class MainActivity extends BaseActivity {
 
         switch (id) {
             case R.id.action_newpost:
-                dispatcher.openNewPost(getApplicationContext(), this);
+                Dispatcher.openNewPost(getApplicationContext(), this);
                 return true;
             case R.id.action_search:
-                dispatcher.openSearch(getApplicationContext(),this);
+                Dispatcher.openSearch(getApplicationContext(),this);
                 return true;
             case R.id.action_profile:
-                dispatcher.openProfile(getApplicationContext(), this);
+                Dispatcher.openProfile(getApplicationContext(), this);
                 return true;
             case R.id.action_match:
-                dispatcher.openMatch(getApplicationContext(), this);
+                Dispatcher.openMatch(getApplicationContext(), this);
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -2,21 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="40dp" />
+        android:id="@+id/sliding_menu_item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="40dp">
-        <TextView android:id="@+id/sliding_menu_title"
+        android:layout_height="50dp">
+        <TextView android:id="@+id/sliding_menu_item_name"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_marginLeft="30dp"
             android:textStyle="bold"
             android:textSize="15sp"
-            android:textColor="@color/white"
+            android:textColor="@color/material_blue_grey_800"
             android:text="Hello"
             android:gravity="left|center_vertical"/>
     </LinearLayout>

@@ -3,6 +3,7 @@ package com.parse.tutoo.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.actionbar.ActionBarSlideIcon;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.parse.tutoo.R;
@@ -31,8 +33,8 @@ public class BaseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setTitle(R.string.navigation_menu_title);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         initSlidingMenu();
     }
@@ -52,13 +54,15 @@ public class BaseActivity extends ActionBarActivity {
 
         // Configure the SlidingMenu
         menu = new SlidingMenu(this);
-        menu.setBackground(this.getResources().getDrawable(R.color.pitch_black));
+        menu.setBackground(this.getResources().getDrawable(R.color.bright_foreground_material_dark));
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidthRes(R.dimen.shadow_width);
         menu.setShadowDrawable(R.drawable.shadow);
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
+        menu.setActionBarSlideIcon(new ActionBarSlideIcon(this,
+                R.drawable.ic_drawer,R.string.open_content_desc,R.string.close_content_desc));
 
         // Set sliding menu frame
         menu.setMenu(R.layout.sliding_menu_frame);

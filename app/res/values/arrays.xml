@@ -29,9 +29,7 @@
 
         <item>@string/action_new_post</item>
 
-        <item>@string/action_profile</item>
         <item>@string/action_notification</item>
-
         <item>@string/action_settings</item>
     </string-array>
 

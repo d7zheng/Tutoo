@@ -36,6 +36,7 @@
     <string name="title_activity_editprofile">Edit Profile</string>
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_calendar">CalendarActivity</string>
+    <string name="title_activity_list_category">Browse</string>
 
     <string name="title_frag_view_post">Post</string>
     <string name="title_frag_notification">Notification</string>
@@ -59,5 +60,6 @@
     <string name="pick_time">Select Time</string>
     <string name="pick_date">Select Date</string>
     <string name="navigation_menu_title">Tutoo</string>
-    <string name="title_activity_list_category">Browse</string>
+    <string name="open_content_desc">Open Menu</string>
+    <string name="close_content_desc">Close Menu</string>
 </resources>

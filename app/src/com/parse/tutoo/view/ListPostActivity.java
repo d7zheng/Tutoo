@@ -25,7 +25,6 @@ import java.util.Vector;
 public class ListPostActivity extends ActionBarActivity {
     private ListView listView;
     private Vector<Post> posts = new Vector<Post>();
-    //Vector<MarketPost> marketPosts = new Vector<MarketPost>();
     private Context context;
     private PostListAdapter postListAdapter;
     private String flag;

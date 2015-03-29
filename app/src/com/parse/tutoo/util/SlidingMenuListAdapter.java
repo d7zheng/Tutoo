@@ -66,7 +66,7 @@ public class SlidingMenuListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.sliding_menu_item, null);
             viewHolder = new ViewHolder();
-            viewHolder.menuTitle = (TextView) convertView.findViewById(R.id.sliding_menu_title);
+            viewHolder.menuTitle = (TextView) convertView.findViewById(R.id.sliding_menu_item_name);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
