@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/category_background"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:scaleType="fitCenter"/>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="3"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/category_name"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:textSize="50sp"
-            android:textColor="@color/white"
-            android:ellipsize="end"/>
-    </RelativeLayout>
-
+    <TextView
+        android:id="@+id/category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/category_background"
+        android:layout_alignTop="@+id/category_background"
+        android:layout_alignRight="@+id/category_background"
+        android:layout_alignBottom="@+id/category_background"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:textColor="@color/white" />
 </RelativeLayout>
