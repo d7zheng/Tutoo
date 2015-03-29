@@ -79,7 +79,12 @@ public class MatchActivity extends ActionBarActivity {
                 double distance = getDistance(location.getLatitude(), location.getLongitude(), postLoc.getLatitude(), postLoc.getLongitude());
 
                 if (distance > 0) {
-                    String distanceStr = String.valueOf(distance) + "m";
+                    String unit = "m";
+                    if (distance > 1000) {
+                        unit = "km";
+                        distance = Math.round(distance/1000);
+                    }
+                    String distanceStr = String.valueOf(distance) + unit;
                     post.setDistance(distanceStr);
                 } else if (distance < 1) {
                     post.setDistance("within 1m");
