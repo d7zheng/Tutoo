@@ -2,6 +2,7 @@ package com.parse.tutoo.view;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -40,6 +42,43 @@ public class EditProfileActivity extends ActionBarActivity {
         editEmail.setText(curUser.getString("email"));
         EditText editPhone = (EditText)findViewById(R.id.phoneNumber);
         editPhone.setText(curUser.getString("phoneNumber"));
+
+        curUser = ParseUser.getCurrentUser();
+        ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
+        if (profilePic != null) {/*
+                byte[] data = profilePic.getDataInBackground(new GetDataCallback() {
+                    public void done(byte[] data, com.parse.ParseException e) {
+                    if (data != null) {
+
+                        Bitmap bmp = BitmapFactory
+                                .decodeByteArray(data, 0, data.length);
+                        ImageView pic;
+                        pic = (ImageView) findViewById(R.id.imageView);
+                        pic.setImageBitmap(bmp);
+
+                    } else {
+                        System.out.println("nope nope");
+                    }}
+                });
+                */
+            profilePic.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (data != null) {
+
+                        Bitmap bmp = BitmapFactory
+                                .decodeByteArray(data, 0, data.length);
+                        ImageView pic;
+                        pic = (ImageView) findViewById(R.id.imageView);
+                        pic.setImageBitmap(bmp);
+
+                    } else {
+                        System.out.println("No profile data found.");
+                    }
+                }
+            });
+
+        }
 
     }
 

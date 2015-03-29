@@ -47,6 +47,12 @@ public class ProfileActivity extends ActionBarActivity {
         }
         else {
             String userID = b.getString("id");
+            if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                Button logout = (Button)findViewById(R.id.logout_button);
+                logout.setVisibility(View.VISIBLE);
+                Button editProfile = (Button)findViewById(R.id.edit_profile);
+                editProfile.setVisibility(View.VISIBLE);
+            }
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("objectId", userID);
             query.findInBackground(new FindCallback<ParseUser>() {
@@ -166,6 +172,13 @@ public class ProfileActivity extends ActionBarActivity {
         finish();
         startActivity(getIntent());
     }*/
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
 
     public void selectProfilePicture(View v) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
