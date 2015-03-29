@@ -9,6 +9,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.Parse;
@@ -101,6 +103,21 @@ public class MatchActivity extends ActionBarActivity {
 
         postListAdapter = new PostListAdapter(posts, this);
         listView.setAdapter(postListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                Intent intent = new Intent(context, ViewPostActivity.class);
+                //i.putExtra("name_of_extra", myObject);
+                Post post = posts.get(position);
+                String postId = post.getPostId();
+                intent.putExtra("post_id", postId);
+                startActivity(intent);
+            }
+
+        });
 
         isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         if (!isNetworkEnabled) {
