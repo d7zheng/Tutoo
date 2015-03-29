@@ -43,6 +43,7 @@ public class ListPostActivity extends ActionBarActivity {
                 query.whereEqualTo("type", "services");
                 query.whereNotEqualTo("closed", true);
             }
+            query.orderByAscending("createdAt");
             try {
                 List<Post> postObjects = query.find();
                 for (int i = 0; i < postObjects.size(); i++) {

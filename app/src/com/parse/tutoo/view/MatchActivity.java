@@ -47,6 +47,7 @@ public class MatchActivity extends ActionBarActivity {
         ParseGeoPoint myLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
 
         query.whereWithinKilometers("location", myLocation, 10);
+        query.orderByAscending("createdAt");
 
         try {
             List<Post> postObjects = query.find();
