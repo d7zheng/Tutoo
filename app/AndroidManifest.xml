@@ -63,9 +63,6 @@
         <activity
             android:name=".view.CreatePostActivity"
             android:label="@string/title_activity_newpost" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MainActivity" />
         </activity>
         <activity
             android:name=".view.ListPostActivity"
@@ -84,8 +81,7 @@
             android:label="@string/title_activity_editpost" >
         </activity>
         <activity
-            android:name=".view.StarterActivity"
-            android:label="@string/title_activity_starter" >
+            android:name=".view.StarterActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
