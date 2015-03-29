@@ -59,6 +59,8 @@ public class ProfileActivity extends ActionBarActivity {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null) {
                         displayProfile(objects.get(0));
+
+
                     } else {
                         // Something went wrong.
                         System.out.println(e.getMessage());
@@ -68,9 +70,18 @@ public class ProfileActivity extends ActionBarActivity {
         }
 
 
-        curUser = ParseUser.getCurrentUser();
-            ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
-            if (profilePic != null) {/*
+
+
+
+
+
+
+    }
+
+    public void displayProfile(ParseObject user) {
+
+        ParseFile profilePic = (ParseFile) user.getParseFile("profile_pic");
+        if (profilePic != null) {/*
                 byte[] data = profilePic.getDataInBackground(new GetDataCallback() {
                     public void done(byte[] data, com.parse.ParseException e) {
                     if (data != null) {
@@ -86,31 +97,24 @@ public class ProfileActivity extends ActionBarActivity {
                     }}
                 });
                 */
-                profilePic.getDataInBackground(new GetDataCallback() {
-                    @Override
-                    public void done(byte[] data, ParseException e) {
-                        if (data != null) {
+            profilePic.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (data != null) {
 
-                            Bitmap bmp = BitmapFactory
-                                    .decodeByteArray(data, 0, data.length);
-                            ImageView pic;
-                            pic = (ImageView) findViewById(R.id.imageView);
-                            pic.setImageBitmap(bmp);
+                        Bitmap bmp = BitmapFactory
+                                .decodeByteArray(data, 0, data.length);
+                        ImageView pic;
+                        pic = (ImageView) findViewById(R.id.imageView);
+                        pic.setImageBitmap(bmp);
 
-                        } else {
-                            System.out.println("No profile data found.");
-                        }
+                    } else {
+                        System.out.println("No profile data found.");
                     }
-                });
+                }
+            });
 
-            }
-
-
-
-
-    }
-
-    public void displayProfile(ParseObject user) {
+        }
         TextView nameTV = (TextView) findViewById(R.id.textView2);
         nameTV.setTextSize(30);
         nameTV.setText(user.getString("name"));

@@ -206,25 +206,7 @@ public class ViewPostActivity extends ActionBarActivity {
         //TextView textView = (TextView) findViewById(R.id.viewpost1);
 
         // Get current user
-        ParseUser curUser = ParseUser.getCurrentUser();
-        ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
-        if (profilePic != null) {
-            profilePic.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] data, ParseException e) {
-                    if (data != null) {
-                        Bitmap bmp = BitmapFactory
-                                .decodeByteArray(data, 0, data.length);
-                        ImageView pic;
-                        pic = (ImageView) findViewById(R.id.poster);
-                        pic.setImageBitmap(bmp);
 
-                    } else {
-                        System.out.println("No profile data found.");
-                    }
-                }
-            });
-        }
 
         TextView titleTV = (TextView)findViewById(R.id.textView1);
 
@@ -254,6 +236,25 @@ public class ViewPostActivity extends ActionBarActivity {
                     ParseObject user = objects.get(0);
                     TextView userName = (TextView)findViewById(R.id.userName);
                     userName.setText("   " + user.getString("name"));
+
+                    ParseFile profilePic = (ParseFile) user.getParseFile("profile_pic");
+                    if (profilePic != null) {
+                        profilePic.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                if (data != null) {
+                                    Bitmap bmp = BitmapFactory
+                                            .decodeByteArray(data, 0, data.length);
+                                    ImageView pic;
+                                    pic = (ImageView) findViewById(R.id.poster);
+                                    pic.setImageBitmap(bmp);
+
+                                } else {
+                                    System.out.println("No profile data found.");
+                                }
+                            }
+                        });
+                    }
                 } else {
                     // Something went wrong.
                 }
