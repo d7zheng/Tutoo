@@ -142,7 +142,6 @@ public class ViewPostActivity extends ActionBarActivity {
             }
         });
 
-        //onRestart();
         finish();
         startActivity(getIntent());
     }
@@ -194,9 +193,9 @@ public class ViewPostActivity extends ActionBarActivity {
 
     @Override
     protected void onRestart() {
-        //super.onRestart();
-        //finish();
-        //startActivity(getIntent());
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
