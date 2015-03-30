@@ -322,7 +322,7 @@ public class ViewPostActivity extends ActionBarActivity {
 
             String userId = r.getUserId();
             ParseQuery<ParseUser> parseUserQuery = ParseUser.getQuery();
-            parseUserQuery.whereEqualTo("objectId", userID);
+            parseUserQuery.whereEqualTo("objectId", userId);
             parseUserQuery.findInBackground(new FindCallback<ParseUser>() {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null) {

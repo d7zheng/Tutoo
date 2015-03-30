@@ -313,7 +313,7 @@ public class CreatePostActivity extends ActionBarActivity {
 
         // get user location
         boolean isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if (!isNetworkEnabled) {
+        if (!isNetworkEnabled && !locationEnabled) {
             // show alert
             showSettingsAlert();
         }

@@ -13,7 +13,11 @@ public class Notification extends ParseObject {
 
     public enum notificationType {
         REPLY,
-        SELECTED
+        BOOKING_REQUEST,
+        SELECTED,
+        BOOKING_DECLINE,
+        BOOKING_ACCEPT,
+        BOOKING_RESCHEDULE;
     }
 
     public Notification() {
@@ -33,8 +37,18 @@ public class Notification extends ParseObject {
         return getString("fromUser");
     }
 
+    // The user name of the sender
+    public String getFromUserName() {
+        return getString("fromUserName");
+    };
+
     public void setFromUser(String from) {
         put("fromUser", from);
+    }
+
+    public void setFromUser(String userId, String name) {
+        put("fromUser", userId);
+        put("fromUserName", name);
     }
 
     // The user that the notification is sent to
@@ -42,9 +56,20 @@ public class Notification extends ParseObject {
         return getString("toUser");
     }
 
+    // The user name of the receiver
+    public String getToUserName() {
+        return getString("toUserName");
+    }
+
     public void setToUser(String toUser) {
         put("toUser", toUser);
     }
+
+    public void setToUser(String userId, String name) {
+        put("toUser", userId);
+        put("toUserName", name);
+    }
+
 
     // The type of notification
     public String getType() {

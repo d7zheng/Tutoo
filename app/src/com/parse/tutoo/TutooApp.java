@@ -5,6 +5,7 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+import com.parse.tutoo.model.Booking;
 import com.parse.tutoo.model.Image;
 import com.parse.tutoo.model.Notification;
 import com.parse.tutoo.model.Post;
@@ -26,6 +27,7 @@ public class TutooApp extends Application {
         ParseObject.registerSubclass(Notification.class);
         ParseObject.registerSubclass(Reply.class);
         ParseObject.registerSubclass(Image.class);
+        ParseObject.registerSubclass(Booking.class);
 		
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
 

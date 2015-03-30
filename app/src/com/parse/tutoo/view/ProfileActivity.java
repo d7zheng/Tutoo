@@ -1,10 +1,15 @@
 package com.parse.tutoo.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.graphics.BitmapFactory;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -14,9 +19,15 @@ import android.widget.*;
 
 import com.parse.*;
 import com.parse.tutoo.R;
+import com.parse.tutoo.model.Booking;
+import com.parse.tutoo.model.Notification;
 import com.parse.tutoo.util.Dispatcher;
+import com.parse.tutoo.view.fragment.DatePickerFragment;
+import com.parse.tutoo.view.fragment.TimePickerFragment;
 import com.parse.ui.ParseLoginBuilder;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
@@ -27,8 +38,12 @@ import android.provider.MediaStore.Images.Media;
 import java.io.*;
 
 public class ProfileActivity extends ActionBarActivity {
-    ParseUser curUser;
-    Context context;
+    private ParseUser user;
+    private Context context;
+
+    private Calendar startTime = Calendar.getInstance();
+    private Calendar endTime = Calendar.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,30 +51,31 @@ public class ProfileActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Button logout = (Button) findViewById(R.id.logout_button);
+        Button editProfile = (Button) findViewById(R.id.edit_profile);
+        Button bookRequest = (Button) findViewById(R.id.booking_button);
+
         Bundle b = getIntent().getExtras();
         if (b == null) {
             displayProfile(ParseUser.getCurrentUser());
 
-            Button logout = (Button) findViewById(R.id.logout_button);
             logout.setVisibility(View.VISIBLE);
-            Button editProfile = (Button) findViewById(R.id.edit_profile);
             editProfile.setVisibility(View.VISIBLE);
+            bookRequest.setVisibility(View.INVISIBLE);
         } else {
             String userID = b.getString("id");
             if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
-                Button logout = (Button) findViewById(R.id.logout_button);
                 logout.setVisibility(View.VISIBLE);
-                Button editProfile = (Button) findViewById(R.id.edit_profile);
                 editProfile.setVisibility(View.VISIBLE);
+                bookRequest.setVisibility(View.INVISIBLE);
             }
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("objectId", userID);
             query.findInBackground(new FindCallback<ParseUser>() {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null) {
-                        displayProfile(objects.get(0));
-
-
+                        user = objects.get(0);
+                        displayProfile(user);
                     } else {
                         // Something went wrong.
                         System.out.println(e.getMessage());
@@ -71,8 +87,12 @@ public class ProfileActivity extends ActionBarActivity {
     }
     public void displayProfile(ParseObject user) {
 
-        curUser = ParseUser.getCurrentUser();
-        ParseFile parseProfilePic = curUser.getParseFile("profile_pic");
+        if (user == null) {
+            finish();
+            return;
+        }
+
+        ParseFile parseProfilePic = user.getParseFile("profile_pic");
 
         ParseImageView profilePic = (ParseImageView) findViewById(R.id.imageView);
         profilePic.setPlaceholder(getResources().getDrawable(R.drawable.ic_launcher));
@@ -108,13 +128,6 @@ public class ProfileActivity extends ActionBarActivity {
         TextView emailTV = (TextView) findViewById(R.id.textView3);
         emailTV.setText(user.getString("email"));
 
-       // TextView locationTV = (TextView) findViewById(R.id.textView);
-        //locationTV.setText("Lives in Waterloo, Canada");
-
-        //TextView skills = (TextView) findViewById(R.id.skillsets);
-       // skills.setText("algorithms, math138, cs245, algebra");
-
-
         // Replace this with number of skills later
         int size = 1; // total number of TextViews to add
 
@@ -145,28 +158,72 @@ public class ProfileActivity extends ActionBarActivity {
         bookingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //System.out.println("Booking");
-                createPopup();
+                showBookingRequestDialogue();
             }
         });
     }
 
-    private void createPopup() {
+    public void showBookingRequestDialogue(){
         LayoutInflater inflater = (LayoutInflater) ProfileActivity.this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.activity_profile,
+        View layout = inflater.inflate(R.layout.booking_popup,
                 (ViewGroup) findViewById(R.id.popup_element));
-        //LinearLayout layout = new LinearLayout(getApplicationContext());
-        PopupWindow popUp = new PopupWindow(layout, 200, 300, true);;
-        popUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
-        //popUp.update(50, 50, 300, 80);
-        //layout.setOrientation(LinearLayout.VERTICAL);
-        //popUp.setContentView(layout);
-        Button buttonRequest = (Button) layout.findViewById(R.id.popup_request);
-        Button buttonCancel = (Button) layout.findViewById(R.id.popup_cancel);
-        //buttonCanel.setOnClickListener(cancel_button_click_listener);
-    }
 
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setView(layout);
+
+        // Setting Dialog Title
+        alertDialog.setTitle("Booking Request");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("Please Pick a date and time");
+
+        // On pressing Book button
+        alertDialog.setPositiveButton("Book", new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog,int which) {
+                final ParseUser currentUser = ParseUser.getCurrentUser();
+                // Create new booking
+                final Booking booking = new Booking();
+                booking.setRequester(currentUser.getObjectId(),currentUser.getString("name"));
+                booking.setRequested(user.getObjectId(),user.getString("name"));
+                booking.setStatus(Booking.status.REQUEST);
+                Date start = startTime.getTime();
+                Date end = endTime.getTime();
+                booking.setDateTime(start, end);
+                System.out.println("Start time:" + start);
+                System.out.println("End time:" + end);
+                booking.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            ParseUser currentUser = ParseUser.getCurrentUser();
+                            // Create notification
+                            Notification note = new Notification();
+                            note.setFromUser(currentUser.getObjectId(), currentUser.getString("name"));
+                            note.setToUser(user.getObjectId(), user.getString("name"));
+                            note.setType(Notification.notificationType.BOOKING_REQUEST);
+                            note.setPostId(booking.getObjectId());
+                            note.saveInBackground();
+                        }
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+        // On pressing cancel button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.create();
+
+        // Showing Alert Message
+        alertDialog.show();
+    }
 
     public void editProfile(View button) {
         context = getApplicationContext();
@@ -174,12 +231,58 @@ public class ProfileActivity extends ActionBarActivity {
         startActivity(i);
     }
 
-  /*  @Override
-    protected void onResume() {
-        super.onResume();
-        finish();
-        startActivity(getIntent());
-    }*/
+    private String dateToString(int year, int month, int day) {
+        StringBuilder dateString = new StringBuilder()
+                .append(year).append("-")
+                        // Month is 0 based, just add 1
+                .append(month + 1).append("-")
+                .append(day).append(" ");
+        return dateString.toString();
+    }
+
+    private String timeToString(int hour, int minute) {
+        StringBuilder timeString = new StringBuilder().append(hour)
+                .append(":").append(minute);
+        return timeString.toString();
+    }
+
+    public void showDatePickerDialog(final View v) {
+        DatePickerDialog.OnDateSetListener dpListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Button b = (Button) v;
+                String s = dateToString(year, monthOfYear, dayOfMonth);
+                b.setText(s);
+                b.setTextAppearance(getApplicationContext(), android.R.attr.textAppearanceSmall);
+                startTime.set(year, monthOfYear, dayOfMonth);
+                endTime.set(year, monthOfYear, dayOfMonth);
+            }
+        };
+        DatePickerFragment dpFragment = DatePickerFragment.newInstance(dpListener);
+        dpFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void showTimePickerDialog(final View v) {
+        TimePickerDialog.OnTimeSetListener tpListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                Button b = (Button) v;
+                String s = timeToString(hourOfDay, minute);
+                b.setText(s);
+                b.setTextAppearance(getApplicationContext(), android.R.attr.textAppearanceSmall);
+                if (b.getId() == R.id.timepicker1) {
+                    startTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    startTime.set(Calendar.MINUTE,minute);
+                }
+                else if (b.getId() == R.id.timepicker2) {
+                    endTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    endTime.set(Calendar.MINUTE,minute);
+                }
+            }
+        };
+        TimePickerFragment tpFragment = TimePickerFragment.newInstance(tpListener);
+        tpFragment.show(getSupportFragmentManager(), "timePicker");
+    }
 
     @Override
     protected void onRestart() {
@@ -209,8 +312,8 @@ public class ProfileActivity extends ActionBarActivity {
                 mBitmap.compress(Bitmap.CompressFormat.PNG, 10, stream);
                 ParseFile bitMapPO = new ParseFile(stream.toByteArray());
 
-                curUser.put("profile_pic", bitMapPO);
-                curUser.saveInBackground();
+                user.put("profile_pic", bitMapPO);
+                user.saveInBackground();
 
                 ImageView pic;
                 pic = (ImageView) findViewById(R.id.imageView);

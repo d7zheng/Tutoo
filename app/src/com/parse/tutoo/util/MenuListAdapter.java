@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.tutoo.R;
 
 import java.util.List;
@@ -19,6 +23,7 @@ public class MenuListAdapter<T> extends BaseAdapter {
 
     private class ViewHolder
     {
+        public ParseImageView imageView;
         public TextView firstLine;
         public TextView secondLine;
         public TextView thirdLine;
@@ -61,6 +66,7 @@ public class MenuListAdapter<T> extends BaseAdapter {
         {
             convertView = LayoutInflater.from(context).inflate(R.layout.main_list_view_item, null);
             viewHolder = new ViewHolder();
+            //viewHolder.imageView = (ParseImageView) convertView.findViewById(R.id.icon);
             viewHolder.firstLine = (TextView) convertView.findViewById(R.id.firstLine);
             viewHolder.secondLine = (TextView) convertView.findViewById(R.id.secondLine);
             viewHolder.thirdLine = (TextView) convertView.findViewById(R.id.thirdLine);
