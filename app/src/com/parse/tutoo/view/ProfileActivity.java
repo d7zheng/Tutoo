@@ -40,17 +40,16 @@ public class ProfileActivity extends ActionBarActivity {
         if (b == null) {
             displayProfile(ParseUser.getCurrentUser());
 
-            Button logout = (Button)findViewById(R.id.logout_button);
+            Button logout = (Button) findViewById(R.id.logout_button);
             logout.setVisibility(View.VISIBLE);
-            Button editProfile = (Button)findViewById(R.id.edit_profile);
+            Button editProfile = (Button) findViewById(R.id.edit_profile);
             editProfile.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             String userID = b.getString("id");
             if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
-                Button logout = (Button)findViewById(R.id.logout_button);
+                Button logout = (Button) findViewById(R.id.logout_button);
                 logout.setVisibility(View.VISIBLE);
-                Button editProfile = (Button)findViewById(R.id.edit_profile);
+                Button editProfile = (Button) findViewById(R.id.edit_profile);
                 editProfile.setVisibility(View.VISIBLE);
             }
             ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -59,6 +58,8 @@ public class ProfileActivity extends ActionBarActivity {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null) {
                         displayProfile(objects.get(0));
+
+
                     } else {
                         // Something went wrong.
                         System.out.println(e.getMessage());
@@ -66,6 +67,9 @@ public class ProfileActivity extends ActionBarActivity {
                 }
             });
         }
+
+    }
+    public void displayProfile(ParseObject user) {
 
         curUser = ParseUser.getCurrentUser();
         ParseFile parseProfilePic = curUser.getParseFile("profile_pic");
@@ -85,23 +89,57 @@ public class ProfileActivity extends ActionBarActivity {
                     }
                 }
             });
-            /*profilePic.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] data, ParseException e) {
-                    if (data != null) {
-
-                        //Bitmap bmp = BitmapFactory
-                        //        .decodeByteArray(data, 0, data.length);
-                        ImageView pic;
-                        pic = (ImageView) findViewById(R.id.imageView);
-                        pic.setImageBitmap(bmp);
-
-                    } else {
-                        System.out.println("No profile data found.");
-                    }
-                }
-            });*/
         }
+        TextView nameTV = (TextView) findViewById(R.id.textView2);
+        nameTV.setTextSize(30);
+        nameTV.setText(user.getString("name"));
+
+        TextView phoneNumber = (TextView) findViewById(R.id.click);
+
+        //emailTV.setText(curUser.getString("email"));
+        if (user.getString("phoneNumber") != null) {
+            SpannableString content = new SpannableString(user.getString("phoneNumber"));
+            content.setSpan(new UnderlineSpan(), 0, user.getString("phoneNumber").length(), 0);
+            phoneNumber.setText(content);
+        } else {
+            phoneNumber.setClickable(false);
+        }
+
+        TextView emailTV = (TextView) findViewById(R.id.textView3);
+        emailTV.setText(user.getString("email"));
+
+       // TextView locationTV = (TextView) findViewById(R.id.textView);
+        //locationTV.setText("Lives in Waterloo, Canada");
+
+        //TextView skills = (TextView) findViewById(R.id.skillsets);
+       // skills.setText("algorithms, math138, cs245, algebra");
+
+
+        // Replace this with number of skills later
+        int size = 1; // total number of TextViews to add
+
+        Button calendar = (Button) findViewById(R.id.calendar_button);
+
+        Button logout = (Button) findViewById(R.id.logout_button);
+
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, CalendarActivity.class));
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            if (ParseUser.getCurrentUser()!= null) {
+                // Log user out.
+                ParseUser.logOut();
+                // Launch starter activity.
+                startActivity(new Intent(ProfileActivity.this, StarterActivity.class));
+            }
+            }
+        });
 
         Button bookingButton = (Button) findViewById(R.id.booking_button);
         bookingButton.setOnClickListener(new View.OnClickListener() {
@@ -129,59 +167,6 @@ public class ProfileActivity extends ActionBarActivity {
         //buttonCanel.setOnClickListener(cancel_button_click_listener);
     }
 
-    public void displayProfile(ParseObject user) {
-        TextView nameTV = (TextView) findViewById(R.id.textView2);
-        nameTV.setTextSize(30);
-        nameTV.setText(user.getString("name"));
-
-        TextView phoneNumber = (TextView) findViewById(R.id.click);
-
-        SpannableString number = new SpannableString("111-111-111");
-        number.setSpan(new UnderlineSpan(), 0, number.length(), 0);
-        //emailTV.setText(curUser.getString("email"));
-        if (user.getString("phoneNumber") != null) {
-            phoneNumber.setText(user.getString("phoneNumber"));
-        } else {
-            phoneNumber.setClickable(false);
-        }
-
-        TextView emailTV = (TextView) findViewById(R.id.textView3);
-        emailTV.setText(user.getString("email"));
-
-        TextView locationTV = (TextView) findViewById(R.id.textView);
-        locationTV.setText("Lives in Waterloo, Canada");
-
-        TextView skills = (TextView) findViewById(R.id.skillsets);
-        skills.setText("algorithms, math138, cs245, algebra");
-
-        RatingBar rating = (RatingBar) findViewById(R.id.rating);
-        rating.setRating(5);
-        // Replace this with number of skills later
-        int size = 1; // total number of TextViews to add
-
-        Button calendar = (Button) findViewById(R.id.calendar_button);
-
-        Button logout = (Button) findViewById(R.id.logout_button);
-
-        calendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, CalendarActivity.class));
-            }
-        });
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            if (ParseUser.getCurrentUser()!= null) {
-                // Log user out.
-                ParseUser.logOut();
-                // Launch starter activity.
-                startActivity(new Intent(ProfileActivity.this, StarterActivity.class));
-            }
-            }
-        });
-    }
 
     public void editProfile(View button) {
         context = getApplicationContext();

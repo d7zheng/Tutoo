@@ -94,54 +94,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="30dp"
         android:layout_below="@id/skillsets">
-       <TextView
-           android:id="@+id/startdate"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:textAppearance="?android:attr/textAppearanceSmall"
-           android:text="Time Availability Range:" />
-       <Button
-            android:id="@+id/datepicker1"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text=""
-            android:layout_below="@id/startdate"
-            android:layout_centerVertical="true"
-            android:onClick="showDatePickerDialog" />
-       <Button
-            android:id="@+id/timepicker1"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/datepicker1"
-            android:text=""
-            android:layout_centerVertical="true"
-            android:onClick="showTimePickerDialog" />
-       <TextView
-           android:id="@+id/todate"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textAppearance="?android:attr/textAppearanceMedium"
-           android:text=" - "
-           android:layout_centerVertical="true"
-           android:layout_centerHorizontal="true"/>
-       <Button
-           android:id="@+id/timepicker2"
-           android:layout_width="60dp"
-           android:layout_height="wrap_content"
-           android:text=""
-           android:layout_centerVertical="true"
-           android:layout_alignParentRight="true"
-           android:onClick="showTimePickerDialog" />
-       <Button
-           android:id="@+id/datepicker2"
-           android:layout_width="100dp"
-           android:layout_height="wrap_content"
-           android:text=""
-           android:layout_toLeftOf="@id/timepicker2"
-           android:layout_centerVertical="true"
-           android:onClick="showDatePickerDialog" />
-    </RelativeLayout>
+
+   </RelativeLayout>
 
     <CheckBox android:id="@+id/enable_location"
         android:layout_width="wrap_content"

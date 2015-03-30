@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,8 +22,6 @@ import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
-import com.parse.Parse;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -206,25 +203,7 @@ public class ViewPostActivity extends ActionBarActivity {
         //TextView textView = (TextView) findViewById(R.id.viewpost1);
 
         // Get current user
-        ParseUser curUser = ParseUser.getCurrentUser();
-        ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
-        if (profilePic != null) {
-            profilePic.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] data, ParseException e) {
-                    if (data != null) {
-                        Bitmap bmp = BitmapFactory
-                                .decodeByteArray(data, 0, data.length);
-                        ImageView pic;
-                        pic = (ImageView) findViewById(R.id.poster);
-                        pic.setImageBitmap(bmp);
 
-                    } else {
-                        System.out.println("No profile data found.");
-                    }
-                }
-            });
-        }
 
         TextView titleTV = (TextView)findViewById(R.id.textView1);
 
@@ -254,6 +233,25 @@ public class ViewPostActivity extends ActionBarActivity {
                     ParseObject user = objects.get(0);
                     TextView userName = (TextView)findViewById(R.id.userName);
                     userName.setText("   " + user.getString("name"));
+
+                    ParseFile profilePic = (ParseFile) user.getParseFile("profile_pic");
+                    if (profilePic != null) {
+                        profilePic.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                if (data != null) {
+                                    Bitmap bmp = BitmapFactory
+                                            .decodeByteArray(data, 0, data.length);
+                                    ImageView pic;
+                                    pic = (ImageView) findViewById(R.id.poster);
+                                    pic.setImageBitmap(bmp);
+
+                                } else {
+                                    System.out.println("No profile data found.");
+                                }
+                            }
+                        });
+                    }
                 } else {
                     // Something went wrong.
                 }
@@ -288,8 +286,7 @@ public class ViewPostActivity extends ActionBarActivity {
             //addListenerSelectTutor();
             addListenerEdit();
             addListenerReply();
-            Button thisTutorB = (Button) findViewById(R.id.button1);
-            thisTutorB.setVisibility(View.GONE);
+
             Button closeB = (Button) findViewById(R.id.closeButton);
             closeB.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
