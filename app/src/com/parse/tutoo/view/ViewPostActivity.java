@@ -156,7 +156,6 @@ public class ViewPostActivity extends ActionBarActivity {
             public void onClick(View v) {
                 EditText replyET = (EditText)findViewById(R.id.editText);
                 String replyMessage = replyET.getText().toString();
-                // TODO: Save this message
                 replyAction(thisTutorButton);
             }
 
@@ -165,7 +164,7 @@ public class ViewPostActivity extends ActionBarActivity {
 
 
     public void addListenerEdit() {
-        Button thisTutorButton = (Button) findViewById(R.id.button3);
+        Button editButton = (Button) findViewById(R.id.button3);
 
        /* thisTutorButton.setOnClickListener(new View.OnClickListener() {
 
@@ -176,7 +175,7 @@ public class ViewPostActivity extends ActionBarActivity {
 
         });*/
 
-        thisTutorButton.setOnClickListener(new View.OnClickListener() {
+        editButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -185,10 +184,8 @@ public class ViewPostActivity extends ActionBarActivity {
                 Intent i = new Intent(context, EditPostActivity.class);
                 i.putExtra("post_id",  post.getObjectId());
                 startActivity(i);
-
             }
         });
-
     }
 
     @Override
@@ -312,48 +309,34 @@ public class ViewPostActivity extends ActionBarActivity {
         }
 
         tv = new TextView[size];
-            TextView tempTV;
-            TextView date;
-            TextView userName;
+        TextView tempTV;
+        TextView date;
+        TextView userName;
 
-            LinearLayout tempLL;
+        LinearLayout tempLL;
 
         LinearLayout userLayout;
         LinearLayout userNameLayout;
-            boolean userOwnsThisReply = false;
-            for (int i = 0; i < size; i++) {
-                final int index = i;
-               /* tempLL = new LinearLayout(this);
-                tempLL.setOrientation(LinearLayout.VERTICAL);
-                userLayout = new LinearLayout(this);
-                userLayout.setOrientation(LinearLayout.HORIZONTAL);
+        boolean userOwnsThisReply = false;
+        for (int i = 0; i < size; i++) {
+            final int index = i;
 
+            final Reply r = replyList.get(i);
 
-
-                date = new TextView(this);
-                userName = new TextView(this);
-                tempTV = new TextView(this); */
-
-
-                final Reply r = replyList.get(i);
-
-
-                String userId = r.getUserId();
-                ParseQuery<ParseUser> parseUserQuery = ParseUser.getQuery();
-                parseUserQuery.whereEqualTo("objectId", userID);
-                parseUserQuery.findInBackground(new FindCallback<ParseUser>() {
-                    public void done(List<ParseUser> objects, ParseException e) {
-                        if (e == null) {
-                            displayPicture(objects.get(0), index);
-                        } else {
-                            // Something went wrong.
-                            System.out.println(e.getMessage());
-                        }
+            String userId = r.getUserId();
+            ParseQuery<ParseUser> parseUserQuery = ParseUser.getQuery();
+            parseUserQuery.whereEqualTo("objectId", userID);
+            parseUserQuery.findInBackground(new FindCallback<ParseUser>() {
+                public void done(List<ParseUser> objects, ParseException e) {
+                    if (e == null) {
+                        displayPicture(objects.get(0), index);
+                    } else {
+                        // Something went wrong.
+                        System.out.println(e.getMessage());
                     }
-                });
-            }
-
-
+                }
+            });
+        }
 
         // Display images
 

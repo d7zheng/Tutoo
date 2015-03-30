@@ -15,6 +15,24 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
+    /*if (flag.equals("market")) {
+        query.whereEqualTo("type", "market");
+        query.whereNotEqualTo("closed", true);
+    } else if (flag.equals("service")) {
+        query.whereEqualTo("type", "services");
+        query.whereNotEqualTo("closed", true);
+    }
+    query.orderByDescending("createdAt");
+    try {
+        List<Post> postObjects = query.find();
+        for (int i = 0; i < postObjects.size(); i++) {
+            posts.add(postObjects.get(i));
+        }
+    }
+    catch (  com.parse.ParseException e) {
+        e.printStackTrace();
+    }*/
+
     //private Dispatcher dispatcher = new Dispatcher();
 
    /* @Override

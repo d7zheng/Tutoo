@@ -67,47 +67,66 @@ public class ProfileActivity extends ActionBarActivity {
             });
         }
 
-
         curUser = ParseUser.getCurrentUser();
-            ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
-            if (profilePic != null) {/*
-                byte[] data = profilePic.getDataInBackground(new GetDataCallback() {
-                    public void done(byte[] data, com.parse.ParseException e) {
+        ParseFile parseProfilePic = curUser.getParseFile("profile_pic");
+
+        ParseImageView profilePic = (ParseImageView) findViewById(R.id.imageView);
+        profilePic.setPlaceholder(getResources().getDrawable(R.drawable.ic_launcher));
+        profilePic.setParseFile(parseProfilePic);
+        if (profilePic != null) {
+            profilePic.loadInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (data != null) {
+                        // loaded successful
+                    }
+                    else {
+                        // unsuccessful loading
+                    }
+                }
+            });
+            /*profilePic.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
                     if (data != null) {
 
-                        Bitmap bmp = BitmapFactory
-                                .decodeByteArray(data, 0, data.length);
+                        //Bitmap bmp = BitmapFactory
+                        //        .decodeByteArray(data, 0, data.length);
                         ImageView pic;
                         pic = (ImageView) findViewById(R.id.imageView);
                         pic.setImageBitmap(bmp);
 
                     } else {
-                        System.out.println("nope nope");
-                    }}
-                });
-                */
-                profilePic.getDataInBackground(new GetDataCallback() {
-                    @Override
-                    public void done(byte[] data, ParseException e) {
-                        if (data != null) {
-
-                            Bitmap bmp = BitmapFactory
-                                    .decodeByteArray(data, 0, data.length);
-                            ImageView pic;
-                            pic = (ImageView) findViewById(R.id.imageView);
-                            pic.setImageBitmap(bmp);
-
-                        } else {
-                            System.out.println("No profile data found.");
-                        }
+                        System.out.println("No profile data found.");
                     }
-                });
+                }
+            });*/
+        }
 
+        Button bookingButton = (Button) findViewById(R.id.booking_button);
+        bookingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //System.out.println("Booking");
+                createPopup();
             }
+        });
+    }
 
-
-
-
+    private void createPopup() {
+        LayoutInflater inflater = (LayoutInflater) ProfileActivity.this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.activity_profile,
+                (ViewGroup) findViewById(R.id.popup_element));
+        //LinearLayout layout = new LinearLayout(getApplicationContext());
+        PopupWindow popUp = new PopupWindow(layout, 200, 300, true);;
+        popUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        //popUp.update(50, 50, 300, 80);
+        //layout.setOrientation(LinearLayout.VERTICAL);
+        //popUp.setContentView(layout);
+        Button buttonRequest = (Button) layout.findViewById(R.id.popup_request);
+        Button buttonCancel = (Button) layout.findViewById(R.id.popup_cancel);
+        //buttonCanel.setOnClickListener(cancel_button_click_listener);
     }
 
     public void displayProfile(ParseObject user) {

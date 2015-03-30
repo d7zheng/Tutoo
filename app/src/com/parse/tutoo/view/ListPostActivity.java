@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Category;
@@ -19,12 +21,14 @@ import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.Dispatcher;
 import com.parse.tutoo.util.PostListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 public class ListPostActivity extends ActionBarActivity {
     private ListView listView;
-    private Vector<Post> posts = new Vector<Post>();
+    //private Vector<Post> posts = new Vector<Post>();
+    private List<Post> posts = new ArrayList<>();
     private Context context;
     private PostListAdapter postListAdapter;
     private String flag;
@@ -45,15 +49,19 @@ public class ListPostActivity extends ActionBarActivity {
                 query.whereNotEqualTo("closed", true);
             }
             query.orderByDescending("createdAt");
-            try {
-                List<Post> postObjects = query.find();
-                for (int i = 0; i < postObjects.size(); i++) {
-                    posts.add(postObjects.get(i));
+
+            //List<Post> postObjects = query.find();
+            query.findInBackground(new FindCallback() {
+                @Override
+                public void done(List list, ParseException e) {
+                    if (list != null) {
+                        posts = list;
+                    }
+                    else {
+                        System.out.println(e.getMessage());
+                    }
                 }
-            }
-            catch (  com.parse.ParseException e) {
-                e.printStackTrace();
-            }
+            });
         } else {
             if (flag.equals("market")) {
                 query.whereEqualTo("market", condition);
