@@ -3,16 +3,20 @@ package com.parse.tutoo.view.fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentProvider;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -27,10 +31,7 @@ import com.parse.SaveCallback;
 import com.parse.tutoo.R;
 import com.parse.tutoo.model.Booking;
 import com.parse.tutoo.model.Notification;
-import com.parse.tutoo.model.Post;
 import com.parse.tutoo.util.NotificationListAdapter;
-import com.parse.tutoo.util.TestData;
-import com.parse.tutoo.view.BaseActivity;
 import com.parse.tutoo.view.ViewPostActivity;
 
 import java.util.ArrayList;
@@ -120,9 +121,9 @@ public class NotificationFragment extends Fragment {
                 note.setChecked(true);
                 note.saveInBackground();
                 if ((note.getType().equals(Notification.notificationType.BOOKING_REQUEST.toString())) ||
+                        (note.getType().equals(Notification.notificationType.BOOKING_RESCHEDULE.toString())) ||
                         (note.getType().equals(Notification.notificationType.BOOKING_ACCEPT.toString())) ||
                         (note.getType().equals(Notification.notificationType.BOOKING_DECLINE.toString()))) {
-                    System.out.println("Booking");
                     ParseQuery<Booking> bookingQuery = new ParseQuery("Booking");
                     bookingQuery.whereEqualTo("objectId", note.getPostId());
                     bookingQuery.getInBackground(note.getPostId(), new GetCallback<Booking>() {
@@ -132,7 +133,8 @@ public class NotificationFragment extends Fragment {
                                     (booking.getStatus().equals(Booking.status.RESCHEDULE.toString()))) {
                                 showBookingDialog(booking);
                             } else if (booking.getStatus().equals(Booking.status.ACCEPTED.toString())) {
-                                // Schedule on Calendar
+                                // TODO:Schedule on Calendar
+                                addEventToCalendar(booking);
                             }
                         }
                     });
@@ -215,6 +217,7 @@ public class NotificationFragment extends Fragment {
                 if ((calendarEquals(startCal, startTime)) && (calendarEquals(endCal, endTime))) {
                     bookingReply.setStatus(Booking.status.ACCEPTED);
                     // TODO: Add to Calendar
+                    addEventToCalendar(booking);
                 }
                 else {
                     bookingReply.setStatus(Booking.status.RESCHEDULE);
@@ -231,7 +234,7 @@ public class NotificationFragment extends Fragment {
                             Notification note = new Notification();
                             note.setFromUser(currentUser.getObjectId(), currentUser.getString("name"));
                             note.setToUser(booking.getRequester(), booking.getRequesterName());
-                            if (bookingReply.getStatus().equals(Booking.status.ACCEPTED)) {
+                            if (bookingReply.getStatus().equals(Booking.status.ACCEPTED.toString())) {
                                 note.setType(Notification.notificationType.BOOKING_ACCEPT);
                             }
                             else {
@@ -286,6 +289,23 @@ public class NotificationFragment extends Fragment {
 
         // Showing Alert Message
         alertDialog.show();
+    }
+
+    private void addEventToCalendar(Booking booking) {
+        Calendar beginTime = Calendar.getInstance();
+        Date[] dates = booking.getDateTime();
+        beginTime.setTime(dates[0]);
+        Calendar endTime = Calendar.getInstance();
+        endTime.setTime(dates[1]);
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, "Session with " + booking.getRequesterName())
+                .putExtra(CalendarContract.Events.DESCRIPTION, "Tutoring")
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+        startActivity(intent);
+
     }
 
     private boolean calendarEquals(Calendar cal1, Calendar cal2) {
