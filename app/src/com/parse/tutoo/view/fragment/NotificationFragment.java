@@ -3,16 +3,13 @@ package com.parse.tutoo.view.fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.ContentProvider;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,21 +45,11 @@ public class NotificationFragment extends Fragment {
     protected List<Notification> notifications = new ArrayList<>();
     private Calendar startTime = Calendar.getInstance();
     private Calendar endTime = Calendar.getInstance();
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private NotificationListAdapter notificationAdapter;
+    private Date lastPullTime;
 
-    @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        //super.onCreate(savedInstanceState);
-
-        final View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
-        //View rootView = inflater.inflate(R.layout.main_list_view, container, false);
-        //setContentView(R.layout.main_list_view);
-
-        //setContentView(R.layout.main_list_view);
-        context = getActivity().getApplicationContext();
-
-        //adapter = new MenuListAdapter(notifications, getActivity());
-
+    private ParseQuery<Notification> constructQuery() {
         // Query for new notifications
         ParseQuery unchecked = new ParseQuery("Notification");
         unchecked.whereEqualTo("toUser", ParseUser.getCurrentUser().getObjectId());
@@ -85,32 +72,40 @@ public class NotificationFragment extends Fragment {
         // Combine the queries using OR
         ParseQuery query = ParseQuery.or(queryList);
         query.orderByDescending("createdAt");
+        return query;
+    }
+
+    @Override
+    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        context = getActivity().getApplicationContext();
+
         if (notifications.size() == 0) {
-            query.findInBackground(new FindCallback <Notification> () {
+            ParseQuery<Notification> query = constructQuery();
+            lastPullTime = new Date(System.currentTimeMillis());
+            query.findInBackground(new FindCallback<Notification>() {
                    @Override
                    public void done(List<Notification> results, ParseException e) {
                        if (e == null) {
-                           notifications = results;
-                           createListView(rootView);
-                       }
-                       else {
+                           notifications.addAll(results);
+                           notificationAdapter.notifyDataSetChanged();
+                       } else {
                            System.out.println(e.getMessage());
                        }
                    }
                }
             );
         }
-        else {
-            createListView(rootView);
-        }
+        createListView(rootView);
         return rootView;
     }
 
     private void createListView(View rootView) {
         // Create List View
-        NotificationListAdapter adapter = new NotificationListAdapter(notifications,getActivity());
+        notificationAdapter = new NotificationListAdapter(notifications,getActivity());
         final ListView listView = (ListView) rootView.findViewById(R.id.list);
-        listView.setAdapter(adapter);
+        listView.setAdapter(notificationAdapter);
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -143,6 +138,22 @@ public class NotificationFragment extends Fragment {
                     intent.putExtra("post_id", note.getPostId());
                     startActivity(intent);
                 }
+            }
+        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ParseQuery<Notification> query = constructQuery();
+                query.whereGreaterThanOrEqualTo("createdAt", lastPullTime);
+                query.findInBackground(new FindCallback<Notification>() {
+                    @Override
+                    public void done(List<Notification> newNotifications, ParseException e) {
+                        lastPullTime = new Date(System.currentTimeMillis());
+                        notifications.addAll(newNotifications);
+                        notificationAdapter.notifyDataSetChanged();
+                    }
+                });
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -305,7 +316,6 @@ public class NotificationFragment extends Fragment {
                 .putExtra(CalendarContract.Events.DESCRIPTION, "Tutoring")
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
         startActivity(intent);
-
     }
 
     private boolean calendarEquals(Calendar cal1, Calendar cal2) {

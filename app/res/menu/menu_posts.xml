@@ -5,7 +5,4 @@
         android:icon="@drawable/ic_action_new_event"
         android:title="@string/action_new_post"
         tutoo:showAsAction="ifRoom"/>
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        tutoo:showAsAction="never"/>
 </menu>

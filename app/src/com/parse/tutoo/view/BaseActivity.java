@@ -10,7 +10,6 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.actionbar.ActionBarSlideIcon;
 import com.parse.tutoo.R;
 import com.parse.tutoo.util.Dispatcher;
-import com.parse.tutoo.view.fragment.CategoryListFragment;
 import com.parse.tutoo.view.fragment.SlidingMenuFragment;
 
 public class BaseActivity extends ActionBarActivity {
@@ -21,8 +20,6 @@ public class BaseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setTitle(R.string.navigation_menu_title);
-        //ActionBar actionBar = getSupportActionBar();
-        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         initSlidingMenu();
     }
@@ -32,14 +29,6 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     public void initSlidingMenu() {
-
-        // Set the actual content frame
-        setContentView(R.layout.activity_base);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.base_frame, new CategoryListFragment())
-                .commit();
-
         // Configure the SlidingMenu
         menu = new SlidingMenu(this);
         menu.setBackground(this.getResources().getDrawable(R.color.bright_foreground_material_dark));
@@ -93,7 +82,7 @@ public class BaseActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_slide, menu);
+        inflater.inflate(R.menu.menu_base, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

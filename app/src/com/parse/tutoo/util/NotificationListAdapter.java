@@ -24,7 +24,6 @@ public class NotificationListAdapter extends MenuListAdapter<Notification> {
     @Override
     public String getFirstLine(Notification obj) {
         fromUserName = obj.getFromUserName();
-        System.out.println(obj.getType().toString());
         if (fromUserName == null) {
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.getInBackground(obj.getFromUser(), new GetCallback<ParseUser>() {

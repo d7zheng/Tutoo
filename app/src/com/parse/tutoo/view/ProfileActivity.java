@@ -54,6 +54,7 @@ public class ProfileActivity extends ActionBarActivity {
         Button logout = (Button) findViewById(R.id.logout_button);
         Button editProfile = (Button) findViewById(R.id.edit_profile);
         Button bookRequest = (Button) findViewById(R.id.booking_button);
+        Button viewCalendar = (Button) findViewById(R.id.calendar_button);
 
         Bundle b = getIntent().getExtras();
         if (b == null) {
@@ -62,12 +63,14 @@ public class ProfileActivity extends ActionBarActivity {
             logout.setVisibility(View.VISIBLE);
             editProfile.setVisibility(View.VISIBLE);
             bookRequest.setVisibility(View.INVISIBLE);
+            viewCalendar.setVisibility(View.VISIBLE);
         } else {
             String userID = b.getString("id");
             if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
                 logout.setVisibility(View.VISIBLE);
                 editProfile.setVisibility(View.VISIBLE);
                 bookRequest.setVisibility(View.INVISIBLE);
+                viewCalendar.setVisibility(View.VISIBLE);
             }
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("objectId", userID);
