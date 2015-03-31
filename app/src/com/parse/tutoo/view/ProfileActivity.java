@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.graphics.BitmapFactory;
+import android.provider.CalendarContract;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -141,7 +143,7 @@ public class ProfileActivity extends ActionBarActivity {
         calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, CalendarActivity.class));
+                viewCalendarEvents();
             }
         });
 
@@ -164,6 +166,17 @@ public class ProfileActivity extends ActionBarActivity {
                 showBookingRequestDialogue();
             }
         });
+    }
+
+    private void viewCalendarEvents() {
+        // A date-time specified in milliseconds since the epoch.
+        long startMillis = System.currentTimeMillis();
+        Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+        builder.appendPath("time");
+        ContentUris.appendId(builder, startMillis);
+        Intent intent = new Intent(Intent.ACTION_VIEW)
+                .setData(builder.build());
+        startActivity(intent);
     }
 
     public void showBookingRequestDialogue(){
