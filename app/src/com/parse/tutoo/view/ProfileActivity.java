@@ -64,14 +64,14 @@ public class ProfileActivity extends ActionBarActivity {
 
             logout.setVisibility(View.VISIBLE);
             editProfile.setVisibility(View.VISIBLE);
-            bookRequest.setVisibility(View.INVISIBLE);
+            bookRequest.setVisibility(View.GONE);
             viewCalendar.setVisibility(View.VISIBLE);
         } else {
             String userID = b.getString("id");
             if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
                 logout.setVisibility(View.VISIBLE);
                 editProfile.setVisibility(View.VISIBLE);
-                bookRequest.setVisibility(View.INVISIBLE);
+                bookRequest.setVisibility(View.GONE);
                 viewCalendar.setVisibility(View.VISIBLE);
             }
             ParseQuery<ParseUser> query = ParseUser.getQuery();

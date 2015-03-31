@@ -134,7 +134,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_centerInParent="true"
                 android:layout_weight="3"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/edit_profile"
@@ -142,14 +142,14 @@
                 android:layout_marginTop="@dimen/com_parse_ui_large_vertical_spacing"
                 android:text="Edit Profile"
                 android:onClick="editProfile"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/logout_button"
                 style="@style/ParseLoginUI.Button"
                 android:layout_marginTop="@dimen/com_parse_ui_large_vertical_spacing"
                 android:text="@string/profile_logout_button_label"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
 
         </LinearLayout>
 
