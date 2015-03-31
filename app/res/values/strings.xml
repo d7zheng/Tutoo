@@ -62,4 +62,5 @@
     <string name="navigation_menu_title">Tutoo</string>
     <string name="open_content_desc">Open Menu</string>
     <string name="close_content_desc">Close Menu</string>
+    <string name="action_edit_profile">Edit Profile</string>
 </resources>

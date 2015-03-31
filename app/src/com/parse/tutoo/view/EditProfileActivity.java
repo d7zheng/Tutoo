@@ -3,6 +3,9 @@ package com.parse.tutoo.view;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -18,49 +21,37 @@ import android.widget.Spinner;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.tutoo.R;
-import com.parse.tutoo.model.Category;
-import com.parse.tutoo.model.Market;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class EditProfileActivity extends ActionBarActivity {
     private ParseUser curUser;
     private ParseFile bitMapPO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
         curUser = ParseUser.getCurrentUser();
-        EditText editName = (EditText)findViewById(R.id.name);
+        EditText editName = (EditText) findViewById(R.id.name);
         editName.setText(curUser.getString("name"));
-        EditText editEmail = (EditText)findViewById(R.id.email);
+        EditText editEmail = (EditText) findViewById(R.id.email);
         editEmail.setText(curUser.getString("email"));
-        EditText editPhone = (EditText)findViewById(R.id.phoneNumber);
+        EditText editPhone = (EditText) findViewById(R.id.phoneNumber);
         editPhone.setText(curUser.getString("phoneNumber"));
+        EditText addressBox = (EditText) findViewById(R.id.address);
+        addressBox.setText(curUser.getString("address"));
 
         curUser = ParseUser.getCurrentUser();
         ParseFile profilePic = (ParseFile) curUser.getParseFile("profile_pic");
-        if (profilePic != null) {/*
-                byte[] data = profilePic.getDataInBackground(new GetDataCallback() {
-                    public void done(byte[] data, com.parse.ParseException e) {
-                    if (data != null) {
-
-                        Bitmap bmp = BitmapFactory
-                                .decodeByteArray(data, 0, data.length);
-                        ImageView pic;
-                        pic = (ImageView) findViewById(R.id.imageView);
-                        pic.setImageBitmap(bmp);
-
-                    } else {
-                        System.out.println("nope nope");
-                    }}
-                });
-                */
+        if (profilePic != null) {
             profilePic.getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] data, ParseException e) {
@@ -138,7 +129,7 @@ public class EditProfileActivity extends ActionBarActivity {
         // Do click handling here
         finish();
 
-        final EditText editName = (EditText)findViewById(R.id.name);
+        final EditText editName = (EditText) findViewById(R.id.name);
         String name = editName.getText().toString();
 
         final EditText emailField = (EditText) findViewById(R.id.email);
@@ -152,11 +143,18 @@ public class EditProfileActivity extends ActionBarActivity {
             curUser.put("phoneNumber", phoneNumber);
         }
 
+        final EditText addressBox = (EditText) findViewById(R.id.address);
+        String address = addressBox.getText().toString();
+        ParseGeoPoint loc = getLocationFromAddress(address);
+        curUser.put("address", address);
+        curUser.remove("addressGeoLoc");
+        curUser.put("addressGeoLoc", loc);
+
         curUser.put("name", name);
         curUser.setEmail(email);
 
         if (bitMapPO != null) {
-         curUser.put("profile_pic", bitMapPO);
+            curUser.put("profile_pic", bitMapPO);
         }
 
         curUser.saveInBackground(new SaveCallback() {
@@ -166,5 +164,29 @@ public class EditProfileActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    public ParseGeoPoint getLocationFromAddress(String strAddress) {
+
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        ParseGeoPoint point = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if ((address == null) || (address.size()==0)) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            //p1 = new Location((int) (location.getLatitude() * 1E6),
+            //        (int) (location.getLongitude() * 1E6));
+            point = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return point;
     }
 }

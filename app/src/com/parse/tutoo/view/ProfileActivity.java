@@ -119,6 +119,10 @@ public class ProfileActivity extends ActionBarActivity {
         nameTV.setTextSize(30);
         nameTV.setText(user.getString("name"));
 
+        TextView addressTV = (TextView) findViewById(R.id.adressTextView);
+        addressTV.setTextSize(20);
+        addressTV.setText(user.getString("address"));
+
         TextView phoneNumber = (TextView) findViewById(R.id.click);
 
         //emailTV.setText(curUser.getString("email"));

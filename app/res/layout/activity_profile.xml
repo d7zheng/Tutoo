@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/primary_material_light"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -16,9 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="500px"
         android:id="@+id/imageView"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="5dp"
-        android:src="@drawable/ic_launcher"
         android:layout_gravity="center"
         android:onClick = "selectProfilePicture"/>
 
@@ -27,8 +25,34 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
         android:textSize="60px"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/pitch_black"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:id="@+id/adressTextView"
+        android:textColor="@color/grey"
+        android:textSize="40px"
+        android:gravity="center"
+        android:layout_marginBottom="3dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="  Edit Profile"
+        android:drawableLeft="@drawable/ic_action_edit"
+        android:onClick="editProfile"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical|left"
+        android:visibility="visible"/>
 
     <ImageView
         android:layout_gravity="center_horizontal"
@@ -52,6 +76,9 @@
         <Button android:id="@+id/booking_button"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:background="@drawable/box_gradient"
+            android:textColor="@color/white"
+            android:textSize="20dp"
             android:text="Booking Request"/>
 
     </LinearLayout>
@@ -127,28 +154,26 @@
                 android:layout_marginTop="4dp"/>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="220dp"
+                android:layout_height="48dp"
                 android:text="View Calendar"
+                android:layout_marginTop="@dimen/com_parse_ui_large_vertical_spacing"
                 android:id="@+id/calendar_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_centerInParent="true"
                 android:layout_weight="3"
-                android:visibility="gone"/>
-
-            <Button
-                android:id="@+id/edit_profile"
-                style="@style/ParseLoginUI.Button"
-                android:layout_marginTop="@dimen/com_parse_ui_large_vertical_spacing"
-                android:text="Edit Profile"
-                android:onClick="editProfile"
+                android:textColor="#155758"
                 android:visibility="gone"/>
 
             <Button
                 android:id="@+id/logout_button"
-                style="@style/ParseLoginUI.Button"
+                android:layout_width="220dp"
+                android:layout_height="48dp"
+                android:layout_centerInParent="true"
+                android:textColor="#155758"
                 android:layout_marginTop="@dimen/com_parse_ui_large_vertical_spacing"
                 android:text="@string/profile_logout_button_label"
+                android:layout_gravity="center_horizontal"
                 android:visibility="gone"/>
 
         </LinearLayout>
