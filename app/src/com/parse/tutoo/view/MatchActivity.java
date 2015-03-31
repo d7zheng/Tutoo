@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.Parse;
 import com.parse.ParseGeoPoint;
@@ -50,6 +51,9 @@ public class MatchActivity extends ActionBarActivity {
     }
 
     public void initData() {
+        TextView textView = (TextView)findViewById(R.id.locationDisabled);
+        textView.setVisibility(View.GONE);
+
         posts.clear();
         // get user location
         Location location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -104,6 +108,7 @@ public class MatchActivity extends ActionBarActivity {
         setContentView(R.layout.activity_match);
         context = getApplicationContext();
         manager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE );
+
         listView = (ListView) findViewById(R.id.match_list);
 
         postListAdapter = new PostListAdapter(posts, this);
@@ -137,6 +142,7 @@ public class MatchActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        isNetworkEnabled = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         if (isNetworkEnabled) {
             initData();
         }
@@ -157,11 +163,23 @@ public class MatchActivity extends ActionBarActivity {
 
         // On pressing Settings button
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog,int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                TextView textView = (TextView) findViewById(R.id.locationDisabled);
+                textView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
     }
 }

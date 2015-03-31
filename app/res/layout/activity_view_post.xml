@@ -122,14 +122,6 @@
             android:background="#8BE879"
             android:id="@+id/radioGroup">
         </RadioGroup>
-
-        <RelativeLayout android:id="@+id/RelativeLayout01"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
-        </RelativeLayout>
-
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"

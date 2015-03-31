@@ -36,6 +36,13 @@
         android:layout_height="8px"
         android:background="#c0c0c0"
         android:layout_marginBottom="5sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/locationDisabled"
+        android:text="Please turn on location to see matched posts "
+        android:visibility="invisible">
+    </TextView>
     <ListView
         android:id="@+id/match_list"
         android:layout_height="wrap_content"

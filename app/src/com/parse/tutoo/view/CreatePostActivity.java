@@ -335,6 +335,7 @@ public class CreatePostActivity extends ActionBarActivity {
         // On pressing Settings button
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
+
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -347,6 +348,8 @@ public class CreatePostActivity extends ActionBarActivity {
                 dialog.cancel();
             }
         });
+
+
 
         // Showing Alert Message
         alertDialog.show();
