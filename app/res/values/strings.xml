@@ -21,7 +21,7 @@
     <string name="action_search">Search</string>
     <string name="action_profile">Profile</string>
     <string name="action_new_post">Make a Post</string>
-    <string name="action_match">Find Help</string>
+    <string name="action_match">Matching</string>
     <string name="action_feed">Home</string>
     <string name="action_browse">Browse</string>
 
